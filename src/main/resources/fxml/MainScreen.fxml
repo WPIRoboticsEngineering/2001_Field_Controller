@@ -1,29 +1,229 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.chart.LineChart?>
+<?import javafx.scene.chart.NumberAxis?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
 
-<AnchorPane prefHeight="332.0" prefWidth="1142.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.rbe.rbe2001.fieldsimulator.gui.InterfaceController">
+<AnchorPane prefHeight="600.0" prefWidth="1073.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.rbe.rbe2001.fieldsimulator.gui.InterfaceController">
    <children>
-      <Button id="connect" fx:id="connectToDevice" layoutX="325.0" layoutY="24.0" mnemonicParsing="false" onAction="#onConnect" prefHeight="38.0" prefWidth="164.0" styleClass="button-raised" text="Connect" />
+      <TabPane prefHeight="326.0" prefWidth="218.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <tabs>
+          <Tab fx:id="connectTab" closable="false" text="Connect">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <GridPane layoutY="4.0" prefHeight="100.0" prefWidth="359.0">
+                          <columnConstraints>
+                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="145.0" />
+                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="55.0" />
+                          </columnConstraints>
+                          <rowConstraints>
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                          </rowConstraints>
+                           <children>
+                              <TextField id="teamName" fx:id="teamName" prefHeight="27.0" prefWidth="164.0" GridPane.columnIndex="1">
+                                 <GridPane.margin>
+                                    <Insets left="5.0" right="5.0" />
+                                 </GridPane.margin>
+                              </TextField>
+                              <Button id="connect" fx:id="connectToDevice" mnemonicParsing="false" onAction="#onConnect" prefHeight="38.0" prefWidth="164.0" styleClass="button-raised" text="Search..." GridPane.rowIndex="1">
+                                 <GridPane.margin>
+                                    <Insets left="5.0" right="5.0" />
+                                 </GridPane.margin>
+                              </Button>
+                              <Label prefHeight="38.0" prefWidth="114.0" text="Search For: ">
+                                 <GridPane.margin>
+                                    <Insets left="5.0" right="5.0" />
+                                 </GridPane.margin>
+                              </Label>
+                              <Label fx:id="robotName" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                                 <GridPane.margin>
+                                    <Insets left="5.0" right="5.0" />
+                                 </GridPane.margin>
+                              </Label>
+                           </children>
+                        </GridPane>
+                     </children>
+                  </AnchorPane>
+            </content>
+          </Tab>
+            <Tab fx:id="tab2001Field" closable="false" disable="true" text="2001 Field">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                 <children>
 
       <Button id="start" fx:id="start" layoutX="45.0" layoutY="120.0" mnemonicParsing="false" onAction="#start" prefHeight="40.0" prefWidth="164.0" styleClass="button-raised" text="Clear Faults" />
       <Button id="stop" fx:id="stop" layoutX="230.0" layoutY="120.0" mnemonicParsing="false" onAction="#stop" prefHeight="40.0" prefWidth="164.0" styleClass="button-raised" text="E-Stop" />
-      <Label layoutX="14.0" layoutY="24.0" prefHeight="38.0" prefWidth="114.0" text="TeamName" />
-      <TextField id="teamName" fx:id="teamName" layoutX="127.0" layoutY="31.0" prefHeight="27.0" prefWidth="164.0" />
       <Button id="send" fx:id="send" layoutX="651.0" layoutY="190.0" mnemonicParsing="false" onAction="#sendLocation" prefHeight="40.0" prefWidth="309.0" styleClass="button-raised" text="Send Pick Order" />
-      <RadioButton fx:id="heartBeat" layoutX="727.0" layoutY="35.0" mnemonicParsing="false" text="Heart Beat" />
+      <RadioButton fx:id="heartBeat" layoutX="114.0" layoutY="26.0" mnemonicParsing="false" text="Current Status" />
       <ChoiceBox id="choiceBoxWeight" fx:id="choiceBoxWeight" layoutX="478.0" layoutY="144.0" prefWidth="150.0" />
       <ChoiceBox id="choiceBoxSide" fx:id="choiceBoxSide" layoutX="650.0" layoutY="144.0" prefWidth="150.0" />
       <ChoiceBox id="choiceBoxPos" fx:id="choiceBoxPos" layoutX="810.0" layoutY="144.0" prefWidth="150.0" />
       <Label layoutX="528.0" layoutY="120.0" text="Material" />
       <Label layoutX="708.0" layoutY="120.0" text="Angle" />
       <Label layoutX="860.0" layoutY="120.0" text="Position" />
-      <Label layoutX="643.0" layoutY="36.0" text="Status:" />
+      <Label layoutX="45.0" layoutY="27.0" text="Status:" />
       <Button fx:id="approveButton" layoutX="45.0" layoutY="170.0" mnemonicParsing="false" onAction="#onApprove" prefHeight="40.0" prefWidth="164.0" text="Approve Pickup" />
+   </children>
+</AnchorPane>
+              </content>
+            </Tab>
+          <Tab fx:id="pidVelTab" closable="false" disable="true" text="PID Velocity">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <GridPane layoutX="-2.0" layoutY="2.0" prefHeight="528.0" prefWidth="711.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="-2.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="2.0">
+                          <columnConstraints>
+                            <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="193.0" minWidth="50.0" prefWidth="187.0" />
+                            <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="563.0" minWidth="10.0" prefWidth="524.0" />
+                          </columnConstraints>
+                          <rowConstraints>
+                            <RowConstraints minHeight="10.0" prefHeight="457.0" vgrow="SOMETIMES" />
+                          </rowConstraints>
+                           <children>
+                              <LineChart fx:id="pidGraphVel" alternativeRowFillVisible="false" animated="false" createSymbols="false" focusTraversable="true" horizontalZeroLineVisible="false" legendVisible="false" title="PID Velovity and Motor Set" verticalGridLinesVisible="false" verticalZeroLineVisible="false" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS">
+                                <xAxis>
+                                  <NumberAxis autoRanging="true" forceZeroInRange="false" side="BOTTOM" />
+                                </xAxis>
+                                <yAxis>
+                                  <NumberAxis forceZeroInRange="true" side="LEFT" />
+                                </yAxis>
+                              </LineChart>
+                              <AnchorPane prefHeight="511.0" prefWidth="104.0">
+                                 <children>
+                                    <GridPane layoutX="15.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="334.0" prefWidth="169.0" AnchorPane.bottomAnchor="196.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="3.0" AnchorPane.topAnchor="0.0">
+                                      <columnConstraints>
+                                        <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" minWidth="10.0" prefWidth="20.0" />
+                                        <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="20.0" />
+                                          <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="20.0" />
+                                      </columnConstraints>
+                                      <rowConstraints>
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                      </rowConstraints>
+                                       <children>
+                                          <Label text="Kp" GridPane.rowIndex="1" />
+                                          <Label text="Kd" GridPane.rowIndex="3" />
+                                          <TextField fx:id="kpVel" onAction="#onSetGainsVelocity" text="1.0" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                                         <TextField fx:id="kdVel" onAction="#onSetGainsVelocity" text="0.0" GridPane.columnIndex="2" GridPane.rowIndex="3" />
+                                          <Button fx:id="pidConstUpdateVelocity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#onSetGainsVelocity" prefHeight="25.0" prefWidth="89.0" text="Set Gains" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                                          <ChoiceBox fx:id="pidChannelVelocity" prefWidth="150.0" GridPane.columnIndex="2" />
+                                          <TextField fx:id="setpointVelocity" text="0.0" GridPane.columnIndex="2" GridPane.rowIndex="5" />
+                                          <Button fx:id="setSetpointVelocity" mnemonicParsing="false" onAction="#onSetVelocity" text="Set" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                                          <Label prefHeight="17.0" prefWidth="67.0" text="Channel" />
+                                          <Label text="Set Velocity" GridPane.rowIndex="5" />
+                                          <Label text="Velocity" GridPane.rowIndex="6" />
+                                          <Label fx:id="velocityVal" text="0.0" GridPane.columnIndex="2" GridPane.halignment="LEFT" GridPane.rowIndex="6">
+                                             <padding>
+                                                <Insets left="9.0" />
+                                             </padding>
+                                          </Label>
+                                       </children>
+                                    </GridPane>
+                                 </children>
+                              </AnchorPane>
+                           </children>
+                        </GridPane>
+                     </children>
+                  </AnchorPane>
+              </content>
+            </Tab>
+          <Tab fx:id="pidTab" closable="false" disable="true" text="PID Control">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <GridPane layoutX="-2.0" layoutY="2.0" prefHeight="528.0" prefWidth="711.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="-2.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="2.0">
+                          <columnConstraints>
+                            <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="193.0" minWidth="50.0" prefWidth="187.0" />
+                            <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="563.0" minWidth="10.0" prefWidth="524.0" />
+                          </columnConstraints>
+                          <rowConstraints>
+                            <RowConstraints minHeight="10.0" prefHeight="457.0" vgrow="SOMETIMES" />
+                          </rowConstraints>
+                           <children>
+                              <LineChart fx:id="pidGraph" alternativeRowFillVisible="false" animated="false" createSymbols="false" focusTraversable="true" horizontalZeroLineVisible="false" legendVisible="false" title="PID Setpoint and Position" verticalGridLinesVisible="false" verticalZeroLineVisible="false" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS">
+                                <xAxis>
+                                  <NumberAxis autoRanging="true" forceZeroInRange="false" side="BOTTOM" />
+                                </xAxis>
+                                <yAxis>
+                                  <NumberAxis forceZeroInRange="true" side="LEFT" />
+                                </yAxis>
+                              </LineChart>
+                              <AnchorPane prefHeight="511.0" prefWidth="104.0">
+                                 <children>
+                                    <GridPane layoutX="15.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="428.0" prefWidth="169.0" AnchorPane.bottomAnchor="102.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="3.0" AnchorPane.topAnchor="0.0">
+                                      <columnConstraints>
+                                        <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" minWidth="10.0" prefWidth="20.0" />
+                                        <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="20.0" />
+                                          <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="20.0" />
+                                      </columnConstraints>
+                                      <rowConstraints>
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                      </rowConstraints>
+                                       <children>
+                                          <Label text="Kp" GridPane.rowIndex="1" />
+                                          <Label text="Ki" GridPane.rowIndex="2" />
+                                          <Label text="Kd" GridPane.rowIndex="3" />
+                                          <TextField fx:id="kp" onAction="#onSetGains" text="1.0" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                                          <TextField fx:id="ki" onAction="#onSetGains" text="0.0" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+                                          <TextField fx:id="kd" onAction="#onSetGains" text="0.0" GridPane.columnIndex="2" GridPane.rowIndex="3" />
+                                          <Button fx:id="pidConstUpdate" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#onSetGains" prefHeight="25.0" prefWidth="89.0" text="Set Gains" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                                          <ChoiceBox fx:id="pidChannel" prefWidth="150.0" GridPane.columnIndex="2" />
+                                          <TextField fx:id="setpoint" text="0.0" GridPane.columnIndex="2" GridPane.rowIndex="7" />
+                                          <Button fx:id="setSetpoint" mnemonicParsing="false" onAction="#onSetSetpoint" text="Set" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+                                          <Label prefHeight="17.0" prefWidth="67.0" text="Channel" />
+                                          <Label text="Setpoint" GridPane.rowIndex="7" />
+                                          <Label text="Position" GridPane.rowIndex="8" />
+                                          <Label fx:id="position" text="0.0" GridPane.columnIndex="2" GridPane.halignment="LEFT" GridPane.rowIndex="8">
+                                             <padding>
+                                                <Insets left="9.0" />
+                                             </padding>
+                                          </Label>
+                                          <Label text="Type" GridPane.halignment="CENTER" GridPane.rowIndex="5" GridPane.valignment="CENTER" />
+                                          <Label text="Duration" GridPane.halignment="CENTER" GridPane.rowIndex="6" GridPane.valignment="CENTER" />
+                                          <TextField fx:id="setDuration" promptText="MS duration" text="0" GridPane.columnIndex="2" GridPane.rowIndex="6" />
+                                          <ChoiceBox fx:id="setType" prefWidth="150.0" GridPane.columnIndex="2" GridPane.rowIndex="5" />
+                                       </children>
+                                    </GridPane>
+                                 </children>
+                              </AnchorPane>
+                           </children>
+                        </GridPane>
+                     </children>
+                  </AnchorPane>
+              </content>
+            </Tab>
+        
+        </tabs>
+         <padding>
+            <Insets bottom="1.0" left="1.0" right="1.0" top="1.0" />
+         </padding>
+      </TabPane>
    </children>
 </AnchorPane>

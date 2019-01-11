@@ -1,30 +1,89 @@
 package edu.wpi.rbe.rbe2001.fieldsimulator.gui;
 
-import edu.wpi.rbe.rbe2001.fieldsimulator.robot.WarehouseRobot;
+import java.text.DecimalFormat;
+import java.util.ArrayList;
+import edu.wpi.rbe.rbe2001.fieldsimulator.robot.RBE2001Robot;
 import edu.wpi.rbe.rbe2001.fieldsimulator.robot.WarehouseRobotStatus;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.chart.LineChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
+import javafx.scene.control.Tab;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.chart.XYChart;
+import javafx.scene.chart.XYChart.Series;
 
 public class InterfaceController {
 
-	private static WarehouseRobot fieldSim;
+	@FXML
+	private Tab connectTab;
 
-	private WarehouseRobotStatus status = WarehouseRobotStatus.Fault_E_Stop_pressed;
-	private ObservableList<String> weights = FXCollections.observableArrayList("Aluminum", "Plastic");
-	private ObservableList<String> sides = FXCollections.observableArrayList("25", "45");
-	private ObservableList<String> pos = FXCollections.observableArrayList("1", "2");
+	@FXML
+	private TextField teamName;
+
 	@FXML
 	private Button connectToDevice;
 
 	@FXML
-	private Button start;
+	private Label robotName;
+
+	@FXML
+	private Tab pidVelTab;
+	@FXML
+	private Tab tab2001Field;
+	@FXML
+	private TextField kpVel;
+
+	@FXML
+	private TextField kdVel;
+
+	@FXML
+	private Button pidConstUpdateVelocity;
+
+	@FXML
+	private ChoiceBox<?> pidChannelVelocity;
+
+	@FXML
+	private TextField setpointVelocity;
+
+	@FXML
+	private Button setSetpointVelocity;
+
+	@FXML
+	private Label velocityVal;
+
+	@FXML
+	private Tab pidTab;
+
+	@FXML
+	private TextField kp;
+
+	@FXML
+	private TextField ki;
+
+	@FXML
+	private TextField kd;
+
+	@FXML
+	private Button pidConstUpdate;
+
+	@FXML
+	private TextField setpoint;
+
+	@FXML
+	private Button setSetpoint;
+
+	@FXML
+	private Label position;
+
+	@FXML
+	private ChoiceBox<Integer> pidChannel;
 
 	@FXML
 	private Button stop;
@@ -46,28 +105,73 @@ public class InterfaceController {
 
 	@FXML
 	private ChoiceBox<String> choiceBoxPos;
-	@FXML
-	private TextField teamName;
+
 	@FXML
 	private Button approveButton;
 
+	@FXML // fx:id="setDuration"
+	private TextField setDuration; // Value injected by FXMLLoader
+
+	@FXML // fx:id="setType"
+	private ChoiceBox<String> setType; // Value injected by FXMLLoader
+
+	@FXML
+	private LineChart<Double, Double> pidGraph;
+	@FXML
+	private LineChart<Double, Double> pidGraphVel;
+	private ArrayList<XYChart.Series> pidGraphSeriesVel = new ArrayList<>();
+	private ArrayList<XYChart.Series> pidGraphSeries = new ArrayList<>();
+	private WarehouseRobotStatus status = WarehouseRobotStatus.Fault_E_Stop_pressed;
+	private ObservableList<String> weights = FXCollections.observableArrayList("Aluminum", "Plastic");
+	private ObservableList<String> sides = FXCollections.observableArrayList("25", "45");
+	private ObservableList<String> pos = FXCollections.observableArrayList("1", "2");
+	private double pidConfig[] = null;
+
+	private DecimalFormat formatter = new DecimalFormat();
+	private double start = ((double) System.currentTimeMillis()) / 1000.0;
+	private long lastPos;
+	private long lastSet;
+	static InterfaceController me;
+	private static RBE2001Robot fieldSim;
+	private int numPIDControllers = -1;
+	private int currentIndex = 0;
+	private static final int numPIDControllersOnDevice = 3;
+
 	@FXML
 	private void initialize() {
-		assert connectToDevice != null : "fx:id=\"connectToDevice\" was not injected: check your FXML file 'MainScreen"
-				+ ".fxml'.";
-		assert start != null : "fx:id=\"start\" was not injected: check your FXML file 'MainScreen.fxml'.";
-		assert stop != null : "fx:id=\"stop\" was not injected: check your FXML file 'MainScreen.fxml'.";
-		assert teamName != null : "fx:id=\"teamName\" was not injected: check your FXML file 'MainScreen.fxml'.";
-		assert response != null : "fx:id=\"response\" was not injected: check your FXML file 'MainScreen.fxml'.";
-		assert send != null : "fx:id=\"send\" was not injected: check your FXML file 'MainScreen.fxml'.";
-		assert heartBeat != null : "fx:id=\"heartBeat\" was not injected: check your FXML file 'MainScreen.fxml'.";
-		assert choiceBoxWeight != null : "fx:id=\"choiceBoxWeight\" was not injected: check your FXML file 'MainScreen"
-				+ ".fxml'.";
-		assert choiceBoxSide != null : "fx:id=\"choiceBoxSide\" was not injected: check your FXML file 'MainScreen"
-				+ ".fxml'.";
-		assert choiceBoxPos != null : "fx:id=\"choiceBoxPos\" was not injected: check your FXML file 'MainScreen"
-				+ ".fxml'.";
+		me = this;
+		formatter.setMaximumFractionDigits(6);
 
+		assert connectTab != null : "fx:id=\"connectTab\" was not injected: check your FXML file 'MainScreen.fxml'.";
+		assert teamName != null : "fx:id=\"teamName\" was not injected: check your FXML file 'MainScreen.fxml'.";
+		assert connectToDevice != null : "fx:id=\"connectToDevice\" was not injected: check your FXML file 'MainScreen.fxml'.";
+
+		assert pidTab != null : "fx:id=\"pidTab\" was not injected: check your FXML file 'MainScreen.fxml'.";
+		assert pidGraph != null : "fx:id=\"pidGraph\" was not injected: check your FXML file 'MainScreen.fxml'.";
+		assert kp != null : "fx:id=\"kp\" was not injected: check your FXML file 'MainScreen.fxml'.";
+		assert ki != null : "fx:id=\"ki\" was not injected: check your FXML file 'MainScreen.fxml'.";
+		assert kd != null : "fx:id=\"kd\" was not injected: check your FXML file 'MainScreen.fxml'.";
+		assert pidConstUpdate != null : "fx:id=\"pidConstUpdate\" was not injected: check your FXML file 'MainScreen.fxml'.";
+		assert pidChannel != null : "fx:id=\"pidChannel\" was not injected: check your FXML file 'MainScreen.fxml'.";
+		assert setpoint != null : "fx:id=\"setpoint\" was not injected: check your FXML file 'MainScreen.fxml'.";
+		assert setSetpoint != null : "fx:id=\"setSetpoint\" was not injected: check your FXML file 'MainScreen.fxml'.";
+		assert position != null : "fx:id=\"position\" was not injected: check your FXML file 'MainScreen.fxml'.";
+		teamName.setText("IMU-Team21");
+
+		for (int i = 0; i < numPIDControllersOnDevice; i++) {
+			Series e = new XYChart.Series();
+
+			pidGraphSeries.add(i, e);
+			pidGraph.getData().add(e);
+		}
+		pidGraphVel.getXAxis().autoRangingProperty().set(true);
+		for (int i = 0; i < numPIDControllersOnDevice; i++) {
+			Series e = new XYChart.Series();
+
+			pidGraphSeriesVel.add(i, e);
+			pidGraphVel.getData().add(e);
+		}
+		pidGraphVel.getXAxis().autoRangingProperty().set(true);
 		choiceBoxWeight.setValue(weights.get(0));
 		choiceBoxWeight.setItems(weights);
 		choiceBoxSide.setValue("25");
@@ -77,7 +181,6 @@ public class InterfaceController {
 
 		choiceBoxWeight.getSelectionModel().select(weights.get(0));
 
-		start.setDisable(true);
 		stop.setDisable(true);
 		// PLE.setDisable(true);
 		// RHE.setDisable(true);
@@ -90,7 +193,26 @@ public class InterfaceController {
 			connectToDevice.setDisable(true);
 			new Thread(() -> {
 				try {
-					setFieldSim(WarehouseRobot.get(teamName.getText()).get(0));
+					setFieldSim(RBE2001Robot.get(teamName.getText()).get(0));
+					Thread.sleep(1000);
+					// getFieldSim().setReadTimeout(1000);
+					if (getRobot() != null) {
+						Platform.runLater(() -> {
+							robotName.setText(getRobot().getName());
+							pidTab.setDisable(false);
+							//pidVelTab.setDisable(false);
+							tab2001Field.setDisable(false);
+						});
+					}
+				} catch (Exception ex) {
+					// ex.printStackTrace();
+					Platform.runLater(() -> robotName.setText(teamName.getText() + " Not Found!"));
+				}
+				if (getRobot() == null) {
+					Platform.runLater(() -> connectToDevice.setDisable(false));
+				}
+				
+				try {
 					// getFieldSim().setReadTimeout(1000);
 					if (getRobot() != null) {
 						getRobot().addEvent(2012, () -> {
@@ -114,7 +236,6 @@ public class InterfaceController {
 						});
 
 						Platform.runLater(() -> {
-							start.setDisable(false);
 							stop.setDisable(false);
 							// PLE.setDisable(false);
 							// RHE.setDisable(false);
@@ -132,6 +253,142 @@ public class InterfaceController {
 		}
 	}
 
+	@FXML
+	void onConnect() {
+		System.out.println("onConnect");
+		connectToDevice();
+	}
+
+	@FXML
+	void onSetGains() {
+		double kpv = Double.parseDouble(kp.getText());
+		double kiv = Double.parseDouble(ki.getText());
+		double kdv = Double.parseDouble(kd.getText());
+		for (int i = 0; i < numPIDControllers; i++)
+			fieldSim.setPidGains(i, kpv, kiv, kdv);
+	}
+
+	@FXML
+	void onSetSetpoint() {
+		fieldSim.setPidSetpoint(Integer.parseInt(setDuration.getText()),
+				setType.getSelectionModel().getSelectedItem().equals("LIN") ? 0 : 1, 
+						currentIndex, 
+						Double.parseDouble(setpoint.getText()));
+
+	}
+
+	public RBE2001Robot getRobot() {
+		return fieldSim;
+	}
+
+	private void setFieldSim(RBE2001Robot fieldSim) {
+		fieldSim.setReadTimeout(1000);
+		InterfaceController.fieldSim = fieldSim;
+
+		fieldSim.addEvent(1910, () -> {
+			try {
+	
+				if (numPIDControllers != fieldSim.getMyNumPid()) {
+					numPIDControllers = fieldSim.getMyNumPid();
+					setUpPid();
+				}
+				double pos = fieldSim.getPidPosition(currentIndex);
+				double set = fieldSim.getPidSetpoint(currentIndex);
+		
+				String positionVal = formatter.format(pos);
+				// System.out.println(positionVal+"
+				// "+DoubleStream.of(piddata).boxed().collect(Collectors.toCollection(ArrayList::new)));
+				;
+				Platform.runLater(() -> position.setText(positionVal));
+				Platform.runLater(() -> updateGraph(pos, set));
+				
+			} catch (Exception ex) {
+				ex.printStackTrace();
+			}
+		});
+
+		fieldSim.addEvent(1857, () -> {
+			try {
+				if (pidConfig == null)
+					pidConfig = new double[3 * numPIDControllersOnDevice];
+				fieldSim.readFloats(1857, pidConfig);
+
+				// System.out.println("
+				// "+DoubleStream.of(pidConfig).boxed().collect(Collectors.toCollection(ArrayList::new)));
+
+				Platform.runLater(() -> kp.setText(formatter.format(pidConfig[currentIndex * 3 + 0])));
+
+				Platform.runLater(() -> ki.setText(formatter.format(pidConfig[currentIndex * 3 + 1])));
+
+				Platform.runLater(() -> kd.setText(formatter.format(pidConfig[currentIndex * 3 + 2])));
+
+			} catch (Exception ex) {
+				ex.printStackTrace();
+			}
+		});
+		fieldSim.updatConfig();
+
+	}
+
+	@SuppressWarnings("unchecked")
+	private void updateGraph(double pos, double set) {
+		if (pidGraphSeries.size() == 0)
+			return;
+		double now = ((double) System.currentTimeMillis()) / 1000.0 - start;
+		long thispos = (long) pos;
+		long thisSet = (long) set;
+		if (thispos != lastPos || thisSet != lastSet) {
+			pidGraphSeries.get(0).getData().add(new XYChart.Data(now - 0.0001, lastPos));
+			pidGraphSeries.get(1).getData().add(new XYChart.Data(now - 0.0001, lastSet));
+			lastSet = thisSet;
+			lastPos = thispos;
+			pidGraphSeries.get(0).getData().add(new XYChart.Data(now, pos));
+			pidGraphSeries.get(1).getData().add(new XYChart.Data(now, set));
+		}
+		for (Series s : pidGraphSeries) {
+			while (s.getData().size() > 200) {
+				s.getData().remove(0);
+			}
+		}
+	}
+
+	private void setUpPid() {
+		System.out.println("PID controller has " + fieldSim.getNumPid() + " controllers");
+		if (fieldSim.getNumPid() > 0) {
+			for (int i = 0; i < fieldSim.getNumPid(); i++) {
+				int index = i;
+				Platform.runLater(() -> pidChannel.getItems().add(index));
+			}
+			pidChannel.getSelectionModel().selectedIndexProperty().addListener((obs, old, newVal) -> {
+				System.out.println("Set to channel " + newVal);
+				currentIndex = newVal.intValue();
+				fieldSim.updatConfig();
+				for (Series s : pidGraphSeries) {
+					s.getData().clear();
+
+				}
+			});
+			Platform.runLater(() -> pidChannel.setValue(0));
+			Platform.runLater(() -> setType.getItems().add("LIN"));
+			Platform.runLater(() -> setType.getItems().add("SIN"));
+			Platform.runLater(() -> setType.setValue("LIN"));
+		}
+	}
+
+	public static void disconnect() {
+		if (me.getRobot() != null)
+			me.getRobot().disconnect();
+	}
+
+	@FXML
+	void onSetVelocity() {
+
+	}
+
+	@FXML
+	void onSetGainsVelocity() {
+
+	}
 	@FXML
 	void onApprove() {
 		System.out.println("approve");
@@ -172,18 +429,6 @@ public class InterfaceController {
 		}
 	}
 
-	@FXML
-	void onConnect() {
-		System.out.println("onConnect");
-		connectToDevice();
-	}
 
-	public static WarehouseRobot getRobot() {
-		return fieldSim;
-	}
 
-	private static void setFieldSim(WarehouseRobot fieldSim) {
-		fieldSim.setReadTimeout(1000);
-		InterfaceController.fieldSim = fieldSim;
-	}
 }

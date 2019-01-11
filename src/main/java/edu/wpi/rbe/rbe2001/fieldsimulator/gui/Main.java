@@ -11,17 +11,17 @@ public class Main extends Application {
   @Override
   public void start(Stage primaryStage) throws Exception {
     Parent root = FXMLLoader.load(getClass().getResource("/fxml/MainScreen.fxml"));
-    primaryStage.setTitle("Field Simulator");
-    root.getStylesheets().add("/materialfx-material-design-for-javafx/material-fx-v0_3.css");
-    primaryStage.setScene(new Scene(root, 1150, 340));
-    primaryStage.setResizable(false);
-
+    primaryStage.setTitle("RBE 2001 Controller");
+    //root.getStylesheets().add("/materialfx-material-design-for-javafx/material-fx-v0_3.css");
+    primaryStage.setScene(new Scene(root, 1011, 665));
+    //primaryStage.setResizable(false);
+    
     primaryStage.show();
     primaryStage.getScene().setRoot(root);
     primaryStage.setOnCloseRequest(event -> {
-      if (InterfaceController.getRobot() != null) {
-        InterfaceController.getRobot().disconnect();
-      }
+ 
+        InterfaceController.disconnect();
+      
     });
   }
 
