@@ -346,7 +346,7 @@ public class InterfaceController {
 			pidGraphSeries.get(1).getData().add(new XYChart.Data(now, set));
 		}
 		for (Series s : pidGraphSeries) {
-			while (s.getData().size() > 500) {
+			while (s.getData().size() > 2000) {
 				s.getData().remove(0);
 			}
 		}
