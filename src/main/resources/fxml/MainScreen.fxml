@@ -152,14 +152,14 @@
                      <children>
                         <GridPane layoutX="-2.0" layoutY="2.0" prefHeight="528.0" prefWidth="711.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="-2.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="2.0">
                           <columnConstraints>
-                            <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="193.0" minWidth="50.0" prefWidth="187.0" />
-                            <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="563.0" minWidth="10.0" prefWidth="524.0" />
+                            <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="399.0" minWidth="50.0" prefWidth="399.0" />
+                            <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="563.0" minWidth="10.0" prefWidth="498.0" />
                           </columnConstraints>
                           <rowConstraints>
                             <RowConstraints minHeight="10.0" prefHeight="457.0" vgrow="SOMETIMES" />
                           </rowConstraints>
                            <children>
-                              <LineChart fx:id="pidGraph" alternativeRowFillVisible="false" animated="false" createSymbols="false" focusTraversable="true" horizontalZeroLineVisible="false" legendVisible="false" title="PID Setpoint and Position" verticalGridLinesVisible="false" verticalZeroLineVisible="false" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS">
+                              <LineChart fx:id="pidGraph" alternativeRowFillVisible="false" animated="false" createSymbols="false" focusTraversable="true" horizontalZeroLineVisible="false" legendVisible="false" prefHeight="563.0" prefWidth="476.0" title="PID Setpoint and Position" verticalGridLinesVisible="false" verticalZeroLineVisible="false" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS">
                                 <xAxis>
                                   <NumberAxis autoRanging="true" forceZeroInRange="false" side="BOTTOM" />
                                 </xAxis>
@@ -169,11 +169,12 @@
                               </LineChart>
                               <AnchorPane prefHeight="511.0" prefWidth="104.0">
                                  <children>
-                                    <GridPane layoutX="15.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="428.0" prefWidth="169.0" AnchorPane.bottomAnchor="102.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="3.0" AnchorPane.topAnchor="0.0">
+                                    <GridPane layoutX="15.0" layoutY="5.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="456.0" prefWidth="342.0" AnchorPane.bottomAnchor="102.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="42.0" AnchorPane.topAnchor="5.0">
                                       <columnConstraints>
-                                        <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" minWidth="10.0" prefWidth="20.0" />
-                                        <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="20.0" />
-                                          <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="20.0" />
+                                        <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" maxWidth="83.0" minWidth="10.0" prefWidth="69.0" />
+                                          <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="50.0" minWidth="19.0" prefWidth="19.0" />
+                                          <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="222.0" minWidth="110.0" prefWidth="110.0" />
+                                          <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="280.0" minWidth="10.0" prefWidth="147.0" />
                                       </columnConstraints>
                                       <rowConstraints>
                                           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
@@ -190,14 +191,14 @@
                                           <Label text="Kp" GridPane.rowIndex="1" />
                                           <Label text="Ki" GridPane.rowIndex="2" />
                                           <Label text="Kd" GridPane.rowIndex="3" />
-                                          <TextField fx:id="kp" onAction="#onSetGains" text="1.0" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                                          <TextField fx:id="kp" onAction="#onSetGains" text="0.000001" GridPane.columnIndex="2" GridPane.rowIndex="1" />
                                           <TextField fx:id="ki" onAction="#onSetGains" text="0.0" GridPane.columnIndex="2" GridPane.rowIndex="2" />
                                           <TextField fx:id="kd" onAction="#onSetGains" text="0.0" GridPane.columnIndex="2" GridPane.rowIndex="3" />
-                                          <Button fx:id="pidConstUpdate" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#onSetGains" prefHeight="25.0" prefWidth="89.0" text="Set Gains" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                                          <Button fx:id="pidConstUpdate" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#onSetGains" prefHeight="25.0" prefWidth="89.0" text="Set Gains" GridPane.columnIndex="3" GridPane.rowIndex="4" />
                                           <ChoiceBox fx:id="pidChannel" prefWidth="150.0" GridPane.columnIndex="2" />
                                           <TextField fx:id="setpoint" text="0.0" GridPane.columnIndex="2" GridPane.rowIndex="7" />
-                                          <Button fx:id="setSetpoint" mnemonicParsing="false" onAction="#onSetSetpoint" text="Set" GridPane.columnIndex="1" GridPane.rowIndex="7" />
-                                          <Label prefHeight="17.0" prefWidth="67.0" text="Channel" />
+                                          <Button fx:id="setSetpoint" mnemonicParsing="false" onAction="#onSetSetpoint" text="Set" GridPane.columnIndex="3" GridPane.rowIndex="7" />
+                                          <Label text="Channel" GridPane.halignment="RIGHT" GridPane.valignment="CENTER" />
                                           <Label text="Setpoint" GridPane.rowIndex="7" />
                                           <Label text="Position" GridPane.rowIndex="8" />
                                           <Label fx:id="position" text="0.0" GridPane.columnIndex="2" GridPane.halignment="LEFT" GridPane.rowIndex="8">
@@ -205,8 +206,8 @@
                                                 <Insets left="9.0" />
                                              </padding>
                                           </Label>
-                                          <Label text="Type" GridPane.halignment="CENTER" GridPane.rowIndex="5" GridPane.valignment="CENTER" />
-                                          <Label text="Duration" GridPane.halignment="CENTER" GridPane.rowIndex="6" GridPane.valignment="CENTER" />
+                                          <Label text="Type" GridPane.halignment="RIGHT" GridPane.rowIndex="5" GridPane.valignment="CENTER" />
+                                          <Label text="Duration" GridPane.halignment="RIGHT" GridPane.rowIndex="6" GridPane.valignment="CENTER" />
                                           <TextField fx:id="setDuration" promptText="MS duration" text="0" GridPane.columnIndex="2" GridPane.rowIndex="6" />
                                           <ChoiceBox fx:id="setType" prefWidth="150.0" GridPane.columnIndex="2" GridPane.rowIndex="5" />
                                        </children>
