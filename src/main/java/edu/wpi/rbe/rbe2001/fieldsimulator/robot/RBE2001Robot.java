@@ -51,7 +51,7 @@ public class RBE2001Robot extends UdpDevice {
 
 		addEvent(getConfig.idOfCommand, () -> {
 			try {
-				readFloats(1857, pidConfigData);
+				readFloats(getConfig.idOfCommand, pidConfigData);
 			} catch (Exception ex) {
 				ex.printStackTrace();
 			}
