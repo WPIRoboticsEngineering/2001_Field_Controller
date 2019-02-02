@@ -270,6 +270,7 @@ public class InterfaceController {
 
 	@FXML
 	void onSetSetpoint() {
+		clearGraph();
 		fieldSim.setPidSetpoint(Integer.parseInt(setDuration.getText()),
 				setType.getSelectionModel().getSelectedItem().equals("LIN") ? 0 : 1, 
 						currentIndex, 
@@ -363,15 +364,19 @@ public class InterfaceController {
 				System.out.println("Set to channel " + newVal);
 				currentIndex = newVal.intValue();
 				fieldSim.updatConfig();
-				for (Series s : pidGraphSeries) {
-					s.getData().clear();
-
-				}
+				clearGraph();
 			});
 			Platform.runLater(() -> pidChannel.setValue(0));
 			Platform.runLater(() -> setType.getItems().add("LIN"));
 			Platform.runLater(() -> setType.getItems().add("SIN"));
 			Platform.runLater(() -> setType.setValue("LIN"));
+		}
+	}
+
+	private void clearGraph() {
+		for (Series s : pidGraphSeries) {
+			s.getData().clear();
+
 		}
 	}
 
