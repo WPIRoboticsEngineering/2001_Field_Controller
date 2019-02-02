@@ -1,0 +1,2 @@
+include ":SimplePacketComsJava"
+project(":SimplePacketComsJava").projectDir = file("../SimplePacketComsJava")
