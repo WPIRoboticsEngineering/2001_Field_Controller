@@ -90,6 +90,7 @@ public class RBE2001Robot extends UdpDevice {
 			System.out.println("Got " + add.getHostAddress());
 			RBE2001Robot e = new RBE2001Robot(add);
 			e.connect();
+			e.setReadTimeout(10);
 			robots.add(e);
 		}
 		return robots;
