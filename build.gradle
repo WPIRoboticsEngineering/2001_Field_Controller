@@ -18,6 +18,8 @@ repositories {
 
 dependencies {
     implementation "com.neuronrobotics:SimplePacketComsJava:0.8.1"
+    //implementation project(":SimplePacketComsJava")
+
 }
 
 checkstyle {
