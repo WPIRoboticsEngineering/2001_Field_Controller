@@ -264,8 +264,8 @@ public class InterfaceController {
 		double kpv = Double.parseDouble(kp.getText());
 		double kiv = Double.parseDouble(ki.getText());
 		double kdv = Double.parseDouble(kd.getText());
-		for (int i = 0; i < numPIDControllers; i++)
-			fieldSim.setPidGains(i, kpv, kiv, kdv);
+		//for (int i = 0; i < numPIDControllers; i++)
+			fieldSim.setPidGains(currentIndex, kpv, kiv, kdv);
 	}
 
 	@FXML
@@ -378,6 +378,7 @@ public class InterfaceController {
 			s.getData().clear();
 
 		}
+		fieldSim.updatConfig();
 	}
 
 	public static void disconnect() {
