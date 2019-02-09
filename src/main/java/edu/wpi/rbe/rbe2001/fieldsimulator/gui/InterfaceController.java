@@ -283,7 +283,7 @@ public class InterfaceController {
 	}
 
 	private void setFieldSim(RBE2001Robot fieldSim) {
-		fieldSim.setReadTimeout(1000);
+		//fieldSim.setReadTimeout(1000);
 		InterfaceController.fieldSim = fieldSim;
 
 		fieldSim.addEvent(1910, () -> {
