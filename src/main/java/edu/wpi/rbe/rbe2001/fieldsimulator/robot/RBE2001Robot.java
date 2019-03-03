@@ -26,6 +26,11 @@ public class RBE2001Robot extends UdpDevice {
 	private PacketType clearFaults = new BytePacketType(1871, 64);
 	private PacketType pickOrder = new FloatPacketType(1936, 64);
 	private PacketType approve = new BytePacketType(1994, 64);
+	private PacketType SetPIDVelocity = new FloatPacketType(1811, 64);
+	private PacketType SetPDVelocityConstants = new FloatPacketType(1810, 64);
+	private PacketType GetPIDVelocity = new FloatPacketType(1822, 64);
+	private PacketType GetPDVelocityConstants = new FloatPacketType(1825, 64);
+
 	private byte[] status = new byte[1];
 	private double[] pickOrderData = new double[3];
 	private double[] driveStatus = new double[1];
