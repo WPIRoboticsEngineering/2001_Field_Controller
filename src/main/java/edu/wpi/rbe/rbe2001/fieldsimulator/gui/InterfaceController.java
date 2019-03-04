@@ -128,7 +128,6 @@ public class InterfaceController {
 	private ObservableList<String> weights = FXCollections.observableArrayList("Aluminum", "Plastic");
 	private ObservableList<String> sides = FXCollections.observableArrayList("25", "45");
 	private ObservableList<String> pos = FXCollections.observableArrayList("1", "2");
-	private double pidConfig[] = null;
 
 	private DecimalFormat formatter = new DecimalFormat();
 
@@ -183,7 +182,7 @@ public class InterfaceController {
 			connectToDevice.setDisable(true);
 			new Thread(() -> {
 				try {
-					setFieldSim(RBE2001Robot.get(teamName.getText()).get(0));
+					setFieldSim(RBE2001Robot.get(teamName.getText(),numPIDControllersOnDevice).get(0));
 					// getFieldSim().setReadTimeout(1000);
 					if (getRobot() != null) {
 						Platform.runLater(() -> {
@@ -294,25 +293,32 @@ public class InterfaceController {
 		});
 		robot.addEvent(1857, () -> {
 			try {
-				if (pidConfig == null)
-					pidConfig = new double[3 * numPIDControllersOnDevice];
-				robot.readFloats(1857, pidConfig);
+				System.out.print("\r\nPID config update for axis "+currentIndex+" values ");
+				
+				Platform.runLater(() -> kp.setText(formatter.format(robot.getKp(currentIndex))));
 
-				// System.out.println("
-				// "+DoubleStream.of(pidConfig).boxed().collect(Collectors.toCollection(ArrayList::new)));
+				Platform.runLater(() -> ki.setText(formatter.format(robot.getKi(currentIndex))));
 
-				Platform.runLater(() -> kp.setText(formatter.format(pidConfig[currentIndex * 3 + 0])));
-
-				Platform.runLater(() -> ki.setText(formatter.format(pidConfig[currentIndex * 3 + 1])));
-
-				Platform.runLater(() -> kd.setText(formatter.format(pidConfig[currentIndex * 3 + 2])));
+				Platform.runLater(() -> kd.setText(formatter.format(robot.getKd(currentIndex))));
 
 			} catch (Exception ex) {
 				ex.printStackTrace();
 			}
 		});
 		robot.updatConfig();
+		
+		robot.addEvent(1825, () -> {
+			try {
+				System.out.print("\r\nPID config update for axis "+currentIndex+" values ");
+				
+				Platform.runLater(() -> kpVel.setText(formatter.format(robot.getVKp(currentIndex))));
 
+				Platform.runLater(() -> kdVel.setText(formatter.format(robot.getVKd(currentIndex))));
+
+			} catch (Exception ex) {
+				ex.printStackTrace();
+			}
+		});
 		robot.addEvent(2012, () -> {
 			WarehouseRobotStatus tmp = getRobot().getStatus();
 			if (status != tmp) {
@@ -346,12 +352,13 @@ public class InterfaceController {
 				Platform.runLater(() -> pidChannelVelocity.getItems().add(index));
 			}
 			pidChannel.getSelectionModel().selectedIndexProperty().addListener((obs, old, newVal) -> {
-				clearGraph();
+				Platform.runLater(() -> clearGraph());
 			});
 			pidChannelVelocity.getSelectionModel().selectedIndexProperty().addListener((obs, old, newVal) -> {
-				clearGraph();
+				Platform.runLater(() -> clearGraph());
 			});
 			Platform.runLater(() -> pidChannel.setValue(0));
+			Platform.runLater(() -> pidChannelVelocity.setValue(0));
 			Platform.runLater(() -> setType.getItems().add("LIN"));
 			Platform.runLater(() -> setType.getItems().add("SIN"));
 			Platform.runLater(() -> setType.setValue("LIN"));
@@ -375,8 +382,9 @@ public class InterfaceController {
 		if(pidVelTab.isSelected()) {
 			SingleSelectionModel<Integer> model = pidChannelVelocity.getSelectionModel();
 			Integer item = model.getSelectedItem();
-			
+			//try {
 			currentIndex =item.intValue();
+			
 		}
 		System.out.println("Set to channel " + currentIndex);
 		pidManager.clearGraph();
