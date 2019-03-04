@@ -47,7 +47,7 @@ public class InterfaceController {
 	private Button pidConstUpdateVelocity;
 
 	@FXML
-	private ChoiceBox<?> pidChannelVelocity;
+	private ChoiceBox<Integer> pidChannelVelocity;
 
 	@FXML
 	private TextField setpointVelocity;
@@ -117,10 +117,12 @@ public class InterfaceController {
 
 	@FXML
 	private LineChart<Double, Double> pidGraph;
+	private GraphManager pidManager=null;
+	private GraphManager velManager=null;
 	@FXML
 	private LineChart<Double, Double> pidGraphVel;
-	private ArrayList<XYChart.Series> pidGraphSeriesVel = new ArrayList<>();
-	private ArrayList<XYChart.Series> pidGraphSeries = new ArrayList<>();
+//	private ArrayList<XYChart.Series> pidGraphSeriesVel = new ArrayList<>();
+//	private ArrayList<XYChart.Series> pidGraphSeries = new ArrayList<>();
 	private WarehouseRobotStatus status = WarehouseRobotStatus.Fault_E_Stop_pressed;
 	private ObservableList<String> weights = FXCollections.observableArrayList("Aluminum", "Plastic");
 	private ObservableList<String> sides = FXCollections.observableArrayList("25", "45");
@@ -128,9 +130,7 @@ public class InterfaceController {
 	private double pidConfig[] = null;
 
 	private DecimalFormat formatter = new DecimalFormat();
-	private double start = ((double) System.currentTimeMillis()) / 1000.0;
-	private long lastPos;
-	private long lastSet;
+
 	static InterfaceController me;
 	private static RBE2001Robot fieldSim;
 	private int numPIDControllers = -1;
@@ -157,21 +157,10 @@ public class InterfaceController {
 		assert setSetpoint != null : "fx:id=\"setSetpoint\" was not injected: check your FXML file 'MainScreen.fxml'.";
 		assert position != null : "fx:id=\"position\" was not injected: check your FXML file 'MainScreen.fxml'.";
 		teamName.setText("IMU-Team21");
+		
+		pidManager=new GraphManager(pidGraph);
+		velManager=new GraphManager(pidGraphVel);
 
-		for (int i = 0; i < numPIDControllersOnDevice; i++) {
-			Series e = new XYChart.Series();
-
-			pidGraphSeries.add(i, e);
-			pidGraph.getData().add(e);
-		}
-		pidGraphVel.getXAxis().autoRangingProperty().set(true);
-		for (int i = 0; i < numPIDControllersOnDevice; i++) {
-			Series e = new XYChart.Series();
-
-			pidGraphSeriesVel.add(i, e);
-			pidGraphVel.getData().add(e);
-		}
-		pidGraphVel.getXAxis().autoRangingProperty().set(true);
 		choiceBoxWeight.setValue(weights.get(0));
 		choiceBoxWeight.setItems(weights);
 		choiceBoxSide.setValue("25");
@@ -297,11 +286,10 @@ public class InterfaceController {
 				double set = fieldSim.getPidSetpoint(currentIndex);
 		
 				String positionVal = formatter.format(pos);
-				// System.out.println(positionVal+"
-				// "+DoubleStream.of(piddata).boxed().collect(Collectors.toCollection(ArrayList::new)));
+				 //System.out.println(positionVal+"");
 				;
 				Platform.runLater(() -> position.setText(positionVal));
-				Platform.runLater(() -> updateGraph(pos, set));
+				Platform.runLater(() -> pidManager.updateGraph(pos, set,0));
 				
 			} catch (Exception ex) {
 				ex.printStackTrace();
@@ -331,27 +319,7 @@ public class InterfaceController {
 
 	}
 
-	@SuppressWarnings("unchecked")
-	private void updateGraph(double pos, double set) {
-		if (pidGraphSeries.size() == 0)
-			return;
-		double now = ((double) System.currentTimeMillis()) / 1000.0 - start;
-		long thispos = (long) pos;
-		long thisSet = (long) set;
-		if (thispos != lastPos || thisSet != lastSet) {
-			pidGraphSeries.get(0).getData().add(new XYChart.Data(now - 0.0001, lastPos));
-			pidGraphSeries.get(1).getData().add(new XYChart.Data(now - 0.0001, lastSet));
-			lastSet = thisSet;
-			lastPos = thispos;
-			pidGraphSeries.get(0).getData().add(new XYChart.Data(now, pos));
-			pidGraphSeries.get(1).getData().add(new XYChart.Data(now, set));
-		}
-		for (Series s : pidGraphSeries) {
-			while (s.getData().size() > 2000) {
-				s.getData().remove(0);
-			}
-		}
-	}
+
 
 	private void setUpPid() {
 		System.out.println("PID controller has " + fieldSim.getNumPid() + " controllers");
@@ -371,13 +339,12 @@ public class InterfaceController {
 			Platform.runLater(() -> setType.getItems().add("SIN"));
 			Platform.runLater(() -> setType.setValue("LIN"));
 		}
+		clearGraph();
 	}
 
 	private void clearGraph() {
-		for (Series s : pidGraphSeries) {
-			s.getData().clear();
-
-		}
+		pidManager.clearGraph();
+		velManager.clearGraph();
 		fieldSim.updatConfig();
 	}
 
