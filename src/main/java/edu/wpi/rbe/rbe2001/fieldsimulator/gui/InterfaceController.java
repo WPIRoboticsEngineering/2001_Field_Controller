@@ -13,6 +13,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
+import javafx.scene.control.SingleSelectionModel;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
@@ -183,14 +184,20 @@ public class InterfaceController {
 			new Thread(() -> {
 				try {
 					setFieldSim(RBE2001Robot.get(teamName.getText()).get(0));
-					Thread.sleep(1000);
 					// getFieldSim().setReadTimeout(1000);
 					if (getRobot() != null) {
 						Platform.runLater(() -> {
 							robotName.setText(getRobot().getName());
 							pidTab.setDisable(false);
-							//pidVelTab.setDisable(false);
+							pidVelTab.setDisable(false);
 							tab2001Field.setDisable(false);
+						});
+						Platform.runLater(() -> {
+							stop.setDisable(false);
+							// PLE.setDisable(false);
+							// RHE.setDisable(false);
+							send.setDisable(false);
+							approveButton.setDisable(true);
 						});
 					}
 				} catch (Exception ex) {
@@ -201,43 +208,7 @@ public class InterfaceController {
 					Platform.runLater(() -> connectToDevice.setDisable(false));
 				}
 				
-				try {
-					// getFieldSim().setReadTimeout(1000);
-					if (getRobot() != null) {
-						getRobot().addEvent(2012, () -> {
-							WarehouseRobotStatus tmp = getRobot().getStatus();
-							if (status != tmp) {
-								status = tmp;
-								System.out.println(" New Status = " + status.name());
-								Platform.runLater(() -> {
-									heartBeat.setText(status.name());
-								});
-								Platform.runLater(() -> {
-									if (status == WarehouseRobotStatus.Waiting_for_approval_to_pickup
-											|| status == WarehouseRobotStatus.Waiting_for_approval_to_dropoff)
-										approveButton.setDisable(false);
-									else
-										approveButton.setDisable(true);
 
-								});
-
-							}
-						});
-
-						Platform.runLater(() -> {
-							stop.setDisable(false);
-							// PLE.setDisable(false);
-							// RHE.setDisable(false);
-							send.setDisable(false);
-							approveButton.setDisable(true);
-						});
-					}
-				} catch (Exception ex) {
-					ex.printStackTrace();
-				}
-				if (getRobot() == null) {
-					Platform.runLater(() -> connectToDevice.setDisable(false));
-				}
 			}).start();
 		}
 	}
@@ -271,36 +242,61 @@ public class InterfaceController {
 		return robot;
 	}
 
-	private void setFieldSim(RBE2001Robot fieldSim) {
+	private void setFieldSim(RBE2001Robot r) {
 		//fieldSim.setReadTimeout(1000);
-		InterfaceController.robot = fieldSim;
+		try {
+			Thread.sleep(1000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		InterfaceController.robot = r;
 
-		fieldSim.addEvent(1910, () -> {
+		robot.addEvent(1910, () -> {
 			try {
 	
-				if (numPIDControllers != fieldSim.getMyNumPid()) {
-					numPIDControllers = fieldSim.getMyNumPid();
+				if (numPIDControllers != robot.getMyNumPid()) {
+					numPIDControllers = robot.getMyNumPid();
 					setUpPid();
 				}
-				double pos = fieldSim.getPidPosition(currentIndex);
-				double set = fieldSim.getPidSetpoint(currentIndex);
-		
+				double pos = robot.getPidPosition(currentIndex);
+				double set = robot.getPidSetpoint(currentIndex);
+				double vel = robot.getVelocity(currentIndex);
 				String positionVal = formatter.format(pos);
 				 //System.out.println(positionVal+"");
 				;
 				Platform.runLater(() -> position.setText(positionVal));
-				Platform.runLater(() -> pidManager.updateGraph(pos, set,0));
+				Platform.runLater(() -> pidManager.updateGraph(pos, set,vel));
 				
 			} catch (Exception ex) {
 				ex.printStackTrace();
 			}
 		});
-
-		fieldSim.addEvent(1857, () -> {
+		robot.addEvent(1822, () -> {
+			try {
+	
+				if (numPIDControllers != robot.getMyNumPid()) {
+					numPIDControllers = robot.getMyNumPid();
+					setUpPid();
+				}
+				double pos = robot.getVelocity(currentIndex);
+				double set = robot.getVelSetpoint(currentIndex);
+				double hw = robot.getHardwareOutput(currentIndex);
+				String positionVal = formatter.format(pos);
+				 //System.out.println(positionVal+"");
+				;
+				Platform.runLater(() -> velocityVal.setText(positionVal));
+				Platform.runLater(() -> velManager.updateGraph(pos, set,hw));
+				
+			} catch (Exception ex) {
+				ex.printStackTrace();
+			}
+		});
+		robot.addEvent(1857, () -> {
 			try {
 				if (pidConfig == null)
 					pidConfig = new double[3 * numPIDControllersOnDevice];
-				fieldSim.readFloats(1857, pidConfig);
+				robot.readFloats(1857, pidConfig);
 
 				// System.out.println("
 				// "+DoubleStream.of(pidConfig).boxed().collect(Collectors.toCollection(ArrayList::new)));
@@ -315,7 +311,27 @@ public class InterfaceController {
 				ex.printStackTrace();
 			}
 		});
-		fieldSim.updatConfig();
+		robot.updatConfig();
+
+		robot.addEvent(2012, () -> {
+			WarehouseRobotStatus tmp = getRobot().getStatus();
+			if (status != tmp) {
+				status = tmp;
+				System.out.println(" New Status = " + status.name());
+				Platform.runLater(() -> {
+					heartBeat.setText(status.name());
+				});
+				Platform.runLater(() -> {
+					if (status == WarehouseRobotStatus.Waiting_for_approval_to_pickup
+							|| status == WarehouseRobotStatus.Waiting_for_approval_to_dropoff)
+						approveButton.setDisable(false);
+					else
+						approveButton.setDisable(true);
+
+				});
+
+			}
+		});
 
 	}
 
@@ -327,22 +343,42 @@ public class InterfaceController {
 			for (int i = 0; i < robot.getNumPid(); i++) {
 				int index = i;
 				Platform.runLater(() -> pidChannel.getItems().add(index));
+				Platform.runLater(() -> pidChannelVelocity.getItems().add(index));
 			}
 			pidChannel.getSelectionModel().selectedIndexProperty().addListener((obs, old, newVal) -> {
-				System.out.println("Set to channel " + newVal);
-				currentIndex = newVal.intValue();
-				robot.updatConfig();
+				clearGraph();
+			});
+			pidChannelVelocity.getSelectionModel().selectedIndexProperty().addListener((obs, old, newVal) -> {
 				clearGraph();
 			});
 			Platform.runLater(() -> pidChannel.setValue(0));
 			Platform.runLater(() -> setType.getItems().add("LIN"));
 			Platform.runLater(() -> setType.getItems().add("SIN"));
 			Platform.runLater(() -> setType.setValue("LIN"));
+			pidTab.selectedProperty().addListener((obs, old, newVal) -> {
+				System.out.println("Selecting pidTab");
+				clearGraph();
+			});
+			pidVelTab.selectedProperty().addListener((obs, old, newVal) -> {
+				System.out.println("Selecting pidVelTab");
+				clearGraph();
+			});
+			
 		}
 		clearGraph();
 	}
 
 	private void clearGraph() {
+		if(pidTab.isSelected()) {
+			currentIndex =pidChannel.getSelectionModel().getSelectedItem().intValue();
+		}
+		if(pidVelTab.isSelected()) {
+			SingleSelectionModel<Integer> model = pidChannelVelocity.getSelectionModel();
+			Integer item = model.getSelectedItem();
+			
+			currentIndex =item.intValue();
+		}
+		System.out.println("Set to channel " + currentIndex);
 		pidManager.clearGraph();
 		velManager.clearGraph();
 		robot.updatConfig();
