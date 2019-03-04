@@ -84,6 +84,9 @@ public class InterfaceController {
 	private Label position;
 
 	@FXML
+	private Label hardwareOut;
+
+	@FXML
 	private ChoiceBox<Integer> pidChannel;
 
 	@FXML
@@ -285,6 +288,7 @@ public class InterfaceController {
 				 //System.out.println(positionVal+"");
 				;
 				Platform.runLater(() -> velocityVal.setText(positionVal));
+				Platform.runLater(() -> hardwareOut.setText(formatter.format(hw)));
 				Platform.runLater(() -> velManager.updateGraph(pos, set,hw));
 				
 			} catch (Exception ex) {

@@ -87,14 +87,14 @@
                      <children>
                         <GridPane layoutX="-2.0" layoutY="2.0" prefHeight="528.0" prefWidth="711.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="-2.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="2.0">
                           <columnConstraints>
-                            <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="193.0" minWidth="50.0" prefWidth="187.0" />
-                            <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="563.0" minWidth="10.0" prefWidth="524.0" />
+                            <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="355.0" minWidth="50.0" prefWidth="348.0" />
+                            <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="637.0" minWidth="10.0" prefWidth="570.0" />
                           </columnConstraints>
                           <rowConstraints>
                             <RowConstraints minHeight="10.0" prefHeight="457.0" vgrow="SOMETIMES" />
                           </rowConstraints>
                            <children>
-                              <LineChart fx:id="pidGraphVel" alternativeRowFillVisible="false" animated="false" createSymbols="false" focusTraversable="true" horizontalZeroLineVisible="false" legendVisible="false" title="PID Velovity and Motor Set" verticalGridLinesVisible="false" verticalZeroLineVisible="false" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS">
+                              <LineChart fx:id="pidGraphVel" alternativeRowFillVisible="false" animated="false" createSymbols="false" focusTraversable="true" horizontalZeroLineVisible="false" legendVisible="false" prefHeight="564.0" prefWidth="475.0" title="PID Velovity and Motor Set" verticalGridLinesVisible="false" verticalZeroLineVisible="false" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS">
                                 <xAxis>
                                   <NumberAxis autoRanging="true" forceZeroInRange="false" side="BOTTOM" />
                                 </xAxis>
@@ -121,17 +121,23 @@
                                       </rowConstraints>
                                        <children>
                                           <Label text="Kp" GridPane.rowIndex="1" />
-                                          <Label text="Kd" GridPane.rowIndex="3" />
-                                          <TextField fx:id="kpVel" onAction="#onSetGainsVelocity" text="1.0" GridPane.columnIndex="2" GridPane.rowIndex="1" />
-                                         <TextField fx:id="kdVel" onAction="#onSetGainsVelocity" text="0.0" GridPane.columnIndex="2" GridPane.rowIndex="3" />
-                                          <Button fx:id="pidConstUpdateVelocity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#onSetGainsVelocity" prefHeight="25.0" prefWidth="89.0" text="Set Gains" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                                          <Label text="Kd" GridPane.rowIndex="2" />
+                                          <TextField fx:id="kpVel" onAction="#onSetGainsVelocity" text="1.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                         <TextField fx:id="kdVel" onAction="#onSetGainsVelocity" text="0.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                                          <Button fx:id="pidConstUpdateVelocity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#onSetGainsVelocity" prefHeight="25.0" prefWidth="89.0" text="Set Gains" GridPane.columnIndex="2" GridPane.rowIndex="3" />
                                           <ChoiceBox fx:id="pidChannelVelocity" prefWidth="150.0" GridPane.columnIndex="2" />
-                                          <TextField fx:id="setpointVelocity" text="0.0" GridPane.columnIndex="2" GridPane.rowIndex="5" />
-                                          <Button fx:id="setSetpointVelocity" mnemonicParsing="false" onAction="#onSetVelocity" text="Set" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                                          <TextField fx:id="setpointVelocity" text="0.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                                          <Button fx:id="setSetpointVelocity" mnemonicParsing="false" onAction="#onSetVelocity" text="Set" GridPane.columnIndex="2" GridPane.rowIndex="4" />
                                           <Label prefHeight="17.0" prefWidth="67.0" text="Channel" />
-                                          <Label text="Set Velocity" GridPane.rowIndex="5" />
-                                          <Label text="Velocity" GridPane.rowIndex="6" />
-                                          <Label fx:id="velocityVal" text="0.0" GridPane.columnIndex="2" GridPane.halignment="LEFT" GridPane.rowIndex="6">
+                                          <Label text="Set Velocity" GridPane.rowIndex="4" />
+                                          <Label text="Velocity" GridPane.rowIndex="5" />
+                                          <Label fx:id="velocityVal" text="0.0" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="5">
+                                             <padding>
+                                                <Insets left="9.0" />
+                                             </padding>
+                                          </Label>
+                                          <Label text="Hardware Value" GridPane.rowIndex="6" />
+                                          <Label fx:id="hardwareOut" text="0.0" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="6">
                                              <padding>
                                                 <Insets left="9.0" />
                                              </padding>
