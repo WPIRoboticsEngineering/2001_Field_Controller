@@ -132,7 +132,7 @@ public class InterfaceController {
 	private DecimalFormat formatter = new DecimalFormat();
 
 	static InterfaceController me;
-	private static RBE2001Robot fieldSim;
+	private static RBE2001Robot robot;
 	private int numPIDControllers = -1;
 	private int currentIndex = 0;
 	private static final int numPIDControllersOnDevice = 3;
@@ -254,13 +254,13 @@ public class InterfaceController {
 		double kiv = Double.parseDouble(ki.getText());
 		double kdv = Double.parseDouble(kd.getText());
 		//for (int i = 0; i < numPIDControllers; i++)
-			fieldSim.setPidGains(currentIndex, kpv, kiv, kdv);
+			robot.setPidGains(currentIndex, kpv, kiv, kdv);
 	}
 
 	@FXML
 	void onSetSetpoint() {
 		clearGraph();
-		fieldSim.setPidSetpoint(Integer.parseInt(setDuration.getText()),
+		robot.setPidSetpoint(Integer.parseInt(setDuration.getText()),
 				setType.getSelectionModel().getSelectedItem().equals("LIN") ? 0 : 1, 
 						currentIndex, 
 						Double.parseDouble(setpoint.getText()));
@@ -268,12 +268,12 @@ public class InterfaceController {
 	}
 
 	public RBE2001Robot getRobot() {
-		return fieldSim;
+		return robot;
 	}
 
 	private void setFieldSim(RBE2001Robot fieldSim) {
 		//fieldSim.setReadTimeout(1000);
-		InterfaceController.fieldSim = fieldSim;
+		InterfaceController.robot = fieldSim;
 
 		fieldSim.addEvent(1910, () -> {
 			try {
@@ -322,16 +322,16 @@ public class InterfaceController {
 
 
 	private void setUpPid() {
-		System.out.println("PID controller has " + fieldSim.getNumPid() + " controllers");
-		if (fieldSim.getNumPid() > 0) {
-			for (int i = 0; i < fieldSim.getNumPid(); i++) {
+		System.out.println("PID controller has " + robot.getNumPid() + " controllers");
+		if (robot.getNumPid() > 0) {
+			for (int i = 0; i < robot.getNumPid(); i++) {
 				int index = i;
 				Platform.runLater(() -> pidChannel.getItems().add(index));
 			}
 			pidChannel.getSelectionModel().selectedIndexProperty().addListener((obs, old, newVal) -> {
 				System.out.println("Set to channel " + newVal);
 				currentIndex = newVal.intValue();
-				fieldSim.updatConfig();
+				robot.updatConfig();
 				clearGraph();
 			});
 			Platform.runLater(() -> pidChannel.setValue(0));
@@ -345,7 +345,7 @@ public class InterfaceController {
 	private void clearGraph() {
 		pidManager.clearGraph();
 		velManager.clearGraph();
-		fieldSim.updatConfig();
+		robot.updatConfig();
 	}
 
 	public static void disconnect() {
