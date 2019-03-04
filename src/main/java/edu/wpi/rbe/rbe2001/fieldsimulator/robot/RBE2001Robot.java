@@ -302,4 +302,8 @@ public class RBE2001Robot extends UdpDevice {
 			this.myNum = myNumPid;
 		throw new RuntimeException("Can not have 0 PID");
 	}
+
+	public void stop(int currentIndex) {
+		setPidSetpoint(0, 0, currentIndex, getPidPosition(currentIndex));
+	}
 }
