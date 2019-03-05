@@ -155,7 +155,7 @@
                   </AnchorPane>
               </content>
             </Tab>
-          <Tab fx:id="pidTab" closable="false" disable="true" text="PID Control">
+          <Tab fx:id="pidTab" closable="false" disable="true" text="PID Position">
               <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
