@@ -87,6 +87,8 @@ public class InterfaceController {
 	private Label hardwareOut;
 
 	@FXML
+	private Label posHwValue;
+	@FXML
 	private ChoiceBox<Integer> pidChannel;
 
 	@FXML
@@ -263,7 +265,7 @@ public class InterfaceController {
 				}
 				double pos = robot.getPidPosition(currentIndex);
 				double set = robot.getPidSetpoint(currentIndex);
-				double vel = robot.getVelocity(currentIndex);
+				double vel = robot.getHardwareOutput(currentIndex);
 				String positionVal = formatter.format(pos);
 				 //System.out.println(positionVal+"");
 				;
@@ -289,6 +291,7 @@ public class InterfaceController {
 				;
 				Platform.runLater(() -> velocityVal.setText(positionVal));
 				Platform.runLater(() -> hardwareOut.setText(formatter.format(hw)));
+				Platform.runLater(() -> posHwValue.setText(formatter.format(hw)));
 				Platform.runLater(() -> velManager.updateGraph(pos, set,hw));
 				
 			} catch (Exception ex) {

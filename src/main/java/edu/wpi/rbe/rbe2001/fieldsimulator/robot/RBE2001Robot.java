@@ -214,8 +214,8 @@ public class RBE2001Robot extends UdpDevice {
 		pidVelConfigData[3 * index + 0] = kp;
 		pidVelConfigData[3 * index + 1] = 0;
 		pidVelConfigData[3 * index + 2] = kd;
-		writeFloats(GetPDVelocityConstants.idOfCommand, pidVelConfigData);
-		GetPDVelocityConstants.oneShotMode();
+		writeFloats(SetPDVelocityConstants.idOfCommand, pidVelConfigData);
+		SetPDVelocityConstants.oneShotMode();
 	}
 
 	public void setPidSetpoints(int msTransition, int mode, double[] data) {
