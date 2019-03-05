@@ -104,11 +104,12 @@
                               </LineChart>
                               <AnchorPane prefHeight="511.0" prefWidth="104.0">
                                  <children>
-                                    <GridPane layoutX="15.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="334.0" prefWidth="169.0" AnchorPane.bottomAnchor="196.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="3.0" AnchorPane.topAnchor="0.0">
+                                    <GridPane layoutX="15.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="459.0" prefWidth="337.0" AnchorPane.bottomAnchor="104.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="3.0" AnchorPane.topAnchor="0.0">
                                       <columnConstraints>
-                                        <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" minWidth="10.0" prefWidth="20.0" />
-                                        <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="20.0" />
-                                          <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="20.0" />
+                                        <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" maxWidth="130.0" minWidth="10.0" prefWidth="116.0" />
+                                          <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="138.0" minWidth="0.0" prefWidth="14.0" />
+                                        <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="208.0" minWidth="10.0" prefWidth="86.0" />
+                                          <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="121.0" minWidth="10.0" prefWidth="118.0" />
                                       </columnConstraints>
                                       <rowConstraints>
                                           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
@@ -118,30 +119,32 @@
                                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                       </rowConstraints>
                                        <children>
                                           <Label text="Kp" GridPane.rowIndex="1" />
                                           <Label text="Kd" GridPane.rowIndex="2" />
-                                          <TextField fx:id="kpVel" onAction="#onSetGainsVelocity" text="1.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                                         <TextField fx:id="kdVel" onAction="#onSetGainsVelocity" text="0.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                                          <Button fx:id="pidConstUpdateVelocity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#onSetGainsVelocity" prefHeight="25.0" prefWidth="89.0" text="Set Gains" GridPane.columnIndex="2" GridPane.rowIndex="3" />
+                                          <TextField fx:id="kpVel" onAction="#onSetGainsVelocity" text="1.0" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                                         <TextField fx:id="kdVel" onAction="#onSetGainsVelocity" text="0.0" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+                                          <Button fx:id="pidConstUpdateVelocity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#onSetGainsVelocity" prefHeight="25.0" prefWidth="89.0" text="Set Gains" GridPane.columnIndex="3" GridPane.rowIndex="3" />
                                           <ChoiceBox fx:id="pidChannelVelocity" prefWidth="150.0" GridPane.columnIndex="2" />
-                                          <TextField fx:id="setpointVelocity" text="0.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-                                          <Button fx:id="setSetpointVelocity" mnemonicParsing="false" onAction="#onSetVelocity" text="Set" GridPane.columnIndex="2" GridPane.rowIndex="4" />
+                                          <TextField fx:id="setpointVelocity" text="0.0" GridPane.columnIndex="2" GridPane.rowIndex="4" />
+                                          <Button fx:id="setSetpointVelocity" mnemonicParsing="false" onAction="#onSetVelocity" text="Set" GridPane.columnIndex="3" GridPane.rowIndex="4" />
                                           <Label prefHeight="17.0" prefWidth="67.0" text="Channel" />
                                           <Label text="Set Velocity" GridPane.rowIndex="4" />
                                           <Label text="Velocity" GridPane.rowIndex="5" />
-                                          <Label fx:id="velocityVal" text="0.0" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="5">
+                                          <Label fx:id="velocityVal" text="0.0" GridPane.columnIndex="2" GridPane.halignment="LEFT" GridPane.rowIndex="5">
                                              <padding>
                                                 <Insets left="9.0" />
                                              </padding>
                                           </Label>
                                           <Label text="Hardware Value" GridPane.rowIndex="6" />
-                                          <Label fx:id="hardwareOut" text="0.0" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="6">
+                                          <Label fx:id="hardwareOut" text="0.0" GridPane.columnIndex="2" GridPane.halignment="LEFT" GridPane.rowIndex="6">
                                              <padding>
                                                 <Insets left="9.0" />
                                              </padding>
                                           </Label>
+                                          <Button fx:id="velExport" mnemonicParsing="false" onAction="#onVelExport" text="Export CSV..." GridPane.columnIndex="3" GridPane.rowIndex="7" />
                                        </children>
                                     </GridPane>
                                  </children>
@@ -175,12 +178,12 @@
                               </LineChart>
                               <AnchorPane prefHeight="511.0" prefWidth="104.0">
                                  <children>
-                                    <GridPane layoutX="15.0" layoutY="5.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="456.0" prefWidth="342.0" AnchorPane.bottomAnchor="102.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="42.0" AnchorPane.topAnchor="5.0">
+                                    <GridPane layoutX="15.0" layoutY="5.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="507.0" prefWidth="378.0" AnchorPane.bottomAnchor="51.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="6.0" AnchorPane.topAnchor="5.0">
                                       <columnConstraints>
-                                        <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" maxWidth="83.0" minWidth="10.0" prefWidth="69.0" />
-                                          <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="50.0" minWidth="19.0" prefWidth="19.0" />
-                                          <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="222.0" minWidth="110.0" prefWidth="110.0" />
-                                          <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="280.0" minWidth="10.0" prefWidth="147.0" />
+                                        <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" maxWidth="108.0" minWidth="10.0" prefWidth="107.0" />
+                                          <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="50.0" minWidth="5.0" prefWidth="7.0" />
+                                          <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="222.0" minWidth="81.0" prefWidth="129.0" />
+                                          <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="280.0" minWidth="10.0" prefWidth="99.0" />
                                       </columnConstraints>
                                       <rowConstraints>
                                           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
@@ -188,6 +191,7 @@
                                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
@@ -223,6 +227,7 @@
                                                 <Insets left="9.0" />
                                              </padding>
                                           </Label>
+                                          <Button fx:id="pidExport" mnemonicParsing="false" onAction="#onPidExport" text="Export CSV..." GridPane.columnIndex="3" GridPane.rowIndex="10" />
                                        </children>
                                     </GridPane>
                                  </children>

@@ -30,7 +30,14 @@ public class InterfaceController {
 
 	@FXML
 	private Button connectToDevice;
+	
 
+	@FXML
+	private Button pidExport;
+
+	@FXML
+	private Button velExport;
+	
 	@FXML
 	private Label robotName;
 
@@ -163,8 +170,8 @@ public class InterfaceController {
 		assert position != null : "fx:id=\"position\" was not injected: check your FXML file 'MainScreen.fxml'.";
 		teamName.setText("IMU-Team21");
 		
-		pidManager=new GraphManager(pidGraph);
-		velManager=new GraphManager(pidGraphVel);
+		pidManager=new GraphManager(pidGraph,3);
+		velManager=new GraphManager(pidGraphVel,3);
 
 		choiceBoxWeight.setValue(weights.get(0));
 		choiceBoxWeight.setItems(weights);
@@ -394,8 +401,8 @@ public class InterfaceController {
 			
 		}
 		System.out.println("Set to channel " + currentIndex);
-		pidManager.clearGraph();
-		velManager.clearGraph();
+		pidManager.clearGraph(currentIndex);
+		velManager.clearGraph(currentIndex);
 		robot.updatConfig();
 	}
 
@@ -462,6 +469,23 @@ public class InterfaceController {
 		}
 	}
 
-
+	@FXML
+	void onPidExport(){
+		try {
+			pidManager.export("position");
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	@FXML
+	void onVelExport(){
+		try {
+			velManager.export("velocity");
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 
 }
