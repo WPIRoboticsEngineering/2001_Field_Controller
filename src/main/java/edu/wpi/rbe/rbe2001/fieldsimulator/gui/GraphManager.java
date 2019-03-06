@@ -49,9 +49,9 @@ public class GraphManager {
 		if (pidGraphSeries.size() == 0)
 			return;
 		double now = ((double) System.currentTimeMillis()) / 1000.0 - start;
-		long thispos = (long) pos;
-		long thisSet = (long) set;
-		long thisHw  = (long) hw;
+		long thispos = (long) (pos*100);
+		long thisSet = (long) (set*100);
+		long thisHw  = (long) (hw*100);
 		if (thispos != lastPos || thisSet != lastSet || thisHw!=lastHw) {
 			pidGraphSeries.get(0).getData().add(new XYChart.Data(now - 0.0001, lastPos));
 			pidGraphSeries.get(1).getData().add(new XYChart.Data(now - 0.0001, lastSet));
