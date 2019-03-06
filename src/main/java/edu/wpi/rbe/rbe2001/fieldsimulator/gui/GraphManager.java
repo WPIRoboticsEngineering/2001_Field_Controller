@@ -53,9 +53,9 @@ public class GraphManager {
 		long thisSet = (long) (set*100);
 		long thisHw  = (long) (hw*100);
 		if (thispos != lastPos || thisSet != lastSet || thisHw!=lastHw) {
-			pidGraphSeries.get(0).getData().add(new XYChart.Data(now - 0.0001, lastPos));
-			pidGraphSeries.get(1).getData().add(new XYChart.Data(now - 0.0001, lastSet));
-			pidGraphSeries.get(2).getData().add(new XYChart.Data(now - 0.0001, lastHw));
+			pidGraphSeries.get(0).getData().add(new XYChart.Data(now - 0.0001, pos));
+			pidGraphSeries.get(1).getData().add(new XYChart.Data(now - 0.0001, set));
+			pidGraphSeries.get(2).getData().add(new XYChart.Data(now - 0.0001, hw));
 			lastSet = thisSet;
 			lastPos = thispos;
 			lastHw=thisHw;
