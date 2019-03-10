@@ -219,8 +219,7 @@ public class InterfaceController {
 		assert setpoint != null : "fx:id=\"setpoint\" was not injected: check your FXML file 'MainScreen.fxml'.";
 		assert setSetpoint != null : "fx:id=\"setSetpoint\" was not injected: check your FXML file 'MainScreen.fxml'.";
 		assert position != null : "fx:id=\"position\" was not injected: check your FXML file 'MainScreen.fxml'.";
-		teamName.setText("IMU-Team21");
-		
+
 		pidManager=new GraphManager(pidGraph,3);
 		velManager=new GraphManager(pidGraphVel,3);
 		
