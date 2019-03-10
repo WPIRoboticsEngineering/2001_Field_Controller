@@ -16,7 +16,10 @@ import edu.wpi.SimplePacketComs.phy.UDPSimplePacketComs;
 import javafx.application.Platform;
 
 public class RBE2001Robot extends UdpDevice {
+	private FloatPacketType IMU = new FloatPacketType(1804, 64);
 
+	private FloatPacketType getIR = new FloatPacketType(1590, 64);
+	
 	private FloatPacketType setSetpoint = new FloatPacketType(1848, 64);
 	private FloatPacketType pidStatus = new FloatPacketType(1910, 64);
 	private FloatPacketType getConfig = new FloatPacketType(1857, 64);
@@ -53,13 +56,10 @@ public class RBE2001Robot extends UdpDevice {
 		getConfig.oneShotMode();
 		setConfig.waitToSendMode();
 		setSetpoint.waitToSendMode();
-		pickOrder.waitToSendMode();
-		clearFaults.waitToSendMode();
-		estop.waitToSendMode();
-		approve.waitToSendMode();
+	
 
-		for (PacketType pt : Arrays.asList(pidStatus, getConfig, setConfig, setSetpoint, clearFaults, pickOrder,
-				getStatus, approve, estop, SetPIDVelocity, SetPDVelocityConstants, GetPIDVelocity,
+		for (PacketType pt : Arrays.asList(pidStatus, getConfig, setConfig, setSetpoint,
+				SetPIDVelocity, SetPDVelocityConstants, GetPIDVelocity,
 				GetPDVelocityConstants)) {
 			addPollingPacket(pt);
 		}
@@ -90,9 +90,6 @@ public class RBE2001Robot extends UdpDevice {
 				ex.printStackTrace();
 			}
 		});
-		addEvent(getStatus.idOfCommand, () -> {
-			readBytes(getStatus.idOfCommand, status);
-		});
 
 		addEvent(pidStatus.idOfCommand, () -> {
 			try {
@@ -117,7 +114,25 @@ public class RBE2001Robot extends UdpDevice {
 			}
 		});
 	}
-
+	public void add2001() {
+		pickOrder.waitToSendMode();
+		clearFaults.waitToSendMode();
+		estop.waitToSendMode();
+		approve.waitToSendMode();
+		for (PacketType pt : Arrays.asList( clearFaults, pickOrder,
+				getStatus, approve, estop)) {
+			addPollingPacket(pt);
+		}
+		addEvent(getStatus.idOfCommand, () -> {
+			readBytes(getStatus.idOfCommand, status);
+		});
+	}
+	public void addIMU() {
+		addPollingPacket(IMU);
+	}
+	public void addIR() {
+		addPollingPacket(getIR);
+	}
 	public static List<RBE2001Robot> get(String name,int myPID) throws Exception {
 		HashSet<InetAddress> addresses = UDPSimplePacketComs.getAllAddresses(name);
 		ArrayList<RBE2001Robot> robots = new ArrayList<>();

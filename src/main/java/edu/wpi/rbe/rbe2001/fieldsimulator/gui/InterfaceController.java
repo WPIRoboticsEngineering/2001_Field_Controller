@@ -9,6 +9,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.chart.LineChart;
+import javafx.scene.chart.ScatterChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
@@ -19,9 +20,52 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.chart.XYChart;
 import javafx.scene.chart.XYChart.Series;
-
+import javafx.scene.control.CheckBox;
 public class InterfaceController {
 
+    @FXML
+    private CheckBox use2001;
+
+    @FXML
+    private CheckBox useIMU;
+
+    @FXML
+    private CheckBox useIR;
+	@FXML
+	private Label accelx;
+
+	@FXML
+	private Label accely;
+
+	@FXML
+	private Label accelz;
+
+	@FXML
+	private Label gyrox;
+
+	@FXML
+	private Label gyroy;
+
+	@FXML
+	private Label gyroz;
+
+	@FXML
+	private Label gravx;
+
+	@FXML
+	private Label gravy;
+
+	@FXML
+	private Label gravz;
+
+	@FXML
+	private Label eulx;
+
+	@FXML
+	private Label euly;
+
+	@FXML
+	private Label eulz;
 	@FXML
 	private Tab connectTab;
 
@@ -68,6 +112,10 @@ public class InterfaceController {
 
 	@FXML
 	private Tab pidTab;
+	@FXML
+	private Tab imutab;
+	@FXML
+	private Tab irtab;
 
 	@FXML
 	private TextField kp;
@@ -127,7 +175,8 @@ public class InterfaceController {
 
 	@FXML // fx:id="setType"
 	private ChoiceBox<String> setType; // Value injected by FXMLLoader
-
+	@FXML
+    private ScatterChart<Double, Double> irChart;
 	@FXML
 	private LineChart<Double, Double> pidGraph;
 	private GraphManager pidManager=null;
@@ -140,6 +189,8 @@ public class InterfaceController {
 	private ObservableList<String> weights = FXCollections.observableArrayList("Aluminum", "Plastic");
 	private ObservableList<String> sides = FXCollections.observableArrayList("25", "45");
 	private ObservableList<String> pos = FXCollections.observableArrayList("1", "2");
+	private double datas[] = null;
+	private double irdata[] = null;
 
 	private DecimalFormat formatter = new DecimalFormat();
 
@@ -172,7 +223,12 @@ public class InterfaceController {
 		
 		pidManager=new GraphManager(pidGraph,3);
 		velManager=new GraphManager(pidGraphVel,3);
-
+		
+		irChart.getData().add(new XYChart.Series());
+		irChart.getData().add(new XYChart.Series());
+		irChart.getData().add(new XYChart.Series());
+		irChart.getData().add(new XYChart.Series());
+		
 		choiceBoxWeight.setValue(weights.get(0));
 		choiceBoxWeight.setItems(weights);
 		choiceBoxSide.setValue("25");
@@ -201,15 +257,8 @@ public class InterfaceController {
 							robotName.setText(getRobot().getName());
 							pidTab.setDisable(false);
 							pidVelTab.setDisable(false);
-							tab2001Field.setDisable(false);
 						});
-						Platform.runLater(() -> {
-							stop.setDisable(false);
-							// PLE.setDisable(false);
-							// RHE.setDisable(false);
-							send.setDisable(false);
-							approveButton.setDisable(true);
-						});
+
 					}
 				} catch (Exception ex) {
 					// ex.printStackTrace();
@@ -252,7 +301,16 @@ public class InterfaceController {
 	public RBE2001Robot getRobot() {
 		return robot;
 	}
-
+	@SuppressWarnings("unchecked")
+	private void updateIR(double []pos) {
+		for(int i=0;i<4;i++) {
+			double x = pos[i*2];
+			double y = pos[i*2+1];
+			Series e =irChart.getData().get(i);
+			e.getData().clear();
+			e.getData().add(new XYChart.Data( x, y));
+		}
+	}
 	private void setFieldSim(RBE2001Robot r) {
 		//fieldSim.setReadTimeout(1000);
 		try {
@@ -262,7 +320,66 @@ public class InterfaceController {
 			e.printStackTrace();
 		}
 		InterfaceController.robot = r;
+		
+		use2001.selectedProperty().addListener((observable,  oldValue,  newValue) ->{
+			Platform.runLater(() -> use2001.setDisable(true));
+			robot.add2001();
+			Platform.runLater(() ->tab2001Field.setDisable(false));
+			Platform.runLater(() -> {
+				stop.setDisable(false);
+				// PLE.setDisable(false);
+				// RHE.setDisable(false);
+				send.setDisable(false);
+				approveButton.setDisable(true);
+			});
+		});
 
+		useIMU.selectedProperty().addListener((observable,  oldValue,  newValue) ->{
+			Platform.runLater(() -> useIMU.setDisable(true));
+			robot.addIMU();
+			robot.addEvent(1804, () -> {
+				if (datas == null)
+					datas = new double[12];
+				robot.readFloats(1804, datas);
+				Platform.runLater(() -> {
+					int base = 0;
+					accelx.setText(formatter.format(datas[base + 0]));
+					accely.setText(formatter.format(datas[base + 1]));
+					accelz.setText(formatter.format(datas[base + 2]));
+					base = 3;
+					gyrox.setText(formatter.format(datas[base + 0]));
+					gyroy.setText(formatter.format(datas[base + 1]));
+					gyroz.setText(formatter.format(datas[base + 2]));
+					base = 6;
+					gravx.setText(formatter.format(datas[base + 0]));
+					gravy.setText(formatter.format(datas[base + 1]));
+					gravz.setText(formatter.format(datas[base + 2]));
+					base = 9;
+					eulx.setText(formatter.format(datas[base + 0]));
+					euly.setText(formatter.format(datas[base + 1]));
+					eulz.setText(formatter.format(datas[base + 2]));
+
+				});
+			});
+			Platform.runLater(() ->imutab.setDisable(false));
+		});
+		useIR.selectedProperty().addListener((observable,  oldValue,  newValue) ->{
+			Platform.runLater(() -> useIR.setDisable(true));
+			robot.addIR();
+			robot.addEvent(1590, () -> {
+				try {
+					if (irdata == null)
+						irdata = new double[8];
+					robot.readFloats(1590, irdata);
+					Platform.runLater(()->updateIR(irdata));
+					//System.out.println("IR "+irdata);
+				} catch (Exception ex) {
+					ex.printStackTrace();
+				}
+			});
+			
+			Platform.runLater(() ->irtab.setDisable(false));
+		});
 		robot.addEvent(1910, () -> {
 			try {
 	
