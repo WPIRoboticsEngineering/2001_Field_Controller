@@ -80,27 +80,6 @@
                   </AnchorPane>
             </content>
           </Tab>
-            <Tab fx:id="tab2001Field" closable="false" disable="true" text="2001 Field">
-              <content>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                 <children>
-
-      <Button id="start" fx:id="start" layoutX="45.0" layoutY="120.0" mnemonicParsing="false" onAction="#start" prefHeight="40.0" prefWidth="164.0" styleClass="button-raised" text="Clear Faults" />
-      <Button id="stop" fx:id="stop" layoutX="230.0" layoutY="120.0" mnemonicParsing="false" onAction="#stop" prefHeight="40.0" prefWidth="164.0" styleClass="button-raised" text="E-Stop" />
-      <Button id="send" fx:id="send" layoutX="651.0" layoutY="190.0" mnemonicParsing="false" onAction="#sendLocation" prefHeight="40.0" prefWidth="309.0" styleClass="button-raised" text="Send Pick Order" />
-      <RadioButton fx:id="heartBeat" layoutX="114.0" layoutY="26.0" mnemonicParsing="false" text="Current Status" />
-      <ChoiceBox id="choiceBoxWeight" fx:id="choiceBoxWeight" layoutX="478.0" layoutY="144.0" prefWidth="150.0" />
-      <ChoiceBox id="choiceBoxSide" fx:id="choiceBoxSide" layoutX="650.0" layoutY="144.0" prefWidth="150.0" />
-      <ChoiceBox id="choiceBoxPos" fx:id="choiceBoxPos" layoutX="810.0" layoutY="144.0" prefWidth="150.0" />
-      <Label layoutX="528.0" layoutY="120.0" text="Material" />
-      <Label layoutX="708.0" layoutY="120.0" text="Angle" />
-      <Label layoutX="860.0" layoutY="120.0" text="Position" />
-      <Label layoutX="45.0" layoutY="27.0" text="Status:" />
-      <Button fx:id="approveButton" layoutX="45.0" layoutY="170.0" mnemonicParsing="false" onAction="#onApprove" prefHeight="40.0" prefWidth="164.0" text="Approve Pickup" />
-   </children>
-</AnchorPane>
-              </content>
-            </Tab>
           <Tab fx:id="pidVelTab" closable="false" disable="true" text="PID Velocity">
               <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
@@ -341,6 +320,27 @@
                   </AnchorPane>
             </content>
           </Tab>
+            <Tab fx:id="tab2001Field" closable="false" disable="true" text="2001 Field">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                 <children>
+
+      <Button id="start" fx:id="start" layoutX="45.0" layoutY="120.0" mnemonicParsing="false" onAction="#start" prefHeight="40.0" prefWidth="164.0" styleClass="button-raised" text="Clear Faults" />
+      <Button id="stop" fx:id="stop" layoutX="230.0" layoutY="120.0" mnemonicParsing="false" onAction="#stop" prefHeight="40.0" prefWidth="164.0" styleClass="button-raised" text="E-Stop" />
+      <Button id="send" fx:id="send" layoutX="651.0" layoutY="190.0" mnemonicParsing="false" onAction="#sendLocation" prefHeight="40.0" prefWidth="309.0" styleClass="button-raised" text="Send Pick Order" />
+      <RadioButton fx:id="heartBeat" layoutX="114.0" layoutY="26.0" mnemonicParsing="false" text="Current Status" />
+      <ChoiceBox id="choiceBoxWeight" fx:id="choiceBoxWeight" layoutX="478.0" layoutY="144.0" prefWidth="150.0" />
+      <ChoiceBox id="choiceBoxSide" fx:id="choiceBoxSide" layoutX="650.0" layoutY="144.0" prefWidth="150.0" />
+      <ChoiceBox id="choiceBoxPos" fx:id="choiceBoxPos" layoutX="810.0" layoutY="144.0" prefWidth="150.0" />
+      <Label layoutX="528.0" layoutY="120.0" text="Material" />
+      <Label layoutX="708.0" layoutY="120.0" text="Angle" />
+      <Label layoutX="860.0" layoutY="120.0" text="Position" />
+      <Label layoutX="45.0" layoutY="27.0" text="Status:" />
+      <Button fx:id="approveButton" layoutX="45.0" layoutY="170.0" mnemonicParsing="false" onAction="#onApprove" prefHeight="40.0" prefWidth="164.0" text="Approve Pickup" />
+   </children>
+</AnchorPane>
+              </content>
+            </Tab>
         </tabs>
          <padding>
             <Insets bottom="1.0" left="1.0" right="1.0" top="1.0" />
