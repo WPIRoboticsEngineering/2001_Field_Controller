@@ -319,7 +319,9 @@ public class InterfaceController {
 			e.printStackTrace();
 		}
 		InterfaceController.robot = r;
-		
+		Platform.runLater(() -> use2001.setDisable(false));
+		Platform.runLater(() -> useIMU.setDisable(false));
+		Platform.runLater(() -> useIR.setDisable(false));
 		use2001.selectedProperty().addListener((observable,  oldValue,  newValue) ->{
 			Platform.runLater(() -> use2001.setDisable(true));
 			robot.add2001();
@@ -338,10 +340,10 @@ public class InterfaceController {
 			robot.addIMU();
 			robot.addEvent(1804, () -> {
 				if (datas == null)
-					datas = new double[12];
+					datas = new double[15];
 				robot.readFloats(1804, datas);
 				Platform.runLater(() -> {
-					int base = 0;
+					int base = 12;
 					accelx.setText(formatter.format(datas[base + 0]));
 					accely.setText(formatter.format(datas[base + 1]));
 					accelz.setText(formatter.format(datas[base + 2]));

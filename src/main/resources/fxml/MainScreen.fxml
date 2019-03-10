@@ -59,17 +59,17 @@
                                     <Insets left="5.0" right="5.0" />
                                  </GridPane.margin>
                               </Label>
-                              <CheckBox fx:id="use2001" mnemonicParsing="false" text="2001 Field Control" GridPane.rowIndex="1">
+                              <CheckBox fx:id="use2001" disable="true" mnemonicParsing="false" text="2001 Field Control" GridPane.rowIndex="1">
                                  <padding>
                                     <Insets left="5.0" />
                                  </padding>
                               </CheckBox>
-                              <CheckBox fx:id="useIMU" mnemonicParsing="false" text="IMU visualizer" GridPane.rowIndex="2">
+                              <CheckBox fx:id="useIMU" disable="true" mnemonicParsing="false" text="IMU visualizer" GridPane.rowIndex="2">
                                  <padding>
                                     <Insets left="5.0" />
                                  </padding>
                               </CheckBox>
-                              <CheckBox fx:id="useIR" mnemonicParsing="false" text="IR Camera" GridPane.rowIndex="3">
+                              <CheckBox fx:id="useIR" disable="true" mnemonicParsing="false" text="IR Camera" GridPane.rowIndex="3">
                                  <padding>
                                     <Insets left="5.0" />
                                  </padding>
@@ -278,9 +278,9 @@
                             <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="SOMETIMES" />
                           </rowConstraints>
                            <children>
-                              <Label text="Acceleration X" />
-                              <Label text="Acceleration Y" GridPane.rowIndex="1" />
-                              <Label text="Acceleration Z" GridPane.rowIndex="2" />
+                              <Label text="Position X" />
+                              <Label text="Position Y" GridPane.rowIndex="1" />
+                              <Label text="Position Z" GridPane.rowIndex="2" />
                               <Label text="Gyro X" GridPane.rowIndex="3" />
                               <Label text="Gyro Y" GridPane.rowIndex="4" />
                               <Label text="Gyro Z" GridPane.rowIndex="5" />
@@ -302,9 +302,9 @@
                               <Label fx:id="eulx" text="0" GridPane.columnIndex="1" GridPane.rowIndex="9" />
                               <Label fx:id="euly" text="0" GridPane.columnIndex="1" GridPane.rowIndex="10" />
                               <Label fx:id="eulz" text="0" GridPane.columnIndex="1" GridPane.rowIndex="11" />
-                              <Label text="MS^2" GridPane.columnIndex="2" />
-                              <Label text="MS^2" GridPane.columnIndex="2" GridPane.rowIndex="1" />
-                              <Label text="MS^2" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+                              <Label text="mm" GridPane.columnIndex="2" />
+                              <Label text="mm" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                              <Label text="mm" GridPane.columnIndex="2" GridPane.rowIndex="2" />
                               <Label text="rad/s" GridPane.columnIndex="2" GridPane.rowIndex="3" />
                               <Label text="rad/s" GridPane.columnIndex="2" GridPane.rowIndex="4" />
                               <Label text="rad/s" GridPane.columnIndex="2" GridPane.rowIndex="5" />
