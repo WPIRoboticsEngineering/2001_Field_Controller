@@ -324,6 +324,8 @@ public class InterfaceController {
 		Platform.runLater(() -> useIR.setDisable(false));
 		use2001.selectedProperty().addListener((observable,  oldValue,  newValue) ->{
 			Platform.runLater(() -> use2001.setDisable(true));
+			Platform.runLater(() -> useIMU.setDisable(true));
+			Platform.runLater(() -> useIR.setDisable(true));
 			robot.add2001();
 			Platform.runLater(() ->tab2001Field.setDisable(false));
 			Platform.runLater(() -> {
@@ -337,6 +339,7 @@ public class InterfaceController {
 
 		useIMU.selectedProperty().addListener((observable,  oldValue,  newValue) ->{
 			Platform.runLater(() -> useIMU.setDisable(true));
+			Platform.runLater(() -> use2001.setDisable(true));
 			robot.addIMU();
 			robot.addEvent(1804, () -> {
 				if (datas == null)
@@ -366,6 +369,7 @@ public class InterfaceController {
 		});
 		useIR.selectedProperty().addListener((observable,  oldValue,  newValue) ->{
 			Platform.runLater(() -> useIR.setDisable(true));
+			Platform.runLater(() -> use2001.setDisable(true));
 			robot.addIR();
 			robot.addEvent(1590, () -> {
 				try {
