@@ -327,6 +327,25 @@ public class InterfaceController {
 			Platform.runLater(() -> useIMU.setDisable(true));
 			Platform.runLater(() -> useIR.setDisable(true));
 			robot.add2001();
+			robot.addEvent(2012, () -> {
+				WarehouseRobotStatus tmp = getRobot().getStatus();
+				if (status != tmp) {
+					status = tmp;
+					System.out.println(" New Status = " + status.name());
+					Platform.runLater(() -> {
+						heartBeat.setText(status.name());
+					});
+					Platform.runLater(() -> {
+						if (status == WarehouseRobotStatus.Waiting_for_approval_to_pickup
+								|| status == WarehouseRobotStatus.Waiting_for_approval_to_dropoff)
+							approveButton.setDisable(false);
+						else
+							approveButton.setDisable(true);
+
+					});
+
+				}
+			});
 			Platform.runLater(() ->tab2001Field.setDisable(false));
 			Platform.runLater(() -> {
 				stop.setDisable(false);
@@ -455,25 +474,7 @@ public class InterfaceController {
 				ex.printStackTrace();
 			}
 		});
-		robot.addEvent(2012, () -> {
-			WarehouseRobotStatus tmp = getRobot().getStatus();
-			if (status != tmp) {
-				status = tmp;
-				System.out.println(" New Status = " + status.name());
-				Platform.runLater(() -> {
-					heartBeat.setText(status.name());
-				});
-				Platform.runLater(() -> {
-					if (status == WarehouseRobotStatus.Waiting_for_approval_to_pickup
-							|| status == WarehouseRobotStatus.Waiting_for_approval_to_dropoff)
-						approveButton.setDisable(false);
-					else
-						approveButton.setDisable(true);
 
-				});
-
-			}
-		});
 
 	}
 
