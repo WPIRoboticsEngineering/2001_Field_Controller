@@ -88,12 +88,12 @@ public class GraphManager {
 	}
 
 	public void export(String type) throws Exception {
-		File desktop = FileSystemView.getFileSystemView().getHomeDirectory();
+		File desktop = new File(System.getProperty("user.home")+"/Desktop/");
 		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
 		String timestamp =dateFormat.format(new Date());
 		System.out.println(timestamp);
 		for (int i = 0; i < numPid; i++) {
-			String filename = desktop.getAbsolutePath()+"/Desktop/Motor-"+i+"-"+type+"_"+timestamp+".csv";
+			String filename = desktop.getAbsolutePath()+"/Motor-"+i+"-"+type+"_"+timestamp+".csv";
 			System.out.println(filename);
 			File exportFile = new File(filename);
 			if(!exportFile.exists())
