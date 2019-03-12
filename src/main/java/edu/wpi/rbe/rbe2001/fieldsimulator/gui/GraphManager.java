@@ -89,7 +89,7 @@ public class GraphManager {
 
 	public void export(String type) throws Exception {
 		File desktop = new File(System.getProperty("user.home")+"/Desktop/");
-		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
+		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss");
 		String timestamp =dateFormat.format(new Date());
 		System.out.println(timestamp);
 		for (int i = 0; i < numPid; i++) {
