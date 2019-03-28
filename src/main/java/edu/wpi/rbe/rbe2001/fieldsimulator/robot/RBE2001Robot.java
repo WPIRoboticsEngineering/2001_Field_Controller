@@ -135,6 +135,7 @@ public class RBE2001Robot extends UdpDevice {
 	}
 	public static List<RBE2001Robot> get(String name,int myPID) throws Exception {
 		HashSet<InetAddress> addresses = UDPSimplePacketComs.getAllAddresses(name);
+		
 		ArrayList<RBE2001Robot> robots = new ArrayList<>();
 		if (addresses.size() < 1) {
 			System.out.println("No " + RBE2001Robot.class.getSimpleName() + " found named " + name);
