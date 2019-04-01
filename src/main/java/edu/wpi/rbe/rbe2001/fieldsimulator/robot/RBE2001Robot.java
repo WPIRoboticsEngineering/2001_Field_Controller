@@ -19,7 +19,7 @@ public class RBE2001Robot extends UdpDevice {
 	private FloatPacketType IMU = new FloatPacketType(1804, 64);
 
 	private FloatPacketType getIR = new FloatPacketType(1590, 64);
-	
+
 	private FloatPacketType setSetpoint = new FloatPacketType(1848, 64);
 	private FloatPacketType pidStatus = new FloatPacketType(1910, 64);
 	private FloatPacketType getConfig = new FloatPacketType(1857, 64);
@@ -47,7 +47,7 @@ public class RBE2001Robot extends UdpDevice {
 
 	private RBE2001Robot(InetAddress add, int numPID) throws Exception {
 		super(add);
-		myNum=numPID;
+		myNum = numPID;
 		SetPIDVelocity.waitToSendMode();
 		SetPDVelocityConstants.waitToSendMode();
 		GetPIDVelocity.pollingMode();
@@ -56,20 +56,18 @@ public class RBE2001Robot extends UdpDevice {
 		getConfig.oneShotMode();
 		setConfig.waitToSendMode();
 		setSetpoint.waitToSendMode();
-	
 
-		for (PacketType pt : Arrays.asList(pidStatus, getConfig, setConfig, setSetpoint,
-				SetPIDVelocity, SetPDVelocityConstants, GetPIDVelocity,
-				GetPDVelocityConstants)) {
+		for (PacketType pt : Arrays.asList(pidStatus, getConfig, setConfig, setSetpoint, SetPIDVelocity,
+				SetPDVelocityConstants, GetPIDVelocity, GetPDVelocityConstants)) {
 			addPollingPacket(pt);
 		}
 
 		addEvent(GetPDVelocityConstants.idOfCommand, () -> {
 			try {
 				readFloats(GetPDVelocityConstants.idOfCommand, pidVelConfigData);
-				for (int i=0;i<3;i++) {
-					System.out.print("\n vp "+getVKp(i));
-					System.out.print(" vd "+getVKd(i));
+				for (int i = 0; i < 3; i++) {
+					System.out.print("\n vp " + getVKp(i));
+					System.out.print(" vd " + getVKd(i));
 					System.out.println("");
 				}
 			} catch (Exception ex) {
@@ -80,10 +78,10 @@ public class RBE2001Robot extends UdpDevice {
 		addEvent(getConfig.idOfCommand, () -> {
 			try {
 				readFloats(getConfig.idOfCommand, pidConfigData);
-				for (int i=0;i<3;i++) {
-					System.out.print("\n p "+getKp(i));
-					System.out.print(" i "+getKi(i));
-					System.out.print(" d "+getKd(i));
+				for (int i = 0; i < 3; i++) {
+					System.out.print("\n p " + getKp(i));
+					System.out.print(" i " + getKi(i));
+					System.out.print(" d " + getKd(i));
 					System.out.println("");
 				}
 			} catch (Exception ex) {
@@ -114,27 +112,30 @@ public class RBE2001Robot extends UdpDevice {
 			}
 		});
 	}
+
 	public void add2001() {
 		pickOrder.waitToSendMode();
 		clearFaults.waitToSendMode();
 		estop.waitToSendMode();
 		approve.waitToSendMode();
-		for (PacketType pt : Arrays.asList( clearFaults, pickOrder,
-				getStatus, approve, estop)) {
+		for (PacketType pt : Arrays.asList(clearFaults, pickOrder, getStatus, approve, estop)) {
 			addPollingPacket(pt);
 		}
 		addEvent(getStatus.idOfCommand, () -> {
 			readBytes(getStatus.idOfCommand, status);
 		});
 	}
+
 	public void addIMU() {
 		addPollingPacket(IMU);
 	}
+
 	public void addIR() {
 		addPollingPacket(getIR);
 	}
-	public static RBE2001Robot get(String name,int myPID) throws Exception {
-		return new RBE2001Robot(UDPSimplePacketComs.getAllAddresses(name).iterator().next(),myPID); 
+
+	public static RBE2001Robot get(String name, int myPID) throws Exception {
+		return new RBE2001Robot(UDPSimplePacketComs.getAllAddresses(name).iterator().next(), myPID);
 	}
 
 	@Override
@@ -202,16 +203,17 @@ public class RBE2001Robot extends UdpDevice {
 		readFloats(getConfig.idOfCommand, pidConfigData);
 		return pidConfigData[(3 * index) + 2];
 	}
+
 	public double getVKp(int index) {
 		readFloats(GetPDVelocityConstants.idOfCommand, pidVelConfigData);
 		return pidVelConfigData[(3 * index) + 0];
 	}
 
-
 	public double getVKd(int index) {
 		readFloats(GetPDVelocityConstants.idOfCommand, pidVelConfigData);
 		return pidVelConfigData[(3 * index) + 2];
 	}
+
 	public void setVelocityGains(int index, double kp, double kd) {
 		pidVelConfigData[3 * index + 0] = kp;
 		pidVelConfigData[3 * index + 1] = 0;
@@ -300,7 +302,7 @@ public class RBE2001Robot extends UdpDevice {
 	}
 
 	public void setMyNumPid(int myNumPid) {
-		if(myNumPid>0)
+		if (myNumPid > 0)
 			this.myNum = myNumPid;
 		throw new RuntimeException("Can not have 0 PID");
 	}
