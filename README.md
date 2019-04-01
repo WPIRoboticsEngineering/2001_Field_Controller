@@ -21,6 +21,30 @@ https://github.com/WPIRoboticsEngineering/2001_Field_Controller/blob/2001_Field/
 In the firmware, the servers are added to the coms layer at startup:
 https://github.com/WPIRoboticsEngineering/RBE2001_template/blob/master/src/RobotControlCenter.cpp#L88
 
+### Single Commands
+
+For commands sent as a single send you set the packet into waitToSend mode, then call oneShotMode to send one and only one packet.
+
+https://github.com/WPIRoboticsEngineering/2001_Field_Controller/blob/2001_Field/src/main/java/edu/wpi/rbe/rbe2001/fieldsimulator/robot/RBE2001Robot.java#L118
+
+then 
+
+https://github.com/WPIRoboticsEngineering/2001_Field_Controller/blob/2001_Field/src/main/java/edu/wpi/rbe/rbe2001/fieldsimulator/robot/RBE2001Robot.java#L294
+
+### Polling mode reading data
+
+The default mode for a packet is to poll over and over.
+
+### Reading data from a polling comand
+
+Reading data from a polling command is handled with a lambda attached to the Command ID
+
+https://github.com/WPIRoboticsEngineering/2001_Field_Controller/blob/2001_Field/src/main/java/edu/wpi/rbe/rbe2001/fieldsimulator/robot/RBE2001Robot.java#L126
+
+In the C code this is read from the event for the command ID
+
+https://github.com/WPIRoboticsEngineering/RBE2001_template/blob/master/src/commands/GetStatus.cpp#L7
+
 ## Call the command: Java
 
 Events start with the Javafx button event:
