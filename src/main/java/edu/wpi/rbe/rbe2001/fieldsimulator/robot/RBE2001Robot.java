@@ -133,22 +133,8 @@ public class RBE2001Robot extends UdpDevice {
 	public void addIR() {
 		addPollingPacket(getIR);
 	}
-	public static List<RBE2001Robot> get(String name,int myPID) throws Exception {
-		HashSet<InetAddress> addresses = UDPSimplePacketComs.getAllAddresses(name);
-		
-		ArrayList<RBE2001Robot> robots = new ArrayList<>();
-		if (addresses.size() < 1) {
-			System.out.println("No " + RBE2001Robot.class.getSimpleName() + " found named " + name);
-			return robots;
-		}
-		for (InetAddress add : addresses) {
-			System.out.println("Got " + add.getHostAddress());
-			RBE2001Robot e = new RBE2001Robot(add,myPID);
-			e.connect();
-			e.setReadTimeout(200);
-			robots.add(e);
-		}
-		return robots;
+	public static RBE2001Robot get(String name,int myPID) throws Exception {
+		return new RBE2001Robot(UDPSimplePacketComs.getAllAddresses(name).iterator().next(),myPID); 
 	}
 
 	@Override
