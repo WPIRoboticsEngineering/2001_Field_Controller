@@ -2,7 +2,12 @@
 
 This application is used to communicate information form a JavaFX application to the RBE2000 classes robots.
 
-# How To add new commands
+# Documentation of SimplePacketComs
+
+https://github.com/madhephaestus/SimplePacketComs/blob/master/README.md
+
+
+# How To add new commands to This Application
 
 To add your own custom command start with the default code and modify it by adding a custom command. Your new command needs a unique packet command ID, any 32 bit unsigned integer is valid. 
 
