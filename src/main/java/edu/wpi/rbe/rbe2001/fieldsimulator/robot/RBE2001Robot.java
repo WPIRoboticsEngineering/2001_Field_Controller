@@ -45,7 +45,7 @@ public class RBE2001Robot extends UdpDevice {
 	private double[] veldata;
 	private int myNum = -1;
 
-	private RBE2001Robot(InetAddress add, int numPID) throws Exception {
+	public RBE2001Robot(String add, int numPID) throws Exception {
 		super(add);
 		myNum = numPID;
 		SetPIDVelocity.waitToSendMode();
@@ -111,6 +111,7 @@ public class RBE2001Robot extends UdpDevice {
 				ex.printStackTrace();
 			}
 		});
+		connect();
 	}
 
 	public void add2001() {
@@ -134,9 +135,10 @@ public class RBE2001Robot extends UdpDevice {
 		addPollingPacket(getIR);
 	}
 
-	public static RBE2001Robot get(String name, int myPID) throws Exception {
-		return new RBE2001Robot(UDPSimplePacketComs.getAllAddresses(name).iterator().next(), myPID);
-	}
+//	public static RBE2001Robot get(String name, int myPID) throws Exception {
+//		
+//		return new RBE2001Robot(name, myPID);
+//	}
 
 	@Override
 	public String toString() {

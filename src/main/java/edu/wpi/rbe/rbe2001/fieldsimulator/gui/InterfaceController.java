@@ -249,7 +249,7 @@ public class InterfaceController {
 			connectToDevice.setDisable(true);
 			new Thread(() -> {
 				try {
-					setFieldSim(RBE2001Robot.get(teamName.getText(),numPIDControllersOnDevice));
+					setFieldSim(new RBE2001Robot(teamName.getText(),numPIDControllersOnDevice));
 					// getFieldSim().setReadTimeout(1000);
 					if (getRobot() != null) {
 						Platform.runLater(() -> {
