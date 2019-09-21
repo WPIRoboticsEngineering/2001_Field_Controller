@@ -1,9 +1,20 @@
 package edu.wpi.rbe.rbe2001.fieldsimulator.robot;
 
+import edu.wpi.SimplePacketComs.FloatPacketType;
+import edu.wpi.SimplePacketComs.PacketType;
+
 public interface IRBE2002Robot {
-	public void addIMU();
+	FloatPacketType IMU = new FloatPacketType(1804, 64);
 
-	public void addIR();
+	FloatPacketType getIR = new FloatPacketType(1590, 64);
+	
+	default public void addIMU() {
+		addPollingPacket(IMU);
+	}
 
+	default void addIR() {
+		addPollingPacket(getIR);
+	}
 
+	void addPollingPacket(PacketType packet);
 }
