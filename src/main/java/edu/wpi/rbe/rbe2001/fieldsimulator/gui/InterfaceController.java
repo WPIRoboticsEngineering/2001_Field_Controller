@@ -277,6 +277,15 @@ public class InterfaceController {
 		System.out.println("onConnect");
 		connectToDevice();
 	}
+	@FXML
+	void connectTeensy(){
+		try {
+			System.out.println("connectTeensy");
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 
 	@FXML
 	void onSetGains() {
