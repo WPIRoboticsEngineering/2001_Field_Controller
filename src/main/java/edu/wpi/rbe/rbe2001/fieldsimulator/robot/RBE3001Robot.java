@@ -103,6 +103,8 @@ public class RBE3001Robot extends HIDSimplePacketComs implements SimplePIDRobot 
 			}
 		});
 		connect();
+		if(isVirtual())
+			throw new RuntimeException("Device is virtual!");
 	}
 
 	public void add2001() {

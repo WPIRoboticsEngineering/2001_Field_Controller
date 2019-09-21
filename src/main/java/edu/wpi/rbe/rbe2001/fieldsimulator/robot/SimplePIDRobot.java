@@ -47,4 +47,8 @@ public interface SimplePIDRobot {
 	public void setMyNumPid(int myNumPid);
 
 	public void stop(int currentIndex);
+	public void addEvent(Integer id, Runnable event);
+	public String getName();
+	public void disconnect();
+	public void readFloats(int id, double[] values);
 }

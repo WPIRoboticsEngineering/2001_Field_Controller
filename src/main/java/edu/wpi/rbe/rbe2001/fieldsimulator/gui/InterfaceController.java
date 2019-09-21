@@ -2,7 +2,10 @@ package edu.wpi.rbe.rbe2001.fieldsimulator.gui;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+
 import edu.wpi.rbe.rbe2001.fieldsimulator.robot.RBE2001Robot;
+import edu.wpi.rbe.rbe2001.fieldsimulator.robot.RBE3001Robot;
+import edu.wpi.rbe.rbe2001.fieldsimulator.robot.SimplePIDRobot;
 import edu.wpi.rbe.rbe2001.fieldsimulator.robot.WarehouseRobotStatus;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
@@ -195,7 +198,7 @@ public class InterfaceController {
 	private DecimalFormat formatter = new DecimalFormat();
 
 	static InterfaceController me;
-	private static RBE2001Robot robot;
+	private static SimplePIDRobot robot;
 	private int numPIDControllers = -1;
 	private int currentIndex = 0;
 	private static final int numPIDControllersOnDevice = 3;
@@ -281,6 +284,31 @@ public class InterfaceController {
 	void connectTeensy(){
 		try {
 			System.out.println("connectTeensy");
+			if (getRobot() == null) {
+				connectToDevice.setDisable(true);
+				new Thread(() -> {
+					try {
+						setFieldSim(new RBE3001Robot(0x16C0 ,0x0486,numPIDControllersOnDevice));
+						// getFieldSim().setReadTimeout(1000);
+						if (getRobot() != null) {
+							Platform.runLater(() -> {
+								robotName.setText(getRobot().getName());
+								pidTab.setDisable(false);
+								pidVelTab.setDisable(false);
+							});
+
+						}
+					} catch (Exception ex) {
+						// ex.printStackTrace();
+						Platform.runLater(() -> robotName.setText(teamName.getText() + " Not Found!"));
+					}
+					if (getRobot() == null) {
+						Platform.runLater(() -> connectToDevice.setDisable(false));
+					}
+					
+
+				}).start();
+			}
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -306,7 +334,7 @@ public class InterfaceController {
 
 	}
 
-	public RBE2001Robot getRobot() {
+	public SimplePIDRobot getRobot() {
 		return robot;
 	}
 	@SuppressWarnings("unchecked")
@@ -319,7 +347,7 @@ public class InterfaceController {
 			e.getData().add(new XYChart.Data( x, y));
 		}
 	}
-	private void setFieldSim(RBE2001Robot r) {
+	private void setFieldSim(SimplePIDRobot r) {
 		//fieldSim.setReadTimeout(1000);
 		try {
 			Thread.sleep(1000);
@@ -403,7 +431,7 @@ public class InterfaceController {
 				try {
 					if (irdata == null)
 						irdata = new double[8];
-					robot.readFloats(1590, irdata);
+					 robot.readFloats(1590, irdata);
 					Platform.runLater(()->updateIR(irdata));
 					//System.out.println("IR "+irdata);
 				} catch (Exception ex) {

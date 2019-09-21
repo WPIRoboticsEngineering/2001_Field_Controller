@@ -1,15 +1,12 @@
 package edu.wpi.rbe.rbe2001.fieldsimulator.gui;
 
 import java.io.File;
-import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-
-import javax.swing.filechooser.FileSystemView;
 
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.XYChart;
