@@ -4,9 +4,9 @@ import java.util.Arrays;
 import edu.wpi.SimplePacketComs.BytePacketType;
 import edu.wpi.SimplePacketComs.FloatPacketType;
 import edu.wpi.SimplePacketComs.PacketType;
-import edu.wpi.SimplePacketComs.device.UdpDevice;
+import edu.wpi.SimplePacketComs.phy.HIDSimplePacketComs;
 
-public class RBE2001Robot extends UdpDevice  implements SimplePIDRobot{
+public class RBE3001Robot extends HIDSimplePacketComs implements SimplePIDRobot {
 	private FloatPacketType IMU = new FloatPacketType(1804, 64);
 
 	private FloatPacketType getIR = new FloatPacketType(1590, 64);
@@ -36,8 +36,8 @@ public class RBE2001Robot extends UdpDevice  implements SimplePIDRobot{
 	private double[] veldata;
 	private int myNum = -1;
 
-	public RBE2001Robot(String add, int numPID) throws Exception {
-		super(add);
+	public RBE3001Robot(int vidIn, int pidIn,int numPID) throws Exception {
+		super(vidIn,  pidIn);
 		myNum = numPID;
 		SetPIDVelocity.waitToSendMode();
 		SetPDVelocityConstants.waitToSendMode();
