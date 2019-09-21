@@ -1,12 +1,6 @@
 package edu.wpi.rbe.rbe2001.fieldsimulator.robot;
 
 public interface SimplePIDRobot {
-	public void add2001();
-	public void addIMU();
-
-	public void addIR();
-
-
 	public double getNumPid();
 	public double getPidSetpoint(int index);
 	public double getPidPosition(int index);
@@ -35,20 +29,13 @@ public interface SimplePIDRobot {
 
 	public void setVelocity(double[] data);
 
-	public void estop();
-	public double getDriveStatus() ;
-	public void pickOrder(double material, double angle, double dropLocation);
-	public WarehouseRobotStatus getStatus();
+	public double getDriveStatus();
 
-	public void clearFaults();
-
-	public void approve();
 	public int getMyNumPid();
 	public void setMyNumPid(int myNumPid);
-
-	public void stop(int currentIndex);
 	public void addEvent(Integer id, Runnable event);
 	public String getName();
 	public void disconnect();
 	public void readFloats(int id, double[] values);
+	public void stop(int currentIndex);
 }

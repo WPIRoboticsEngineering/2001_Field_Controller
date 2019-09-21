@@ -3,6 +3,8 @@ package edu.wpi.rbe.rbe2001.fieldsimulator.gui;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
+import edu.wpi.rbe.rbe2001.fieldsimulator.robot.IRBE2001Robot;
+import edu.wpi.rbe.rbe2001.fieldsimulator.robot.IRBE2002Robot;
 import edu.wpi.rbe.rbe2001.fieldsimulator.robot.RBE2001Robot;
 import edu.wpi.rbe.rbe2001.fieldsimulator.robot.RBE3001Robot;
 import edu.wpi.rbe.rbe2001.fieldsimulator.robot.SimplePIDRobot;
@@ -199,6 +201,9 @@ public class InterfaceController {
 
 	static InterfaceController me;
 	private static SimplePIDRobot robot;
+	private static IRBE2002Robot rbe2002;
+	private static IRBE2001Robot rbe2001;
+
 	private int numPIDControllers = -1;
 	private int currentIndex = 0;
 	private static final int numPIDControllersOnDevice = 3;
@@ -359,88 +364,96 @@ public class InterfaceController {
 		Platform.runLater(() -> use2001.setDisable(false));
 		Platform.runLater(() -> useIMU.setDisable(false));
 		Platform.runLater(() -> useIR.setDisable(false));
+		if(IRBE2001Robot.class.isInstance(robot)) 
+			 rbe2001 =(IRBE2001Robot)robot;
+		if(IRBE2002Robot.class.isInstance(robot)) 
+			 rbe2002 =(IRBE2002Robot)robot;
 		use2001.selectedProperty().addListener((observable,  oldValue,  newValue) ->{
-			Platform.runLater(() -> use2001.setDisable(true));
-			Platform.runLater(() -> useIMU.setDisable(true));
-			Platform.runLater(() -> useIR.setDisable(true));
-			robot.add2001();
-			robot.addEvent(2012, () -> {
-				WarehouseRobotStatus tmp = getRobot().getStatus();
-				if (status != tmp) {
-					status = tmp;
-					System.out.println(" New Status = " + status.name());
-					Platform.runLater(() -> {
-						heartBeat.setText(status.name());
-					});
-					Platform.runLater(() -> {
-						if (status == WarehouseRobotStatus.Waiting_for_approval_to_pickup
-								|| status == WarehouseRobotStatus.Waiting_for_approval_to_dropoff)
-							approveButton.setDisable(false);
-						else
-							approveButton.setDisable(true);
-
-					});
-
-				}
-			});
-			Platform.runLater(() ->tab2001Field.setDisable(false));
-			Platform.runLater(() -> {
-				stop.setDisable(false);
-				// PLE.setDisable(false);
-				// RHE.setDisable(false);
-				send.setDisable(false);
-				approveButton.setDisable(true);
-			});
-		});
-
-		useIMU.selectedProperty().addListener((observable,  oldValue,  newValue) ->{
-			Platform.runLater(() -> useIMU.setDisable(true));
-			Platform.runLater(() -> use2001.setDisable(true));
-			robot.addIMU();
-			robot.addEvent(1804, () -> {
-				if (datas == null)
-					datas = new double[15];
-				robot.readFloats(1804, datas);
-				Platform.runLater(() -> {
-					int base = 12;
-					accelx.setText(formatter.format(datas[base + 0]));
-					accely.setText(formatter.format(datas[base + 1]));
-					accelz.setText(formatter.format(datas[base + 2]));
-					base = 3;
-					gyrox.setText(formatter.format(datas[base + 0]));
-					gyroy.setText(formatter.format(datas[base + 1]));
-					gyroz.setText(formatter.format(datas[base + 2]));
-					base = 6;
-					gravx.setText(formatter.format(datas[base + 0]));
-					gravy.setText(formatter.format(datas[base + 1]));
-					gravz.setText(formatter.format(datas[base + 2]));
-					base = 9;
-					eulx.setText(formatter.format(datas[base + 0]));
-					euly.setText(formatter.format(datas[base + 1]));
-					eulz.setText(formatter.format(datas[base + 2]));
-
+			if(rbe2001!=null) {
+				Platform.runLater(() -> use2001.setDisable(true));
+				Platform.runLater(() -> useIMU.setDisable(true));
+				Platform.runLater(() -> useIR.setDisable(true));
+				
+				rbe2001.add2001();
+				robot.addEvent(2012, () -> {
+					WarehouseRobotStatus tmp = rbe2001.getStatus();
+					if (status != tmp) {
+						status = tmp;
+						System.out.println(" New Status = " + status.name());
+						Platform.runLater(() -> {
+							heartBeat.setText(status.name());
+						});
+						Platform.runLater(() -> {
+							if (status == WarehouseRobotStatus.Waiting_for_approval_to_pickup
+									|| status == WarehouseRobotStatus.Waiting_for_approval_to_dropoff)
+								approveButton.setDisable(false);
+							else
+								approveButton.setDisable(true);
+	
+						});
+	
+					}
 				});
-			});
-			Platform.runLater(() ->imutab.setDisable(false));
+				Platform.runLater(() ->tab2001Field.setDisable(false));
+				Platform.runLater(() -> {
+					stop.setDisable(false);
+					// PLE.setDisable(false);
+					// RHE.setDisable(false);
+					send.setDisable(false);
+					approveButton.setDisable(true);
+				});
+			}
 		});
-		useIR.selectedProperty().addListener((observable,  oldValue,  newValue) ->{
-			Platform.runLater(() -> useIR.setDisable(true));
-			Platform.runLater(() -> use2001.setDisable(true));
-			robot.addIR();
-			robot.addEvent(1590, () -> {
-				try {
-					if (irdata == null)
-						irdata = new double[8];
-					 robot.readFloats(1590, irdata);
-					Platform.runLater(()->updateIR(irdata));
-					//System.out.println("IR "+irdata);
-				} catch (Exception ex) {
-					ex.printStackTrace();
-				}
+		if(rbe2002!=null) {
+			useIMU.selectedProperty().addListener((observable,  oldValue,  newValue) ->{
+				Platform.runLater(() -> useIMU.setDisable(true));
+				Platform.runLater(() -> use2001.setDisable(true));
+				rbe2002.addIMU();
+				robot.addEvent(1804, () -> {
+					if (datas == null)
+						datas = new double[15];
+					robot.readFloats(1804, datas);
+					Platform.runLater(() -> {
+						int base = 12;
+						accelx.setText(formatter.format(datas[base + 0]));
+						accely.setText(formatter.format(datas[base + 1]));
+						accelz.setText(formatter.format(datas[base + 2]));
+						base = 3;
+						gyrox.setText(formatter.format(datas[base + 0]));
+						gyroy.setText(formatter.format(datas[base + 1]));
+						gyroz.setText(formatter.format(datas[base + 2]));
+						base = 6;
+						gravx.setText(formatter.format(datas[base + 0]));
+						gravy.setText(formatter.format(datas[base + 1]));
+						gravz.setText(formatter.format(datas[base + 2]));
+						base = 9;
+						eulx.setText(formatter.format(datas[base + 0]));
+						euly.setText(formatter.format(datas[base + 1]));
+						eulz.setText(formatter.format(datas[base + 2]));
+	
+					});
+				});
+				Platform.runLater(() ->imutab.setDisable(false));
 			});
-			
-			Platform.runLater(() ->irtab.setDisable(false));
-		});
+			useIR.selectedProperty().addListener((observable,  oldValue,  newValue) ->{
+				Platform.runLater(() -> useIR.setDisable(true));
+				Platform.runLater(() -> use2001.setDisable(true));
+				rbe2002.addIR();
+				robot.addEvent(1590, () -> {
+					try {
+						if (irdata == null)
+							irdata = new double[8];
+						 robot.readFloats(1590, irdata);
+						Platform.runLater(()->updateIR(irdata));
+						//System.out.println("IR "+irdata);
+					} catch (Exception ex) {
+						ex.printStackTrace();
+					}
+				});
+				
+				Platform.runLater(() ->irtab.setDisable(false));
+			});
+		}
 		robot.addEvent(1910, () -> {
 			try {
 	
@@ -592,9 +605,8 @@ public class InterfaceController {
 	@FXML
 	void onApprove() {
 		System.out.println("approve");
-		if (getRobot() != null) {
-			getRobot().approve();
-		}
+		if(rbe2001!=null)rbe2001.approve();
+		
 	}
 
 	@FXML
@@ -608,25 +620,22 @@ public class InterfaceController {
 		}
 		double angle = Double.parseDouble(choiceBoxSide.getSelectionModel().getSelectedItem());
 		double position = Double.parseDouble(choiceBoxPos.getSelectionModel().getSelectedItem());
-		if (getRobot() != null) {
-			getRobot().pickOrder(material, angle, position);
-		}
+		if(rbe2001!=null)rbe2001.pickOrder(material, angle, position);
+		
 	}
 
 	@FXML
 	void start() {
 		System.out.println("start");
-		if (getRobot() != null) {
-			getRobot().clearFaults();
-		}
+		if(rbe2001!=null)rbe2001.clearFaults();
+		
 	}
 
 	@FXML
 	void stop() {
 		System.out.println("stop");
-		if (getRobot() != null) {
-			getRobot().estop();
-		}
+		if(rbe2001!=null)rbe2001.estop();
+		
 	}
 
 	@FXML

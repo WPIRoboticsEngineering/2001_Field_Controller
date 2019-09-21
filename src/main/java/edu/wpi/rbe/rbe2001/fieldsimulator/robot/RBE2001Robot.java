@@ -6,7 +6,7 @@ import edu.wpi.SimplePacketComs.FloatPacketType;
 import edu.wpi.SimplePacketComs.PacketType;
 import edu.wpi.SimplePacketComs.device.UdpDevice;
 
-public class RBE2001Robot extends UdpDevice  implements SimplePIDRobot{
+public class RBE2001Robot extends UdpDevice  implements SimplePIDRobot,IRBE2001Robot,IRBE2002Robot{
 	private FloatPacketType IMU = new FloatPacketType(1804, 64);
 
 	private FloatPacketType getIR = new FloatPacketType(1590, 64);
