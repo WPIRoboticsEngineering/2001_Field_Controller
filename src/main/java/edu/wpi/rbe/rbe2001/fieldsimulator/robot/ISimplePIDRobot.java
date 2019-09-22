@@ -25,6 +25,7 @@ public interface ISimplePIDRobot {
 	NumberOfPID myNum = new NumberOfPID();
 
 	default void setupPidCommands(int numPID) {
+		//new Exception().printStackTrace();
 		myNum.setMyNum(numPID);
 		SetPIDVelocity.waitToSendMode();
 		SetPDVelocityConstants.waitToSendMode();
