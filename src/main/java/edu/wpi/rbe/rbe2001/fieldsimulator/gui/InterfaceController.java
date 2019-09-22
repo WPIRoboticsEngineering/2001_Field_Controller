@@ -1,5 +1,11 @@
 package edu.wpi.rbe.rbe2001.fieldsimulator.gui;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
@@ -26,16 +32,17 @@ import javafx.scene.control.TextField;
 import javafx.scene.chart.XYChart;
 import javafx.scene.chart.XYChart.Series;
 import javafx.scene.control.CheckBox;
+
 public class InterfaceController {
 
-    @FXML
-    private CheckBox use2001;
+	@FXML
+	private CheckBox use2001;
 
-    @FXML
-    private CheckBox useIMU;
+	@FXML
+	private CheckBox useIMU;
 
-    @FXML
-    private CheckBox useIR;
+	@FXML
+	private CheckBox useIR;
 	@FXML
 	private Label accelx;
 
@@ -79,14 +86,13 @@ public class InterfaceController {
 
 	@FXML
 	private Button connectToDevice;
-	
 
 	@FXML
 	private Button pidExport;
 
 	@FXML
 	private Button velExport;
-	
+
 	@FXML
 	private Label robotName;
 
@@ -181,11 +187,11 @@ public class InterfaceController {
 	@FXML // fx:id="setType"
 	private ChoiceBox<String> setType; // Value injected by FXMLLoader
 	@FXML
-    private ScatterChart<Double, Double> irChart;
+	private ScatterChart<Double, Double> irChart;
 	@FXML
 	private LineChart<Double, Double> pidGraph;
-	private GraphManager pidManager=null;
-	private GraphManager velManager=null;
+	private GraphManager pidManager = null;
+	private GraphManager velManager = null;
 	@FXML
 	private LineChart<Double, Double> pidGraphVel;
 //	private ArrayList<XYChart.Series> pidGraphSeriesVel = new ArrayList<>();
@@ -207,6 +213,8 @@ public class InterfaceController {
 	private int numPIDControllers = -1;
 	private int currentIndex = 0;
 	private static final int numPIDControllersOnDevice = 3;
+	private File lastSearchedName = new File(
+			System.getProperty("user.home") + "/" + "rbeFieldControllerLastSearchedRobot.txt");
 
 	@FXML
 	private void initialize() {
@@ -228,14 +236,14 @@ public class InterfaceController {
 		assert setSetpoint != null : "fx:id=\"setSetpoint\" was not injected: check your FXML file 'MainScreen.fxml'.";
 		assert position != null : "fx:id=\"position\" was not injected: check your FXML file 'MainScreen.fxml'.";
 
-		pidManager=new GraphManager(pidGraph,3);
-		velManager=new GraphManager(pidGraphVel,3);
-		
+		pidManager = new GraphManager(pidGraph, 3);
+		velManager = new GraphManager(pidGraphVel, 3);
+
 		irChart.getData().add(new XYChart.Series());
 		irChart.getData().add(new XYChart.Series());
 		irChart.getData().add(new XYChart.Series());
 		irChart.getData().add(new XYChart.Series());
-		
+
 		choiceBoxWeight.setValue(weights.get(0));
 		choiceBoxWeight.setItems(weights);
 		choiceBoxSide.setValue("25");
@@ -250,18 +258,42 @@ public class InterfaceController {
 		// RHE.setDisable(true);
 		send.setDisable(true);
 		approveButton.setDisable(true);
+		if (lastSearchedName.exists()) {
+			try {
+				String text = new String(Files.readAllBytes(lastSearchedName.toPath()));
+				Platform.runLater(() -> teamName.setText(text));
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 	}
 
 	private void connectToDevice() {
 		if (getRobot() == null) {
 			connectToDevice.setDisable(true);
 			new Thread(() -> {
+				String name = getRobot().getName();
 				try {
-					setFieldSim(new RBE2001Robot(teamName.getText(),numPIDControllersOnDevice));
+					if (!lastSearchedName.exists())
+						lastSearchedName.createNewFile();
+					BufferedWriter writer = new BufferedWriter(new FileWriter(lastSearchedName));
+					writer.write(name);
+					writer.close();
+					System.out.println("Writing to " + lastSearchedName.getAbsolutePath());
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+
+				try {
+					setFieldSim(new RBE2001Robot(teamName.getText(), numPIDControllersOnDevice));
 					// getFieldSim().setReadTimeout(1000);
 					if (getRobot() != null) {
+
 						Platform.runLater(() -> {
-							robotName.setText(getRobot().getName());
+
+							robotName.setText(name);
 							pidTab.setDisable(false);
 							pidVelTab.setDisable(false);
 						});
@@ -274,7 +306,6 @@ public class InterfaceController {
 				if (getRobot() == null) {
 					Platform.runLater(() -> connectToDevice.setDisable(false));
 				}
-				
 
 			}).start();
 		}
@@ -285,15 +316,16 @@ public class InterfaceController {
 		System.out.println("onConnect");
 		connectToDevice();
 	}
+
 	@FXML
-	void connectTeensy(){
+	void connectTeensy() {
 		try {
 			System.out.println("connectTeensy");
 			if (getRobot() == null) {
 				connectToDevice.setDisable(true);
 				new Thread(() -> {
 					try {
-						setFieldSim(new RBE3001Robot(0x16C0 ,0x0486,numPIDControllersOnDevice));
+						setFieldSim(new RBE3001Robot(0x16C0, 0x0486, numPIDControllersOnDevice));
 						// getFieldSim().setReadTimeout(1000);
 						if (getRobot() != null) {
 							Platform.runLater(() -> {
@@ -310,7 +342,6 @@ public class InterfaceController {
 					if (getRobot() == null) {
 						Platform.runLater(() -> connectToDevice.setDisable(false));
 					}
-					
 
 				}).start();
 			}
@@ -325,35 +356,36 @@ public class InterfaceController {
 		double kpv = Double.parseDouble(kp.getText());
 		double kiv = Double.parseDouble(ki.getText());
 		double kdv = Double.parseDouble(kd.getText());
-		//for (int i = 0; i < numPIDControllers; i++)
-			robot.setPidGains(currentIndex, kpv, kiv, kdv);
+		// for (int i = 0; i < numPIDControllers; i++)
+		robot.setPidGains(currentIndex, kpv, kiv, kdv);
 	}
 
 	@FXML
 	void onSetSetpoint() {
 		clearGraph();
 		robot.setPidSetpoint(Integer.parseInt(setDuration.getText()),
-				setType.getSelectionModel().getSelectedItem().equals("LIN") ? 0 : 1, 
-						currentIndex, 
-						Double.parseDouble(setpoint.getText()));
+				setType.getSelectionModel().getSelectedItem().equals("LIN") ? 0 : 1, currentIndex,
+				Double.parseDouble(setpoint.getText()));
 
 	}
 
 	public ISimplePIDRobot getRobot() {
 		return robot;
 	}
+
 	@SuppressWarnings("unchecked")
-	private void updateIR(double []pos) {
-		for(int i=0;i<4;i++) {
-			double x = pos[i*2];
-			double y = pos[i*2+1];
-			Series e =irChart.getData().get(i);
+	private void updateIR(double[] pos) {
+		for (int i = 0; i < 4; i++) {
+			double x = pos[i * 2];
+			double y = pos[i * 2 + 1];
+			Series e = irChart.getData().get(i);
 			e.getData().clear();
-			e.getData().add(new XYChart.Data( x, y));
+			e.getData().add(new XYChart.Data(x, y));
 		}
 	}
+
 	private void setFieldSim(ISimplePIDRobot r) {
-		//fieldSim.setReadTimeout(1000);
+		// fieldSim.setReadTimeout(1000);
 		try {
 			Thread.sleep(1000);
 		} catch (InterruptedException e) {
@@ -364,16 +396,16 @@ public class InterfaceController {
 		Platform.runLater(() -> use2001.setDisable(false));
 		Platform.runLater(() -> useIMU.setDisable(false));
 		Platform.runLater(() -> useIR.setDisable(false));
-		if(IRBE2001Robot.class.isInstance(robot)) 
-			 rbe2001 =(IRBE2001Robot)robot;
-		if(IRBE2002Robot.class.isInstance(robot)) 
-			 rbe2002 =(IRBE2002Robot)robot;
-		use2001.selectedProperty().addListener((observable,  oldValue,  newValue) ->{
-			if(rbe2001!=null) {
+		if (IRBE2001Robot.class.isInstance(robot))
+			rbe2001 = (IRBE2001Robot) robot;
+		if (IRBE2002Robot.class.isInstance(robot))
+			rbe2002 = (IRBE2002Robot) robot;
+		use2001.selectedProperty().addListener((observable, oldValue, newValue) -> {
+			if (rbe2001 != null) {
 				Platform.runLater(() -> use2001.setDisable(true));
 				Platform.runLater(() -> useIMU.setDisable(true));
 				Platform.runLater(() -> useIR.setDisable(true));
-				
+
 				rbe2001.add2001();
 				robot.addEvent(2012, () -> {
 					WarehouseRobotStatus tmp = rbe2001.getStatus();
@@ -389,12 +421,12 @@ public class InterfaceController {
 								approveButton.setDisable(false);
 							else
 								approveButton.setDisable(true);
-	
+
 						});
-	
+
 					}
 				});
-				Platform.runLater(() ->tab2001Field.setDisable(false));
+				Platform.runLater(() -> tab2001Field.setDisable(false));
 				Platform.runLater(() -> {
 					stop.setDisable(false);
 					// PLE.setDisable(false);
@@ -404,8 +436,8 @@ public class InterfaceController {
 				});
 			}
 		});
-		if(rbe2002!=null) {
-			useIMU.selectedProperty().addListener((observable,  oldValue,  newValue) ->{
+		if (rbe2002 != null) {
+			useIMU.selectedProperty().addListener((observable, oldValue, newValue) -> {
 				Platform.runLater(() -> useIMU.setDisable(true));
 				Platform.runLater(() -> use2001.setDisable(true));
 				rbe2002.addIMU();
@@ -430,12 +462,12 @@ public class InterfaceController {
 						eulx.setText(formatter.format(datas[base + 0]));
 						euly.setText(formatter.format(datas[base + 1]));
 						eulz.setText(formatter.format(datas[base + 2]));
-	
+
 					});
 				});
-				Platform.runLater(() ->imutab.setDisable(false));
+				Platform.runLater(() -> imutab.setDisable(false));
 			});
-			useIR.selectedProperty().addListener((observable,  oldValue,  newValue) ->{
+			useIR.selectedProperty().addListener((observable, oldValue, newValue) -> {
 				Platform.runLater(() -> useIR.setDisable(true));
 				Platform.runLater(() -> use2001.setDisable(true));
 				rbe2002.addIR();
@@ -443,20 +475,20 @@ public class InterfaceController {
 					try {
 						if (irdata == null)
 							irdata = new double[8];
-						 robot.readFloats(1590, irdata);
-						Platform.runLater(()->updateIR(irdata));
-						//System.out.println("IR "+irdata);
+						robot.readFloats(1590, irdata);
+						Platform.runLater(() -> updateIR(irdata));
+						// System.out.println("IR "+irdata);
 					} catch (Exception ex) {
 						ex.printStackTrace();
 					}
 				});
-				
-				Platform.runLater(() ->irtab.setDisable(false));
+
+				Platform.runLater(() -> irtab.setDisable(false));
 			});
 		}
 		robot.addEvent(1910, () -> {
 			try {
-	
+
 				if (numPIDControllers != robot.getMyNumPid()) {
 					numPIDControllers = robot.getMyNumPid();
 					setUpPid();
@@ -465,18 +497,18 @@ public class InterfaceController {
 				double set = robot.getPidSetpoint(currentIndex);
 				double vel = robot.getHardwareOutput(currentIndex);
 				String positionVal = formatter.format(pos);
-				 //System.out.println(positionVal+"");
+				// System.out.println(positionVal+"");
 				;
 				Platform.runLater(() -> position.setText(positionVal));
-				Platform.runLater(() -> pidManager.updateGraph(pos, set,vel));
-				
+				Platform.runLater(() -> pidManager.updateGraph(pos, set, vel));
+
 			} catch (Exception ex) {
 				ex.printStackTrace();
 			}
 		});
 		robot.addEvent(1822, () -> {
 			try {
-	
+
 				if (numPIDControllers != robot.getMyNumPid()) {
 					numPIDControllers = robot.getMyNumPid();
 					setUpPid();
@@ -485,21 +517,21 @@ public class InterfaceController {
 				double set = robot.getVelSetpoint(currentIndex);
 				double hw = robot.getHardwareOutput(currentIndex);
 				String positionVal = formatter.format(pos);
-				 //System.out.println(positionVal+"");
+				// System.out.println(positionVal+"");
 				;
 				Platform.runLater(() -> velocityVal.setText(positionVal));
 				Platform.runLater(() -> hardwareOut.setText(formatter.format(hw)));
 				Platform.runLater(() -> posHwValue.setText(formatter.format(hw)));
-				Platform.runLater(() -> velManager.updateGraph(pos, set,hw));
-				
+				Platform.runLater(() -> velManager.updateGraph(pos, set, hw));
+
 			} catch (Exception ex) {
 				ex.printStackTrace();
 			}
 		});
 		robot.addEvent(1857, () -> {
 			try {
-				System.out.print("\r\nPID config update for axis "+currentIndex+" values ");
-				
+				System.out.print("\r\nPID config update for axis " + currentIndex + " values ");
+
 				Platform.runLater(() -> kp.setText(formatter.format(robot.getKp(currentIndex))));
 
 				Platform.runLater(() -> ki.setText(formatter.format(robot.getKi(currentIndex))));
@@ -511,11 +543,11 @@ public class InterfaceController {
 			}
 		});
 		robot.updatConfig();
-		
+
 		robot.addEvent(1825, () -> {
 			try {
-				System.out.print("\r\nPID config update for axis "+currentIndex+" values ");
-				
+				System.out.print("\r\nPID config update for axis " + currentIndex + " values ");
+
 				Platform.runLater(() -> kpVel.setText(formatter.format(robot.getVKp(currentIndex))));
 
 				Platform.runLater(() -> kdVel.setText(formatter.format(robot.getVKd(currentIndex))));
@@ -525,10 +557,7 @@ public class InterfaceController {
 			}
 		});
 
-
 	}
-
-
 
 	private void setUpPid() {
 		System.out.println("PID controller has " + robot.getNumPid() + " controllers");
@@ -557,21 +586,21 @@ public class InterfaceController {
 				System.out.println("Selecting pidVelTab");
 				clearGraph();
 			});
-			
+
 		}
 		clearGraph();
 	}
 
 	private void clearGraph() {
-		if(pidTab.isSelected()) {
-			currentIndex =pidChannel.getSelectionModel().getSelectedItem().intValue();
+		if (pidTab.isSelected()) {
+			currentIndex = pidChannel.getSelectionModel().getSelectedItem().intValue();
 		}
-		if(pidVelTab.isSelected()) {
+		if (pidVelTab.isSelected()) {
 			SingleSelectionModel<Integer> model = pidChannelVelocity.getSelectionModel();
 			Integer item = model.getSelectedItem();
-			//try {
-			currentIndex =item.intValue();
-			
+			// try {
+			currentIndex = item.intValue();
+
 		}
 		System.out.println("Set to channel " + currentIndex);
 		pidManager.clearGraph(currentIndex);
@@ -588,11 +617,10 @@ public class InterfaceController {
 	void onSetVelocity() {
 		clearGraph();
 		double vel = Double.parseDouble(setpointVelocity.getText());
-		if(vel!=0)
+		if (vel != 0)
 			robot.setVelocity(currentIndex, Double.parseDouble(setpointVelocity.getText()));
 		else
 			robot.stop(currentIndex);
-		
 
 	}
 
@@ -600,13 +628,15 @@ public class InterfaceController {
 	void onSetGainsVelocity() {
 		double kpv = Double.parseDouble(kpVel.getText());
 		double kdv = Double.parseDouble(kdVel.getText());
-		robot.setVelocityGains(currentIndex, kpv,  kdv);
+		robot.setVelocityGains(currentIndex, kpv, kdv);
 	}
+
 	@FXML
 	void onApprove() {
 		System.out.println("approve");
-		if(rbe2001!=null)rbe2001.approve();
-		
+		if (rbe2001 != null)
+			rbe2001.approve();
+
 	}
 
 	@FXML
@@ -620,26 +650,29 @@ public class InterfaceController {
 		}
 		double angle = Double.parseDouble(choiceBoxSide.getSelectionModel().getSelectedItem());
 		double position = Double.parseDouble(choiceBoxPos.getSelectionModel().getSelectedItem());
-		if(rbe2001!=null)rbe2001.pickOrder(material, angle, position);
-		
+		if (rbe2001 != null)
+			rbe2001.pickOrder(material, angle, position);
+
 	}
 
 	@FXML
 	void start() {
 		System.out.println("start");
-		if(rbe2001!=null)rbe2001.clearFaults();
-		
+		if (rbe2001 != null)
+			rbe2001.clearFaults();
+
 	}
 
 	@FXML
 	void stop() {
 		System.out.println("stop");
-		if(rbe2001!=null)rbe2001.estop();
-		
+		if (rbe2001 != null)
+			rbe2001.estop();
+
 	}
 
 	@FXML
-	void onPidExport(){
+	void onPidExport() {
 		try {
 			pidManager.export("position");
 		} catch (Exception e) {
@@ -647,8 +680,9 @@ public class InterfaceController {
 			e.printStackTrace();
 		}
 	}
+
 	@FXML
-	void onVelExport(){
+	void onVelExport() {
 		try {
 			velManager.export("velocity");
 		} catch (Exception e) {
