@@ -16,7 +16,7 @@ public interface IRBE2001Robot {
 
 	double[] pickOrderData = new double[3];
 	double[] driveStatus = new double[1];
-	
+
 	default public void add2001() {
 		pickOrder.waitToSendMode();
 		clearFaults.waitToSendMode();
@@ -29,6 +29,7 @@ public interface IRBE2001Robot {
 			readBytes(getStatus.idOfCommand, status);
 		});
 	}
+
 	default public void estop() {
 		estop.oneShotMode();
 	}
@@ -46,7 +47,6 @@ public interface IRBE2001Robot {
 
 	}
 
-	
 	default public WarehouseRobotStatus getStatus() {
 		return WarehouseRobotStatus.fromValue(status[0]);
 	}
@@ -59,9 +59,12 @@ public interface IRBE2001Robot {
 	default public void approve() {
 		approve.oneShotMode();
 	}
-	
+
 	void addPollingPacket(PacketType packet);
+
 	public void addEvent(Integer id, Runnable event);
-	 void readBytes(int id, byte[] values);
-	 void writeFloats(int idOfCommand, double[] pickorderdata2);
+
+	void readBytes(int id, byte[] values);
+
+	void writeFloats(int idOfCommand, double[] pickorderdata2);
 }

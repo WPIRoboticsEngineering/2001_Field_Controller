@@ -194,6 +194,7 @@ public interface ISimplePIDRobot {
 		setPidSetpoints(msTransition, mode, cur);
 
 	}
+
 	default public void setVelocity(int index, double data) {
 		double[] cur = new double[getMyNumPid()];
 		for (int i = 0; i < getMyNumPid(); i++) {
@@ -206,13 +207,12 @@ public interface ISimplePIDRobot {
 		setVelocity(cur);
 
 	}
+
 	default public void setVelocity(double[] data) {
 		writeFloats(SetPIDVelocity.idOfCommand, data);
 		SetPIDVelocity.oneShotMode();
 
 	}
-
-
 
 	default public int getMyNumPid() {
 		return myNum.getMyNum();
@@ -238,5 +238,6 @@ public interface ISimplePIDRobot {
 	public void addEvent(Integer id, Runnable event);
 
 	void addPollingPacket(PacketType packet);
-	void writeFloats(int id, double[] values) ;
+
+	void writeFloats(int id, double[] values);
 }
