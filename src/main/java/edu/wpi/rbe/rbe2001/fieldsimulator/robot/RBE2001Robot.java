@@ -2,7 +2,7 @@ package edu.wpi.rbe.rbe2001.fieldsimulator.robot;
 
 import edu.wpi.SimplePacketComs.device.UdpDevice;
 
-public class RBE2001Robot extends UdpDevice  implements SimplePIDRobot,IRBE2001Robot,IRBE2002Robot{
+public class RBE2001Robot extends UdpDevice  implements ISimplePIDRobot,IRBE2001Robot,IRBE2002Robot{
 
 
 

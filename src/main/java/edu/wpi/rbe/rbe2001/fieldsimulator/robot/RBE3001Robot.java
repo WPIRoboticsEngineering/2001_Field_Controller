@@ -2,7 +2,7 @@ package edu.wpi.rbe.rbe2001.fieldsimulator.robot;
 
 import edu.wpi.SimplePacketComs.phy.HIDSimplePacketComs;
 
-public class RBE3001Robot extends HIDSimplePacketComs implements SimplePIDRobot {
+public class RBE3001Robot extends HIDSimplePacketComs implements ISimplePIDRobot {
 
 
 	public RBE3001Robot(int vidIn, int pidIn,int numPID) throws Exception {

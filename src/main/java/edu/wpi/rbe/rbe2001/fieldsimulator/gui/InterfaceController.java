@@ -7,7 +7,7 @@ import edu.wpi.rbe.rbe2001.fieldsimulator.robot.IRBE2001Robot;
 import edu.wpi.rbe.rbe2001.fieldsimulator.robot.IRBE2002Robot;
 import edu.wpi.rbe.rbe2001.fieldsimulator.robot.RBE2001Robot;
 import edu.wpi.rbe.rbe2001.fieldsimulator.robot.RBE3001Robot;
-import edu.wpi.rbe.rbe2001.fieldsimulator.robot.SimplePIDRobot;
+import edu.wpi.rbe.rbe2001.fieldsimulator.robot.ISimplePIDRobot;
 import edu.wpi.rbe.rbe2001.fieldsimulator.robot.WarehouseRobotStatus;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
@@ -200,7 +200,7 @@ public class InterfaceController {
 	private DecimalFormat formatter = new DecimalFormat();
 
 	static InterfaceController me;
-	private static SimplePIDRobot robot;
+	private static ISimplePIDRobot robot;
 	private static IRBE2002Robot rbe2002;
 	private static IRBE2001Robot rbe2001;
 
@@ -339,7 +339,7 @@ public class InterfaceController {
 
 	}
 
-	public SimplePIDRobot getRobot() {
+	public ISimplePIDRobot getRobot() {
 		return robot;
 	}
 	@SuppressWarnings("unchecked")
@@ -352,7 +352,7 @@ public class InterfaceController {
 			e.getData().add(new XYChart.Data( x, y));
 		}
 	}
-	private void setFieldSim(SimplePIDRobot r) {
+	private void setFieldSim(ISimplePIDRobot r) {
 		//fieldSim.setReadTimeout(1000);
 		try {
 			Thread.sleep(1000);

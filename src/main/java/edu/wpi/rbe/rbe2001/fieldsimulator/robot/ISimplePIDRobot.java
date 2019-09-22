@@ -5,7 +5,7 @@ import java.util.Arrays;
 import edu.wpi.SimplePacketComs.FloatPacketType;
 import edu.wpi.SimplePacketComs.PacketType;
 
-public interface SimplePIDRobot {
+public interface ISimplePIDRobot {
 	FloatPacketType setSetpoint = new FloatPacketType(1848, 64);
 	FloatPacketType pidStatus = new FloatPacketType(1910, 64);
 	FloatPacketType getConfig = new FloatPacketType(1857, 64);
