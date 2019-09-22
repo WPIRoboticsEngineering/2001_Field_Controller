@@ -117,7 +117,8 @@ public class InterfaceController {
 
 	@FXML
 	private Button setSetpointVelocity;
-
+	@FXML
+	private Button teensyButton;
 	@FXML
 	private Label velocityVal;
 
@@ -273,7 +274,7 @@ public class InterfaceController {
 		if (getRobot() == null) {
 			connectToDevice.setDisable(true);
 			new Thread(() -> {
-				String name = getRobot().getName();
+				String name = teamName.getText();
 				try {
 					if (!lastSearchedName.exists())
 						lastSearchedName.createNewFile();
@@ -287,12 +288,12 @@ public class InterfaceController {
 				}
 
 				try {
-					setFieldSim(new RBE2001Robot(teamName.getText(), numPIDControllersOnDevice));
+					setFieldSim(new RBE2001Robot(name, numPIDControllersOnDevice));
 					// getFieldSim().setReadTimeout(1000);
 					if (getRobot() != null) {
-
+						Platform.runLater(() -> connectToDevice.setDisable(true));
+						Platform.runLater(() -> teensyButton.setDisable(true));
 						Platform.runLater(() -> {
-
 							robotName.setText(name);
 							pidTab.setDisable(false);
 							pidVelTab.setDisable(false);
@@ -322,12 +323,13 @@ public class InterfaceController {
 		try {
 			System.out.println("connectTeensy");
 			if (getRobot() == null) {
-				connectToDevice.setDisable(true);
 				new Thread(() -> {
 					try {
 						setFieldSim(new RBE3001Robot(0x16C0, 0x0486, numPIDControllersOnDevice));
 						// getFieldSim().setReadTimeout(1000);
 						if (getRobot() != null) {
+							Platform.runLater(() -> connectToDevice.setDisable(true));
+							Platform.runLater(() -> teensyButton.setDisable(true));
 							Platform.runLater(() -> {
 								robotName.setText(getRobot().getName());
 								pidTab.setDisable(false);

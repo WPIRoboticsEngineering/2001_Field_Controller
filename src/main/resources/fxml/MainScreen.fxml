@@ -76,7 +76,7 @@
                                     <Insets left="5.0" />
                                  </padding>
                               </CheckBox>
-                              <Button mnemonicParsing="false" onAction="#connectTeensy" text="Teensy HID" GridPane.rowIndex="2">
+                              <Button fx:id="teensyButton" mnemonicParsing="false" onAction="#connectTeensy" text="Teensy HID" GridPane.rowIndex="2">
                                  <GridPane.margin>
                                     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                  </GridPane.margin>
