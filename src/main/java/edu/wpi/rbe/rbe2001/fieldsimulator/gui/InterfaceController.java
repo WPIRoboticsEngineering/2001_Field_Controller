@@ -294,7 +294,7 @@ public class InterfaceController {
 						Platform.runLater(() -> connectToDevice.setDisable(true));
 						Platform.runLater(() -> teensyButton.setDisable(true));
 						Platform.runLater(() -> {
-							robotName.setText(name);
+							robotName.setText("Connected to: "+name);
 							pidTab.setDisable(false);
 							pidVelTab.setDisable(false);
 						});
@@ -302,7 +302,7 @@ public class InterfaceController {
 					}
 				} catch (Exception ex) {
 					// ex.printStackTrace();
-					Platform.runLater(() -> robotName.setText(teamName.getText() + " Not Found!"));
+					Platform.runLater(() -> robotName.setText( "Robot Not Found!"));
 				}
 				if (getRobot() == null) {
 					Platform.runLater(() -> connectToDevice.setDisable(false));
@@ -331,7 +331,7 @@ public class InterfaceController {
 							Platform.runLater(() -> connectToDevice.setDisable(true));
 							Platform.runLater(() -> teensyButton.setDisable(true));
 							Platform.runLater(() -> {
-								robotName.setText(getRobot().getName());
+								robotName.setText("Connected to: TeensyHID");
 								pidTab.setDisable(false);
 								pidVelTab.setDisable(false);
 							});
@@ -339,7 +339,7 @@ public class InterfaceController {
 						}
 					} catch (Exception ex) {
 						// ex.printStackTrace();
-						Platform.runLater(() -> robotName.setText(teamName.getText() + " Not Found!"));
+						Platform.runLater(() -> robotName.setText("TeensyHID Not Found!"));
 					}
 					if (getRobot() == null) {
 						Platform.runLater(() -> connectToDevice.setDisable(false));
