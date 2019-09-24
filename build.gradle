@@ -1,19 +1,19 @@
-//buildscript {
-//	repositories {
-//	  maven {
-//		url "https://plugins.gradle.org/m2/"
-//	  }
-//	}
-//	dependencies {
-//	  classpath "com.github.jengelman.gradle.plugins:shadow:5.1.0"
-//	}
-//  }
-//  
+buildscript {
+    repositories {
+      maven {
+        url "https://plugins.gradle.org/m2/"
+      }
+    }
+    dependencies {
+      classpath "com.github.jengelman.gradle.plugins:shadow:5.1.0"
+    }
+  }
+
 
 plugins {
     id "com.diffplug.gradle.spotless" version "3.14.0"
 }
-//apply plugin: "com.github.johnrengelman.shadow"
+apply plugin: "com.github.johnrengelman.shadow"
 apply plugin: 'java'
 apply plugin: 'application'
 apply plugin: 'checkstyle'
@@ -30,7 +30,7 @@ repositories {
 dependencies {
 
     implementation "com.neuronrobotics:SimplePacketComsJava:0.10.1"
-	implementation "com.neuronrobotics:SimplePacketComsJava-HID:0.13.0"
+    implementation "com.neuronrobotics:SimplePacketComsJava-HID:0.13.0"
     //implementation project(":SimplePacketComsJava")
 
 }
@@ -39,7 +39,7 @@ checkstyle {
     toolVersion = "8.10"
     configFile = new File(rootDir, "checkstyle.xml")
 }
-
+ 
 spotless {
     format 'misc', {
         target '**/*.gradle', '**/*.md', '**/.gitignore', '**/*.yml', '**/*.sh', '**/*.xml'
@@ -50,7 +50,10 @@ spotless {
         endWithNewline()
     }
 }
-
-task wrapper(type: Wrapper) {
-    gradleVersion = '5.0'
-}
+shadowJar {
+	mainClassName = 'edu.wpi.rbe.rbe2001.fieldsimulator.gui.Main'
+	baseName = 'FieldControl'
+	classifier = null
+	version = '0.14.0'
+	 mergeServiceFiles()
+ }

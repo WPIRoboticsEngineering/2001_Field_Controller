@@ -9,7 +9,7 @@ https://github.com/madhephaestus/SimplePacketComs/blob/master/README.md
 
 # How To add new commands to This Application
 
-To add your own custom command start with the default code and modify it by adding a custom command. Your new command needs a unique packet command ID, any 32 bit unsigned integer is valid. 
+To add your own custom command start with the default code and modify it by adding a custom command. Your new command needs a unique packet command ID, any 32 bit unsigned integer is valid.
 
 ## Setup: Set the Command ID
 
@@ -32,7 +32,7 @@ For commands sent as a single send you set the packet into waitToSend mode, then
 
 https://github.com/WPIRoboticsEngineering/2001_Field_Controller/blob/2001_Field/src/main/java/edu/wpi/rbe/rbe2001/fieldsimulator/robot/RBE2001Robot.java#L118
 
-then 
+then
 
 https://github.com/WPIRoboticsEngineering/2001_Field_Controller/blob/2001_Field/src/main/java/edu/wpi/rbe/rbe2001/fieldsimulator/robot/RBE2001Robot.java#L294
 
