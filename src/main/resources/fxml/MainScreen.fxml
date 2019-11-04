@@ -120,6 +120,7 @@
                                       <rowConstraints>
                                           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
@@ -129,28 +130,30 @@
                                       </rowConstraints>
                                        <children>
                                           <Label text="Kp" GridPane.rowIndex="1" />
-                                          <Label text="Kd" GridPane.rowIndex="2" />
+                                          <Label text="Kd" GridPane.rowIndex="3" />
                                           <TextField fx:id="kpVel" onAction="#onSetGainsVelocity" text="1.0" GridPane.columnIndex="2" GridPane.rowIndex="1" />
-                                         <TextField fx:id="kdVel" onAction="#onSetGainsVelocity" text="0.0" GridPane.columnIndex="2" GridPane.rowIndex="2" />
-                                          <Button fx:id="pidConstUpdateVelocity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#onSetGainsVelocity" prefHeight="25.0" prefWidth="89.0" text="Set Gains" GridPane.columnIndex="3" GridPane.rowIndex="3" />
+                                         <TextField fx:id="kdVel" onAction="#onSetGainsVelocity" text="0.0" GridPane.columnIndex="2" GridPane.rowIndex="3" />
+                                          <Button fx:id="pidConstUpdateVelocity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#onSetGainsVelocity" prefHeight="25.0" prefWidth="89.0" text="Set Gains" GridPane.columnIndex="3" GridPane.rowIndex="4" />
                                           <ChoiceBox fx:id="pidChannelVelocity" prefWidth="150.0" GridPane.columnIndex="2" />
-                                          <TextField fx:id="setpointVelocity" text="0.0" GridPane.columnIndex="2" GridPane.rowIndex="4" />
-                                          <Button fx:id="setSetpointVelocity" mnemonicParsing="false" onAction="#onSetVelocity" text="Set" GridPane.columnIndex="3" GridPane.rowIndex="4" />
+                                          <TextField fx:id="setpointVelocity" text="0.0" GridPane.columnIndex="2" GridPane.rowIndex="5" />
+                                          <Button fx:id="setSetpointVelocity" mnemonicParsing="false" onAction="#onSetVelocity" text="Set" GridPane.columnIndex="3" GridPane.rowIndex="5" />
                                           <Label prefHeight="17.0" prefWidth="67.0" text="Channel" />
-                                          <Label text="Set Velocity" GridPane.rowIndex="4" />
-                                          <Label text="Velocity" GridPane.rowIndex="5" />
-                                          <Label fx:id="velocityVal" text="0.0" GridPane.columnIndex="2" GridPane.halignment="LEFT" GridPane.rowIndex="5">
+                                          <Label text="Set Velocity" GridPane.rowIndex="5" />
+                                          <Label text="Velocity" GridPane.rowIndex="6" />
+                                          <Label fx:id="velocityVal" text="0.0" GridPane.columnIndex="2" GridPane.halignment="LEFT" GridPane.rowIndex="6">
                                              <padding>
                                                 <Insets left="9.0" />
                                              </padding>
                                           </Label>
-                                          <Label text="Hardware Value" GridPane.rowIndex="6" />
-                                          <Label fx:id="hardwareOut" text="0.0" GridPane.columnIndex="2" GridPane.halignment="LEFT" GridPane.rowIndex="6">
+                                          <Label text="Hardware Value" GridPane.rowIndex="7" />
+                                          <Label fx:id="hardwareOut" text="0.0" GridPane.columnIndex="2" GridPane.halignment="LEFT" GridPane.rowIndex="7">
                                              <padding>
                                                 <Insets left="9.0" />
                                              </padding>
                                           </Label>
-                                          <Button fx:id="velExport" mnemonicParsing="false" onAction="#onVelExport" text="Export CSV..." GridPane.columnIndex="3" GridPane.rowIndex="7" />
+                                          <Button fx:id="velExport" mnemonicParsing="false" onAction="#onVelExport" text="Export CSV..." GridPane.columnIndex="3" GridPane.rowIndex="8" />
+                                          <Label text="Ki" GridPane.rowIndex="2" />
+                                          <TextField fx:id="velKiField" text="0.0" GridPane.columnIndex="2" GridPane.rowIndex="2" />
                                        </children>
                                     </GridPane>
                                  </children>

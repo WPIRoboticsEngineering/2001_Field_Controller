@@ -105,7 +105,9 @@ public class InterfaceController {
 
 	@FXML
 	private TextField kdVel;
-
+	
+	@FXML
+	private TextField velKiField;
 	@FXML
 	private Button pidConstUpdateVelocity;
 
@@ -551,7 +553,7 @@ public class InterfaceController {
 				System.out.print("\r\nPID config update for axis " + currentIndex + " values ");
 
 				Platform.runLater(() -> kpVel.setText(formatter.format(robot.getVKp(currentIndex))));
-
+				Platform.runLater(() -> velKiField.setText(formatter.format(robot.getVKi(currentIndex))));
 				Platform.runLater(() -> kdVel.setText(formatter.format(robot.getVKd(currentIndex))));
 
 			} catch (Exception ex) {
@@ -629,8 +631,9 @@ public class InterfaceController {
 	@FXML
 	void onSetGainsVelocity() {
 		double kpv = Double.parseDouble(kpVel.getText());
+		double kiv = Double.parseDouble(velKiField.getText());
 		double kdv = Double.parseDouble(kdVel.getText());
-		robot.setVelocityGains(currentIndex, kpv, kdv);
+		robot.setVelocityGains(currentIndex, kpv, kiv,kdv);
 	}
 
 	@FXML

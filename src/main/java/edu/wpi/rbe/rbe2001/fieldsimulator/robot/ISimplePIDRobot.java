@@ -162,10 +162,13 @@ public interface ISimplePIDRobot {
 		readFloats(GetPDVelocityConstants.idOfCommand, pidVelConfigData);
 		return pidVelConfigData[(3 * index) + 2];
 	}
-
-	default public void setVelocityGains(int index, double kp, double kd) {
+	default public double getVKi(int index) {
+		readFloats(GetPDVelocityConstants.idOfCommand, pidVelConfigData);
+		return pidVelConfigData[(3 * index) + 1];
+	}
+	default public void setVelocityGains(int index, double kp, double ki,double kd) {
 		pidVelConfigData[3 * index + 0] = kp;
-		pidVelConfigData[3 * index + 1] = 0;
+		pidVelConfigData[3 * index + 1] = ki;
 		pidVelConfigData[3 * index + 2] = kd;
 		writeFloats(SetPDVelocityConstants.idOfCommand, pidVelConfigData);
 		SetPDVelocityConstants.oneShotMode();
