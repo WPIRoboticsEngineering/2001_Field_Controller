@@ -6,11 +6,10 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.HashMap;
 import java.util.ArrayList;
 import java.util.Date;
 public class CSVManager {
-	long timestampLast;
+	long timestampLast=0;
 	ArrayList<double[]> hashMap= new ArrayList<double[]>(); 
 
 	public void addLine(long timestamp, double pos0, double pos1, double pos2, double vel0, double vel1, double vel2,
@@ -18,6 +17,7 @@ public class CSVManager {
 			double setpoint0, double setpoint1, double setpoint2, double Azimuth) {
 		if(timestampLast+50>timestamp)
 			return;
+		timestampLast=timestamp;
 		double[] line = new double[] { timestamp,pos0, pos1, pos2, vel0, vel1, vel2, hw0, hw1, hw2, velsetpoint0, velsetpoint1,
 				velsetpoint2, setpoint0, setpoint1, setpoint2,Azimuth };
 		hashMap.add( line);

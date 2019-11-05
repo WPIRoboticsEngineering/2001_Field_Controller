@@ -54,6 +54,6 @@ shadowJar {
 	mainClassName = 'edu.wpi.rbe.rbe2001.fieldsimulator.gui.Main'
 	baseName = 'FieldControl'
 	classifier = null
-	version = '0.2.0'
+	version = '0.2.1'
 	 mergeServiceFiles()
  }
