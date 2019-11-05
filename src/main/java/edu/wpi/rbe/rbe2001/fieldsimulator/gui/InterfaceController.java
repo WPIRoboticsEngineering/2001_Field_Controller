@@ -218,7 +218,8 @@ public class InterfaceController {
 	private static final int numPIDControllersOnDevice = 3;
 	private File lastSearchedName = new File(
 			System.getProperty("user.home") + "/" + "rbeFieldControllerLastSearchedRobot.txt");
-
+	private CSVManager csv;
+	private double Azimuth =0;
 	@FXML
 	private void initialize() {
 		me = this;
@@ -463,9 +464,10 @@ public class InterfaceController {
 						gravy.setText(formatter.format(datas[base + 1]));
 						gravz.setText(formatter.format(datas[base + 2]));
 						base = 9;
+						Azimuth=datas[base + 2];
 						eulx.setText(formatter.format(datas[base + 0]));
 						euly.setText(formatter.format(datas[base + 1]));
-						eulz.setText(formatter.format(datas[base + 2]));
+						eulz.setText(formatter.format(Azimuth));
 
 					});
 				});
@@ -505,7 +507,13 @@ public class InterfaceController {
 				;
 				Platform.runLater(() -> position.setText(positionVal));
 				Platform.runLater(() -> pidManager.updateGraph(pos, set, vel));
-
+				csv.addLine(System.currentTimeMillis(),
+						robot.getPidPosition(0), robot.getPidPosition(1), robot.getPidPosition(2), 
+						robot.getVelocity(0), robot.getVelocity(1), robot.getVelocity(2),
+						robot.getHardwareOutput(0), robot.getHardwareOutput(1), robot.getHardwareOutput(2),
+						robot.getVelSetpoint(0), robot.getVelSetpoint(1), robot.getVelSetpoint(2),
+						robot.getPidSetpoint(0), robot.getPidSetpoint(1), robot.getPidSetpoint(2),
+						Azimuth);
 			} catch (Exception ex) {
 				ex.printStackTrace();
 			}
@@ -520,6 +528,7 @@ public class InterfaceController {
 				double pos = robot.getVelocity(currentIndex);
 				double set = robot.getVelSetpoint(currentIndex);
 				double hw = robot.getHardwareOutput(currentIndex);
+				
 				String positionVal = formatter.format(pos);
 				// System.out.println(positionVal+"");
 				;
@@ -527,7 +536,7 @@ public class InterfaceController {
 				Platform.runLater(() -> hardwareOut.setText(formatter.format(hw)));
 				Platform.runLater(() -> posHwValue.setText(formatter.format(hw)));
 				Platform.runLater(() -> velManager.updateGraph(pos, set, hw));
-
+				
 			} catch (Exception ex) {
 				ex.printStackTrace();
 			}
@@ -679,7 +688,7 @@ public class InterfaceController {
 	@FXML
 	void onPidExport() {
 		try {
-			pidManager.export("position");
+			csv.writeToFile();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -689,7 +698,7 @@ public class InterfaceController {
 	@FXML
 	void onVelExport() {
 		try {
-			velManager.export("velocity");
+			csv.writeToFile();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
