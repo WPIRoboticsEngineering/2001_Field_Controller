@@ -42,12 +42,13 @@ public class CSVManager {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-			String content = "Timestamp,Current Value 1,Current Value 1,Current Value 1,Target Value,Hardware Value\n";
+			String content = "timestamp,pos0, pos1, pos2, vel0, vel1, vel2, hw0, hw1, hw2, velsetpoint0, velsetpoint1,velsetpoint2, setpoint0, setpoint1, setpoint2,Azimuth\n";
 			for(int j=0;j<hashMap.size();j++) {
 				double[] line=hashMap.get(j);
 				for(int i=0;i<line.length;i++)
 					content+=line[i]+",";
-			
+				
+				content+="\n";
 			}
 			PrintWriter out;
 			try {

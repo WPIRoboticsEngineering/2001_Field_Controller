@@ -218,7 +218,7 @@ public class InterfaceController {
 	private static final int numPIDControllersOnDevice = 3;
 	private File lastSearchedName = new File(
 			System.getProperty("user.home") + "/" + "rbeFieldControllerLastSearchedRobot.txt");
-	private CSVManager csv;
+	private CSVManager csv=new CSVManager();
 	private double Azimuth =0;
 	@FXML
 	private void initialize() {
