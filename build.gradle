@@ -30,7 +30,7 @@ repositories {
 dependencies {
 
     implementation "com.neuronrobotics:SimplePacketComsJava:0.10.1"
-    implementation "com.neuronrobotics:SimplePacketComsJava-HID:0.11.0"
+    implementation "com.neuronrobotics:SimplePacketComsJava-HID:0.13.1"
     //implementation project(":SimplePacketComsJava")
 
 }
