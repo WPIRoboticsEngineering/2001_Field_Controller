@@ -11,11 +11,11 @@ import java.util.Date;
 public class CSVManager {
 	long timestampLast=0;
 	ArrayList<double[]> hashMap= new ArrayList<double[]>(); 
-
+	private boolean writing=false;
 	public void addLine(long timestamp, double pos0, double pos1, double pos2, double vel0, double vel1, double vel2,
 			double hw0, double hw1, double hw2, double velsetpoint0, double velsetpoint1, double velsetpoint2,
 			double setpoint0, double setpoint1, double setpoint2, double Azimuth) {
-		if(timestampLast+50>timestamp)
+		if(timestampLast+50>timestamp || writing)
 			return;
 		timestampLast=timestamp;
 		double[] line = new double[] { timestamp,pos0, pos1, pos2, vel0, vel1, vel2, hw0, hw1, hw2, velsetpoint0, velsetpoint1,
@@ -27,7 +27,10 @@ public class CSVManager {
 	}
 
 	public void writeToFile() {
+		if(writing)
+			return;
 		new Thread(()->{
+			writing = true;
 			File desktop = new File(System.getProperty("user.home")+"/Desktop/");
 			DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss");
 			String timestamp =dateFormat.format(new Date());
@@ -62,6 +65,9 @@ public class CSVManager {
 			}
 			
 			hashMap.clear();
+			hashMap=null;
+			hashMap= new ArrayList<double[]>(); 
+			writing = false;
 		}).start();
 	}
 
