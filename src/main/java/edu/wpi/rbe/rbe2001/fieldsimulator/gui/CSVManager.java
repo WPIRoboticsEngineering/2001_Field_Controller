@@ -21,7 +21,7 @@ public class CSVManager {
 		double[] line = new double[] { timestamp,pos0, pos1, pos2, vel0, vel1, vel2, hw0, hw1, hw2, velsetpoint0, velsetpoint1,
 				velsetpoint2, setpoint0, setpoint1, setpoint2,Azimuth };
 		hashMap.add( line);
-		if(hashMap.size()>100000)
+		if(hashMap.size()>10000)
 			 writeToFile();
 		
 	}
