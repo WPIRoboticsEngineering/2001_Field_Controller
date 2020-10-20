@@ -2,10 +2,10 @@ package edu.wpi.rbe.rbe2001.fieldsimulator.gui;
 
 public class ListViewPart {
     private String Name;
-    private int NumAvailable;
-    private int Row;
-    private int Col;
-    public ListViewPart(String name, int numAvailable, int row, int col)
+    private long NumAvailable;
+    private long Row;
+    private long Col;
+    public ListViewPart(String name, long numAvailable, long row, long col)
     {
         this.Name = name;
         this.NumAvailable = numAvailable;
@@ -15,13 +15,13 @@ public class ListViewPart {
     public String getName(){
         return Name;
     }
-    public int getNumAvailable(){
+    public long getNumAvailable(){
         return NumAvailable;
     }
-    public int getRow(){
+    public long getRow(){
         return Row;
     }
-    public int getCol(){
+    public long getCol(){
         return Col;
     }
 }

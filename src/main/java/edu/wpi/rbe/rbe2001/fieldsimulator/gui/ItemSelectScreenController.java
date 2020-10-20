@@ -35,8 +35,8 @@ public class ItemSelectScreenController implements Initializable {
     private ListView<ListViewPart> partsList;
 
     public ItemSelectScreenController(){
-        Main.partList.addAll(new ListViewPart("item 1", 5, 1, 1),
-                new ListViewPart("item 2", 5, 1, 1));
+        //Main.partList.addAll(new ListViewPart("item 1", 5, 1, 1),
+                //new ListViewPart("item 2", 5, 1, 1));
     }
     @Override
     public void initialize(URL location, ResourceBundle resources) {

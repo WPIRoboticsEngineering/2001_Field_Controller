@@ -42,12 +42,37 @@ public class WelcomeScreenController implements Initializable {
     @FXML
     private Button Enter;
 
+    @FXML
+    private Label error;
+
+    @FXML
+    private TextField IDEntry;
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
+        error.setVisible(false);
     }
 
     public void enterCallback(){
-        Main.setItemSelectScene();
+        int ID = 0;
+        boolean idValid = true;
+        try{
+            ID = Integer.parseInt(IDEntry.getText());
+            if(IDEntry.getText().length()!=9){
+                idValid = false;
+            }
+        }
+        catch (NumberFormatException e){
+            idValid = false;
+        }
+        if(idValid) {
+            Main.currentIDNum = ID;
+            error.setVisible(false);
+            IDEntry.setText("");
+            Main.setItemSelectScene();
+        }
+        else{
+            error.setVisible(true);
+        }
     }
 }

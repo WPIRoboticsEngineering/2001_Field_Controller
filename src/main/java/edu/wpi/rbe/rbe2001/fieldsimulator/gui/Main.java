@@ -12,12 +12,16 @@ public class Main extends Application {
   private static Stage theStage;
   private static Scene WelcomeScene = null;
   private static Scene ItemSelectScene = null;
+  private static InventoryManager inventoryManager;
   public static ObservableList<ListViewPart> partList = FXCollections.observableArrayList();
+  public static int currentIDNum = 0;
 
 
   @Override
   public void start(Stage stage) throws Exception {
     theStage = stage;
+    inventoryManager = new InventoryManager("/json/Inventory.json", "");
+    inventoryManager.loadInventory();
     Parent WelcomeScreen = FXMLLoader.load(getClass().getResource("/fxml/WelcomeScreen.fxml"));
     Parent ItemSelectScreen = FXMLLoader.load(getClass().getResource("/fxml/ItemSelectScreen.fxml"));
     //Parent root = FXMLLoader.load(getClass().getResource("/fxml/MainScreen.fxml"));

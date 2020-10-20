@@ -16,7 +16,7 @@
       </Label>
       <HBox layoutX="300.0" layoutY="309.0" prefHeight="100.0" prefWidth="600.0">
          <children>
-            <TextField prefHeight="102.0" prefWidth="450.0">
+            <TextField fx:id="IDEntry" prefHeight="102.0" prefWidth="450.0">
                <font>
                   <Font size="48.0" />
                </font>
@@ -28,5 +28,10 @@
             </Button>
          </children>
       </HBox>
+      <Label fx:id="error" layoutX="457.0" layoutY="450.0" text="Please Enter a Valid WPI ID" textFill="#f70606">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>
