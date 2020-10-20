@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+
+<AnchorPane prefHeight="900.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.rbe.rbe2001.fieldsimulator.gui.ItemSelectScreenController">
+   <children>
+      <Button fx:id="Finished" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onMouseClicked="#finishedCallback" prefHeight="50.0" prefWidth="200.0" text="Finished">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Button>
+      <ListView fx:id="partsList" layoutX="-1.0" layoutY="100.0" prefHeight="800.0" prefWidth="1200.0" />
+      <Label layoutX="483.0" layoutY="38.0" text="Available Parts" textAlignment="CENTER">
+         <font>
+            <Font size="36.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>
