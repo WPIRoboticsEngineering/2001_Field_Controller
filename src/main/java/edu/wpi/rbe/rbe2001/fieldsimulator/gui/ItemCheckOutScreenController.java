@@ -57,10 +57,7 @@ public class ItemCheckOutScreenController implements Initializable {
         quantityDesired.setValueFactory(valueFactory);
     }
     public void setScreenInfo(String nameOfPart, long numberInStock, boolean needToReturn){
-        quantityDesired.getValueFactory().setValue(1);
-        quantityDesired.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1, (int)numberInStock, 1));
         name.setText(nameOfPart);
-        numStock.setText(Integer.toString((int)numberInStock));
         if(needToReturn){
             PartReturn.setText("End Of Term");
         }
@@ -68,6 +65,18 @@ public class ItemCheckOutScreenController implements Initializable {
             PartReturn.setText("Do Not Return");
         }
         rbeclassEntry.setText("");
+        if(numberInStock==0){
+            numStock.setText("0");
+            confirm.setDisable(true);
+            quantityDesired.getValueFactory().setValue(1);
+            quantityDesired.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 1, 1));
+        }
+        else{
+            confirm.setDisable(false);
+            numStock.setText(Integer.toString((int)numberInStock));
+            quantityDesired.getValueFactory().setValue(1);
+            quantityDesired.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1, (int)numberInStock, 1));
+        }
     }
     public void confirm(){
         Main.numberRequested = quantityDesired.getValue();
