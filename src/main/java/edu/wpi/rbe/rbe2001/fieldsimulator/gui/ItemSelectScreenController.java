@@ -35,15 +35,18 @@ public class ItemSelectScreenController implements Initializable {
     private ListView<ListViewPart> partsList;
 
     public ItemSelectScreenController(){
-        //Main.partList.addAll(new ListViewPart("item 1", 5, 1, 1),
-                //new ListViewPart("item 2", 5, 1, 1));
+
     }
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         partsList.setItems(Main.partList);
         partsList.setCellFactory(partListView->new ListViewPartCell());
     }
-    public void finishedCallback(){
-        Main.setWelcomeScene();
+    public void finishedCallback(){ Main.setWelcomeScene();}
+
+    public void itemSelectedCallback(){
+        ListViewPart sP = partsList.getSelectionModel().getSelectedItem();
+        Main.currentPart = sP;
+        Main.setItemCheckOutScene(sP.getName(), sP.getNumAvailable(), sP.getreturnRequired());
     }
 }

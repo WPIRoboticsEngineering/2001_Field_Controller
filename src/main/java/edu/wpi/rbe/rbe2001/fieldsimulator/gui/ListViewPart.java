@@ -5,12 +5,14 @@ public class ListViewPart {
     private long NumAvailable;
     private long Row;
     private long Col;
-    public ListViewPart(String name, long numAvailable, long row, long col)
+    private boolean returnRequired;
+    public ListViewPart(String name, long numAvailable, long row, long col, boolean returnRequired)
     {
         this.Name = name;
         this.NumAvailable = numAvailable;
         this.Row = row;
         this.Col = col;
+        this.returnRequired = returnRequired;
     }
     public String getName(){
         return Name;
@@ -24,4 +26,5 @@ public class ListViewPart {
     public long getCol(){
         return Col;
     }
+    public boolean getreturnRequired(){return returnRequired;}
 }

@@ -54,10 +54,10 @@ public class WelcomeScreenController implements Initializable {
     }
 
     public void enterCallback(){
-        int ID = 0;
+        long ID = 0;
         boolean idValid = true;
         try{
-            ID = Integer.parseInt(IDEntry.getText());
+            ID = Long.parseLong(IDEntry.getText());
             if(IDEntry.getText().length()!=9){
                 idValid = false;
             }
