@@ -20,9 +20,12 @@ public class Main extends Application {
   private static Scene ItemSelectScene = null;
   private static Scene ItemCheckOutScene = null;
   private static Scene RobotActionScene = null;
+  private static Scene RobotManagerScene = null;
   private static InventoryManager inventoryManager;
   private static FXMLLoader ICOController = null;
   private static FXMLLoader RobotActionController = null;
+  private static FXMLLoader RobotManagerController = null;
+  private static RobotInterface BackendRobotController;
   //Shared Screen Data
   public static ObservableList<ListViewPart> partList = FXCollections.observableArrayList();
   public static long currentIDNum = 0;
@@ -39,19 +42,23 @@ public class Main extends Application {
     Parent WelcomeScreen = FXMLLoader.load(getClass().getResource("/fxml/WelcomeScreen.fxml"));
     ICOController = new FXMLLoader(getClass().getResource("/fxml/ItemCheckOutScreen.fxml"));
     RobotActionController = new FXMLLoader(getClass().getResource("/fxml/RobotActionScreen.fxml"));
+    RobotManagerController = new FXMLLoader(getClass().getResource("/fxml/RobotManagerScreen.fxml"));
     Parent ItemCheckOutScreen = ICOController.load();
     Parent RobotActionScreen = RobotActionController.load();
+    Parent RobotManagerScreen = RobotManagerController.load();
     Parent ItemSelectScreen = FXMLLoader.load(Main.class.getResource("/fxml/ItemSelectScreen.fxml"));
-    //Parent root = FXMLLoader.load(getClass().getResource("/fxml/MainScreen.fxml"));
     theStage.setTitle("RBE Warehouse");
-    //root.getStylesheets().add("/materialfx-material-design-for-javafx/material-fx-v0_3.css");
-    //stage.setScene(new Scene(root, 1011, 665));
-    //primaryStage.setResizable(false);
+    theStage.setResizable(false);
     WelcomeScene = new Scene(WelcomeScreen);
     ItemSelectScene = new Scene(ItemSelectScreen);
     ItemCheckOutScene = new Scene(ItemCheckOutScreen);
     RobotActionScene = new Scene(RobotActionScreen);
+    RobotManagerScene = new Scene(RobotManagerScreen);
+    //Parent root = FXMLLoader.load(getClass().getResource("/fxml/MainScreen.fxml"));
+    //root.getStylesheets().add("/materialfx-material-design-for-javafx/material-fx-v0_3.css");
+    //theStage.setScene(new Scene(root, 1011, 665));
     theStage.setScene(WelcomeScene);
+    BackendRobotController = new RobotInterface();
     theStage.show();
 
   }
@@ -82,6 +89,7 @@ public class Main extends Application {
     }
 
   }
+  public static void setRobotManagerScene(){theStage.setScene(RobotManagerScene);}
   public static void updateInventory(ListViewPart part, int numBorrowed, long ID, String forClass){
     inventoryManager.addBorrowedParts(part, numBorrowed, ID, forClass);
     inventoryManager.removeItemsFromInventory(part, numBorrowed);
@@ -93,6 +101,17 @@ public class Main extends Application {
       e.printStackTrace();
     }
 
+  }
+  public static void SetMaintenanceScreen(String name){
+    RobotManagerScreenController controller = RobotManagerController.getController();
+    controller.setRobotNameLabel(name);
+    if(name.equals("None")){
+      Platform.runLater(Main::setRobotManagerScene);
+    }
+  }
+
+  public static void tryReconnectingToRobots(){
+    BackendRobotController.connectToDevice();
   }
 
 }

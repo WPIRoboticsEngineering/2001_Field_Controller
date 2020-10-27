@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+
+
+<AnchorPane prefHeight="900.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.rbe.rbe2001.fieldsimulator.gui.RobotManagerScreenController">
+   <children>
+      <Label layoutX="20.0" layoutY="72.0" text="Connected Robot" />
+      <Button layoutX="253.0" layoutY="68.0" mnemonicParsing="false" onMouseClicked="#ReconnectBTNCallback" prefHeight="25.0" prefWidth="79.0" text="Reconnect" />
+      <VBox layoutX="243.0" layoutY="103.0" prefHeight="757.0" prefWidth="100.0">
+         <children>
+            <Label alignment="TOP_CENTER" prefHeight="17.0" prefWidth="103.0" text="Commands" textAlignment="CENTER" />
+            <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="99.0" text="CMD 1" />
+            <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="103.0" text="CMD 2" />
+         </children>
+      </VBox>
+      <Label fx:id="robotName" layoutX="122.0" layoutY="72.0" prefHeight="17.0" prefWidth="131.0" text="Name of Robot here" />
+      <Button fx:id="ExitBTN" layoutX="20.0" layoutY="14.0" mnemonicParsing="false" onMouseClicked="#ExitBTNCallback" prefHeight="25.0" prefWidth="79.0" text="Exit" />
+   </children>
+</AnchorPane>

@@ -33,5 +33,6 @@
             <Font size="24.0" />
          </font>
       </Label>
+      <Button fx:id="MaintenanceBTN" layoutX="14.0" layoutY="861.0" mnemonicParsing="false" onMouseClicked="#MaintainenceBTNCallback" text="Maintenance" />
    </children>
 </AnchorPane>

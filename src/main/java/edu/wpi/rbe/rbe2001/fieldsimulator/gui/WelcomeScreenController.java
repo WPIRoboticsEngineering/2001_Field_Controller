@@ -48,11 +48,15 @@ public class WelcomeScreenController implements Initializable {
     @FXML
     private TextField IDEntry;
 
+    @FXML
+    private Button MaintenanceBTN;
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         error.setVisible(false);
     }
 
+    @FXML
     public void enterCallback(){
         long ID = 0;
         boolean idValid = true;
@@ -74,5 +78,9 @@ public class WelcomeScreenController implements Initializable {
         else{
             error.setVisible(true);
         }
+    }
+    @FXML
+    public void MaintainenceBTNCallback(){
+        Main.setRobotManagerScene();
     }
 }
