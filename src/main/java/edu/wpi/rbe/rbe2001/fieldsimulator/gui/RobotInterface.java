@@ -53,10 +53,13 @@ public class RobotInterface {
                 switch(robot.getStatus()){
                     case Ready_for_new_task:
                         Main.SetMaintenanceScreenRobotStatus("Awaiting Task");
+                        break;
                     case Picking_up:
                         Main.SetMaintenanceScreenRobotStatus("Picking Up Bin");
+                        break;
                     default:
                         Main.SetMaintenanceScreenRobotStatus("No Status");
+                        break;
                 }
 
             });
