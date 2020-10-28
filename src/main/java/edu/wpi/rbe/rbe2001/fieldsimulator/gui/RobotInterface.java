@@ -45,18 +45,22 @@ public class RobotInterface {
         }
         robot = r;
         //Add events here
-        robot.addEvent(robot.getStatus.idOfCommand, () -> {
-            robot.readBytes(robot.getStatus.idOfCommand, robot.status);
-            switch(robot.getStatus()){
-                case Ready_for_new_task:
-                    Main.SetMaintenanceScreenRobotStatus("Awaiting Task");
-                case Picking_up:
-                    Main.SetMaintenanceScreenRobotStatus("Picking Up Bin");
-                default:
-                    Main.SetMaintenanceScreenRobotStatus("No Status");
-            }
+        if(robot!=null){
+            robot.addWarehouseRobot();
+            robot.addEvent(robot.getStatus.idOfCommand, () -> {
+                System.out.println("Recieved Status");
+                robot.readBytes(robot.getStatus.idOfCommand, robot.status);
+                switch(robot.getStatus()){
+                    case Ready_for_new_task:
+                        Main.SetMaintenanceScreenRobotStatus("Awaiting Task");
+                    case Picking_up:
+                        Main.SetMaintenanceScreenRobotStatus("Picking Up Bin");
+                    default:
+                        Main.SetMaintenanceScreenRobotStatus("No Status");
+                }
 
-        });
+            });
+        }
 
     }
 }
