@@ -1,11 +1,6 @@
 package edu.wpi.rbe.rbe2001.fieldsimulator.gui;
 
 import edu.wpi.rbe.rbe2001.fieldsimulator.robot.*;
-import javafx.application.Platform;
-
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
 
 public class RobotInterface {
     private IWarehouseRobot robot;
@@ -23,14 +18,14 @@ public class RobotInterface {
                     setFieldSim(new WarehouseRobot(name));
                     // getFieldSim().setReadTimeout(1000);
                     if (getRobot() != null) {
-                        Main.SetMaintenanceScreen(robot.toString());
+                        Main.SetMaintenanceScreenRobotName(robot.toString());
                     }
 
                 } catch (Exception ex) {
                     ex.printStackTrace();
                 }
                 if(getRobot()==null){
-                    Main.SetMaintenanceScreen("None");
+                    Main.SetMaintenanceScreenRobotName("None");
                 }
 
             }).start();
@@ -50,6 +45,18 @@ public class RobotInterface {
         }
         robot = r;
         //Add events here
+        robot.addEvent(robot.getStatus.idOfCommand, () -> {
+            robot.readBytes(robot.getStatus.idOfCommand, robot.status);
+            switch(robot.getStatus()){
+                case Ready_for_new_task:
+                    Main.SetMaintenanceScreenRobotStatus("Awaiting Task");
+                case Picking_up:
+                    Main.SetMaintenanceScreenRobotStatus("Picking Up Bin");
+                default:
+                    Main.SetMaintenanceScreenRobotStatus("No Status");
+            }
+
+        });
 
     }
 }

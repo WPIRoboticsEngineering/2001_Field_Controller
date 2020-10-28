@@ -40,6 +40,9 @@ public class RobotManagerScreenController implements Initializable {
     private Label robotName;
 
     @FXML
+    private Label robotStatus;
+
+    @FXML
     private Button ExitBTN;
 
     public void initialize(URL location, ResourceBundle resources) {
@@ -48,6 +51,8 @@ public class RobotManagerScreenController implements Initializable {
     public void setRobotNameLabel(String Name){
         robotName.setText(Name);
     }
+
+    public void setRobotStatusLabel(String status){robotStatus.setText(status);}
 
     @FXML
     public void ExitBTNCallback(){

@@ -11,23 +11,56 @@ public interface IWarehouseRobot {
 	PacketType estop = new BytePacketType(1989, 64);
 	PacketType getStatus = new BytePacketType(2012, 64);
 	PacketType clearFaults = new BytePacketType(1871, 64);
-	PacketType pickOrder = new FloatPacketType(1936, 64);
-	PacketType approve = new BytePacketType(1994, 64);
+	PacketType park = new BytePacketType(1945, 64);
+	PacketType navigate = new BytePacketType(1966, 64);
+	PacketType deliverBin = new BytePacketType(1908, 64);
+	PacketType returnBin = new BytePacketType(1912, 64);
 	byte[] status = new byte[1];
-	double[] pickOrderData = new double[3];
 	double[] driveStatus = new double[1];
+	double[] desiredLocation = new double[3];
 
 	default public void addWarehouseRobot() {
-		pickOrder.waitToSendMode();
+
 		clearFaults.waitToSendMode();
 		estop.waitToSendMode();
-		approve.waitToSendMode();
-		for (PacketType pt : Arrays.asList(clearFaults, pickOrder, getStatus, approve, estop)) {
+		park.waitToSendMode();
+		navigate.waitToSendMode();
+		deliverBin.waitToSendMode();
+		returnBin.waitToSendMode();
+		getStatus.pollingMode();
+		for (PacketType pt : Arrays.asList(clearFaults, getStatus, estop, park, navigate, deliverBin, returnBin)) {
 			addPollingPacket(pt);
 		}
-		addEvent(getStatus.idOfCommand, () -> {
-			readBytes(getStatus.idOfCommand, status);
-		});
+	}
+
+	default public void sendPark(double row, double col){
+		desiredLocation[0] = row;
+		desiredLocation[1] = col;
+		desiredLocation[2] = 0;
+		writeFloats(park.idOfCommand, desiredLocation);
+		park.oneShotMode();
+	}
+
+	default public void sendNavGoal(double row, double col){
+		desiredLocation[0] = row;
+		desiredLocation[1] = col;
+		desiredLocation[2] = 0;
+		writeFloats(navigate.idOfCommand, desiredLocation);
+		navigate.oneShotMode();
+	}
+	default public void sendDeliverBin(double row, double col, double height){
+		desiredLocation[0] = row;
+		desiredLocation[1] = col;
+		desiredLocation[2] = height;
+		writeFloats(deliverBin.idOfCommand, desiredLocation);
+		deliverBin.oneShotMode();
+	}
+	default public void sendReturnBin(double row, double col, double height){
+		desiredLocation[0] = row;
+		desiredLocation[1] = col;
+		desiredLocation[2] = height;
+		writeFloats(returnBin.idOfCommand, desiredLocation);
+		returnBin.oneShotMode();
 	}
 
 	default public void estop() {
@@ -36,15 +69,6 @@ public interface IWarehouseRobot {
 
 	default public double getDriveStatus() {
 		return driveStatus[0];
-	}
-
-	default public void pickOrder(double material, double angle, double dropLocation) {
-		pickOrderData[0] = material;
-		pickOrderData[1] = angle;
-		pickOrderData[2] = dropLocation;
-		writeFloats(pickOrder.idOfCommand, pickOrderData);
-		pickOrder.oneShotMode();
-
 	}
 
 	default public WarehouseRobotStatus getStatus() {
@@ -56,15 +80,11 @@ public interface IWarehouseRobot {
 
 	}
 
-	default public void approve() {
-		approve.oneShotMode();
-	}
-
 	void addPollingPacket(PacketType packet);
 
 	public void addEvent(Integer id, Runnable event);
 
 	void readBytes(int id, byte[] values);
 
-	void writeFloats(int idOfCommand, double[] pickorderdata2);
+	void writeFloats(int idOfCommand, double[] data);
 }

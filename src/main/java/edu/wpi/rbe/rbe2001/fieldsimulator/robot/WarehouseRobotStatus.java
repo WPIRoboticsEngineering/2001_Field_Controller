@@ -17,6 +17,7 @@ public enum WarehouseRobotStatus {
 	Fault_excessive_load ((byte) 10),
 	Fault_obstructed_path ((byte) 11),
 	Fault_E_Stop_pressed ( (byte)12);
+
 	private static final Map<Byte, WarehouseRobotStatus> lookup = new HashMap<>();
 
     static {

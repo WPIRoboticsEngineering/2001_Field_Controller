@@ -102,12 +102,16 @@ public class Main extends Application {
     }
 
   }
-  public static void SetMaintenanceScreen(String name){
+  public static void SetMaintenanceScreenRobotName(String name){
     RobotManagerScreenController controller = RobotManagerController.getController();
     controller.setRobotNameLabel(name);
     if(name.equals("None")){
       Platform.runLater(Main::setRobotManagerScene);
     }
+  }
+  public static void SetMaintenanceScreenRobotStatus(String status){
+    RobotManagerScreenController controller = RobotManagerController.getController();
+    controller.setRobotStatusLabel(status);
   }
 
   public static void tryReconnectingToRobots(){
