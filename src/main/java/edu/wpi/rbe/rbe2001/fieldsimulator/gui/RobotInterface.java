@@ -8,6 +8,7 @@ public class RobotInterface {
     private final int numPIDControllersOnDevice = 3;
     private boolean DeliverIsTest = false;
     private boolean ReturnIsTest = false;
+    private double defaultParkLocation[] = {0,0};
     public RobotInterface(){
         connectToDevice();
     }
@@ -63,6 +64,7 @@ public class RobotInterface {
                         case Delivery_Done:
                             Main.SetMaintenanceScreenRobotStatus("Delivery Done");
                             if(!DeliverIsTest){
+                                sendPark(defaultParkLocation[0], defaultParkLocation[1]);
                                 Main.setRobotActionScene(1);
                             }
                             break;
