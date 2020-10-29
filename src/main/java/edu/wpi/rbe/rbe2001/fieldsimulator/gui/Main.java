@@ -25,7 +25,7 @@ public class Main extends Application {
   private static FXMLLoader ICOController = null;
   private static FXMLLoader RobotActionController = null;
   private static FXMLLoader RobotManagerController = null;
-  private static RobotInterface BackendRobotController;
+  public static RobotInterface BackendRobotController;
   //Shared Screen Data
   public static ObservableList<ListViewPart> partList = FXCollections.observableArrayList();
   public static long currentIDNum = 0;
@@ -112,10 +112,6 @@ public class Main extends Application {
   public static void SetMaintenanceScreenRobotStatus(String status){
     RobotManagerScreenController controller = RobotManagerController.getController();
     Platform.runLater(()->controller.setRobotStatusLabel(status));
-  }
-
-  public static void tryReconnectingToRobots(){
-    BackendRobotController.connectToDevice();
   }
 
 }

@@ -81,6 +81,8 @@ public class ItemCheckOutScreenController implements Initializable {
     public void confirm(){
         Main.numberRequested = quantityDesired.getValue();
         Main.updateInventory(Main.currentPart, Main.numberRequested, Main.currentIDNum, rbeclassEntry.getText());
+        Main.BackendRobotController.setDeliverIsTest(false);
+        Main.BackendRobotController.sendDeliverBin(Main.currentPart.getRow(), Main.currentPart.getCol(), Main.currentPart.getHeight());
         Main.setRobotActionScene(0);
     }
 

@@ -14,46 +14,22 @@ public class InventoryManager {
     private JSONObject BorrowedInventory;
 
     public InventoryManager(String InventoryLocation, String BorrowedInventoryLocation){
-        this.InventoryLoc = InventoryLocation;
-        this.BorrowedInventoryLoc = BorrowedInventoryLocation;
+        this.InventoryLoc = System.getProperty("user.home")+ File.separator+"Documents"+File.separator+"WareHouseRobot"+File.separator+InventoryLocation;
+        this.BorrowedInventoryLoc = System.getProperty("user.home")+ File.separator+"Documents"+File.separator+"WareHouseRobot"+File.separator+BorrowedInventoryLocation;
         verifyFoldersExist();
 
     }
     public void verifyFoldersExist(){
         String localDirectory = System.getProperty("user.home")+ File.separator+"Documents";
         File dir = new File(localDirectory+File.separator+"WareHouseRobot");
-        File Inventory = new File(localDirectory+File.separator+"WareHouseRobot"+File.separator+InventoryLoc);
-        File BorrowedInventory = new File(localDirectory+File.separator+"WareHouseRobot"+File.separator+BorrowedInventoryLoc);
+        File Inventory = new File(InventoryLoc);
+        File BorrowedInventory = new File(BorrowedInventoryLoc);
         try{//This verifies the files are there and if not creates them
             dir.mkdir();
             Inventory.createNewFile();
             BorrowedInventory.createNewFile();
         }
         catch (IOException e){
-            e.printStackTrace();
-        }
-    }
-    public void loadInventory(){
-        JSONParser parser = new JSONParser();
-        try {
-            Object obj = parser.parse(new FileReader(System.getProperty("user.home")+ File.separator+"Documents"+File.separator+"WareHouseRobot"+File.separator+InventoryLoc));
-            Inventory = (JSONObject) obj;
-            JSONArray inventoryList = (JSONArray) Inventory.get("inventory");
-            Iterator<JSONObject> iterator = inventoryList.iterator();
-            while (iterator.hasNext()) {
-                JSONObject it = iterator.next();
-                Main.partList.add(new ListViewPart((String)it.get("name"), (long)it.get("numberAvailable"), (long)it.get("row"), (long)it.get("col"), (boolean)it.get("returnRequired")));
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-    public void loadBorrowedInventory(){
-        JSONParser parser = new JSONParser();
-        try {
-            Object obj = parser.parse(new FileReader(System.getProperty("user.home")+ File.separator+"Documents"+File.separator+"WareHouseRobot"+File.separator+BorrowedInventoryLoc));
-            BorrowedInventory = (JSONObject) obj;
-        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -71,12 +47,7 @@ public class InventoryManager {
             tempList.add(it);
         }
         Inventory.put("inventory", tempList);
-        try (FileWriter file = new FileWriter(System.getProperty("user.home")+ File.separator+"Documents"+File.separator+"WareHouseRobot"+File.separator+InventoryLoc)) {
-            file.write(Inventory.toJSONString());
-            file.flush();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        writeInventory();
         //refresh observable list
         Main.partList = FXCollections.observableArrayList();
         JSONArray inventoryList2 = (JSONArray) Inventory.get("inventory");
@@ -84,7 +55,7 @@ public class InventoryManager {
         int i = 0;
         while (iterator2.hasNext()) {
             JSONObject it = iterator2.next();
-            Main.partList.add(new ListViewPart((String)it.get("name"), (long)it.get("numberAvailable"), (long)it.get("row"), (long)it.get("col"), (boolean)it.get("returnRequired")));
+            Main.partList.add(new ListViewPart((String)it.get("name"), (long)it.get("numberAvailable"), (long)it.get("row"), (long)it.get("col"), (long)it.get("height"),(boolean)it.get("returnRequired")));
             i++;
         }
     }
@@ -121,13 +92,49 @@ public class InventoryManager {
             tempBorrowedList.add(newUser);
         }
         BorrowedInventory.put("borrowedInventory", tempBorrowedList);
-        try (FileWriter file = new FileWriter(System.getProperty("user.home")+ File.separator+"Documents"+File.separator+"WareHouseRobot"+File.separator+BorrowedInventoryLoc)) {
-            file.write(BorrowedInventory.toJSONString());
+        writeBorrowedInventory();
+    }
+
+    public void loadInventory(){
+        JSONParser parser = new JSONParser();
+        try {
+            Object obj = parser.parse(new FileReader(InventoryLoc));
+            Inventory = (JSONObject) obj;
+            JSONArray inventoryList = (JSONArray) Inventory.get("inventory");
+            Iterator<JSONObject> iterator = inventoryList.iterator();
+            while (iterator.hasNext()) {
+                JSONObject it = iterator.next();
+                Main.partList.add(new ListViewPart((String)it.get("name"), (long)it.get("numberAvailable"), (long)it.get("row"), (long)it.get("col"),(long)it.get("height"), (boolean)it.get("returnRequired")));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    public void loadBorrowedInventory(){
+        JSONParser parser = new JSONParser();
+        try {
+            Object obj = parser.parse(new FileReader(BorrowedInventoryLoc));
+            BorrowedInventory = (JSONObject) obj;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void writeInventory(){
+        try (FileWriter file = new FileWriter(InventoryLoc)) {
+            file.write(Inventory.toJSONString());
             file.flush();
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-
+    private void writeBorrowedInventory(){
+        try (FileWriter file = new FileWriter(BorrowedInventoryLoc)) {
+            file.write(BorrowedInventory.toJSONString());
+            file.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }

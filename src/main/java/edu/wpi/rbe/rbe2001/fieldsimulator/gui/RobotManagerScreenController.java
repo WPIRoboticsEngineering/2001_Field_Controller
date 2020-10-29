@@ -45,6 +45,27 @@ public class RobotManagerScreenController implements Initializable {
     @FXML
     private Button ExitBTN;
 
+    @FXML
+    private TextField rowEntry;
+
+    @FXML
+    private TextField colEntry;
+
+    @FXML
+    private TextField heightEntry;
+
+    @FXML
+    private Button NavigateBTN;
+
+    @FXML
+    private Button ParkBTN;
+
+    @FXML
+    private Button DeliverBTN;
+
+    @FXML
+    private Button ReturnBTN;
+
     public void initialize(URL location, ResourceBundle resources) {
 
     }
@@ -60,6 +81,77 @@ public class RobotManagerScreenController implements Initializable {
     }
     @FXML
     public void ReconnectBTNCallback(){
-        Main.tryReconnectingToRobots();
+        Main.BackendRobotController.connectToDevice();
+    }
+
+    @FXML
+    public void NavBTNPressed(){
+        double row = 0;
+        double col = 0;
+        boolean formatCorrect = true;
+        try{
+            row = Double.parseDouble(rowEntry.getText());
+            col = Double.parseDouble(colEntry.getText());
+        }
+        catch(Exception ex){
+            formatCorrect = false;
+        }
+        if(formatCorrect){
+            Main.BackendRobotController.sendNavGoal(row, col);
+        }
+    }
+    @FXML
+    public void ParkBTNPressed(){
+        double row = 0;
+        double col = 0;
+        boolean formatCorrect = true;
+        try{
+            row = Double.parseDouble(rowEntry.getText());
+            col = Double.parseDouble(colEntry.getText());
+        }
+        catch(Exception ex){
+            formatCorrect = false;
+        }
+        if(formatCorrect){
+            Main.BackendRobotController.sendPark(row, col);
+        }
+    }
+    @FXML
+    public void DeliverBTNPressed(){
+        double row = 0;
+        double col = 0;
+        double height = 0;
+        boolean formatCorrect = true;
+        try{
+            row = Double.parseDouble(rowEntry.getText());
+            col = Double.parseDouble(colEntry.getText());
+            height = Double.parseDouble(heightEntry.getText());
+        }
+        catch(Exception ex){
+            formatCorrect = false;
+        }
+        if(formatCorrect){
+            Main.BackendRobotController.setDeliverIsTest(true);
+            Main.BackendRobotController.sendDeliverBin(row, col, height);
+        }
+    }
+    @FXML
+    public void ReturnBTNPressed(){
+        double row = 0;
+        double col = 0;
+        double height = 0;
+        boolean formatCorrect = true;
+        try{
+            row = Double.parseDouble(rowEntry.getText());
+            col = Double.parseDouble(colEntry.getText());
+            height = Double.parseDouble(heightEntry.getText());
+        }
+        catch(Exception ex){
+            formatCorrect = false;
+        }
+        if(formatCorrect){
+            Main.BackendRobotController.setReturnIsTest(true);
+            Main.BackendRobotController.sendReturnBin(row, col, height);
+        }
     }
 }

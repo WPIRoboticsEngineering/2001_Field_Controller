@@ -16,7 +16,11 @@ public enum WarehouseRobotStatus {
 	Fault_failed_dropoff ((byte) 9),
 	Fault_excessive_load ((byte) 10),
 	Fault_obstructed_path ((byte) 11),
-	Fault_E_Stop_pressed ( (byte)12);
+	Fault_E_Stop_pressed ( (byte)12),
+
+	Delivery_Done( (byte)13),
+	Returning_Done( (byte)14),
+	Initial_State( (byte)20);// For use with Gui
 
 	private static final Map<Byte, WarehouseRobotStatus> lookup = new HashMap<>();
 
