@@ -11,10 +11,10 @@ public interface IWarehouseRobot {
 	PacketType estop = new BytePacketType(1989, 64);
 	PacketType getStatus = new BytePacketType(2012, 64);
 	PacketType clearFaults = new BytePacketType(1871, 64);
-	PacketType park = new BytePacketType(1945, 64);
-	PacketType navigate = new BytePacketType(1966, 64);
-	PacketType deliverBin = new BytePacketType(1908, 64);
-	PacketType returnBin = new BytePacketType(1912, 64);
+	PacketType park = new FloatPacketType(1945, 64);
+	PacketType navigate = new FloatPacketType(1966, 64);
+	PacketType deliverBin = new FloatPacketType(1908, 64);
+	PacketType returnBin = new FloatPacketType(1912, 64);
 	byte[] status = new byte[1];
 	double[] driveStatus = new double[1];
 	double[] desiredLocation = new double[3];

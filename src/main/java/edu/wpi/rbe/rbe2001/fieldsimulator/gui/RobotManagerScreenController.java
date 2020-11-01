@@ -86,8 +86,8 @@ public class RobotManagerScreenController implements Initializable {
 
     @FXML
     public void NavBTNPressed(){
-        double row = 0;
-        double col = 0;
+        double row = 2;
+        double col = 3;
         boolean formatCorrect = true;
         try{
             row = Double.parseDouble(rowEntry.getText());
