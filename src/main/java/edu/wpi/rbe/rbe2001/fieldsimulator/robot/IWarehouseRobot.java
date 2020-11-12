@@ -11,13 +11,17 @@ public interface IWarehouseRobot {
 	PacketType estop = new BytePacketType(1989, 64);
 	PacketType getStatus = new BytePacketType(2012, 64);
 	PacketType clearFaults = new BytePacketType(1871, 64);
-	PacketType park = new BytePacketType(1945, 64);
-	PacketType navigate = new BytePacketType(1966, 64);
-	PacketType deliverBin = new BytePacketType(1908, 64);
-	PacketType returnBin = new BytePacketType(1912, 64);
+	PacketType park = new FloatPacketType(1945, 64);
+	PacketType navigate = new FloatPacketType(1966, 64);
+	PacketType deliverBin = new FloatPacketType(1908, 64);
+	PacketType returnBin = new FloatPacketType(1912, 64);
+	PacketType homeLift = new FloatPacketType(2077, 64);
+	PacketType setLiftHeight = new FloatPacketType(2020, 64);
 	byte[] status = new byte[1];
 	double[] driveStatus = new double[1];
 	double[] desiredLocation = new double[3];
+	double[] liftHeightMM = new double[1];
+	double[] placeholder = new double[1];
 
 	default public void addWarehouseRobot() {
 
@@ -28,7 +32,9 @@ public interface IWarehouseRobot {
 		deliverBin.waitToSendMode();
 		returnBin.waitToSendMode();
 		getStatus.pollingMode();
-		for (PacketType pt : Arrays.asList(clearFaults, getStatus, estop, park, navigate, deliverBin, returnBin)) {
+		homeLift.waitToSendMode();
+		setLiftHeight.waitToSendMode();
+		for (PacketType pt : Arrays.asList(clearFaults, getStatus, estop, park, navigate, deliverBin, returnBin, homeLift, setLiftHeight)) {
 			addPollingPacket(pt);
 		}
 	}
@@ -61,6 +67,18 @@ public interface IWarehouseRobot {
 		desiredLocation[2] = height;
 		writeFloats(returnBin.idOfCommand, desiredLocation);
 		returnBin.oneShotMode();
+	}
+
+	default public void sendHomeLift(){
+		placeholder[0] = 1;
+		writeFloats(homeLift.idOfCommand,placeholder );
+		homeLift.oneShotMode();
+	}
+
+	default public void sendMoveLift(double mm){
+		liftHeightMM[0] = mm;
+		writeFloats(setLiftHeight.idOfCommand, liftHeightMM);
+		setLiftHeight.oneShotMode();
 	}
 
 	default public void estop() {

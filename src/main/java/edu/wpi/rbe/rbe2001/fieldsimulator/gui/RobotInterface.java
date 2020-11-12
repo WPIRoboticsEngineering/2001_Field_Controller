@@ -55,11 +55,41 @@ public class RobotInterface {
                 robot.readBytes(robot.getStatus.idOfCommand, robot.status);
                 if(robot.getStatus()!= oldStatus){
                     switch(robot.getStatus()){
-                        case Ready_for_new_task:
-                            Main.SetMaintenanceScreenRobotStatus("Awaiting Task");
+                        case StartupRobot:
+                            Main.SetMaintenanceScreenRobotStatus("Starting Robot");
                             break;
-                        case Picking_up:
-                            Main.SetMaintenanceScreenRobotStatus("Picking Up Bin");
+                        case StartRunning:
+                            Main.SetMaintenanceScreenRobotStatus("Start Running");
+                            break;
+                        case Running:
+                            Main.SetMaintenanceScreenRobotStatus("Running");
+                            break;
+                        case Halting:
+                            Main.SetMaintenanceScreenRobotStatus("Halting");
+                            break;
+                        case Halt:
+                            Main.SetMaintenanceScreenRobotStatus("Halted");
+                            break;
+                        case WAIT_FOR_MOTORS_TO_FINNISH:
+                            Main.SetMaintenanceScreenRobotStatus("Waiting For Motors to Finish");
+                            break;
+                        case WAIT_FOR_TIME:
+                            Main.SetMaintenanceScreenRobotStatus("Waiting for time");
+                            break;
+                        case Testing:
+                            Main.SetMaintenanceScreenRobotStatus("Testing");
+                            break;
+                        case Navigating:
+                            Main.SetMaintenanceScreenRobotStatus("Testing");
+                            break;
+                        case ParkingRobot:
+                            Main.SetMaintenanceScreenRobotStatus("Parking Robot");
+                            break;
+                        case HomingLift:
+                            Main.SetMaintenanceScreenRobotStatus("Homing Lift");
+                            break;
+                        case MovingLift:
+                            Main.SetMaintenanceScreenRobotStatus("Moving Lift");
                             break;
                         case Delivery_Done:
                             Main.SetMaintenanceScreenRobotStatus("Delivery Done");
@@ -97,6 +127,8 @@ public class RobotInterface {
     public void sendReturnBin(double row, double col, double height){
         robot.sendReturnBin(row, col, height);
     }
+    public void sendHomeLift(){robot.sendHomeLift();}
+    public void sendMoveLift(double mm){robot.sendMoveLift(mm);}
 
     public void setDeliverIsTest(boolean wellIsIt){
         DeliverIsTest = wellIsIt;

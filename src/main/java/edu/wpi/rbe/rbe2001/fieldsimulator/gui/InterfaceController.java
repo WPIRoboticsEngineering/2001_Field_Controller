@@ -199,7 +199,7 @@ public class InterfaceController {
 	private LineChart<Double, Double> pidGraphVel;
 //	private ArrayList<XYChart.Series> pidGraphSeriesVel = new ArrayList<>();
 //	private ArrayList<XYChart.Series> pidGraphSeries = new ArrayList<>();
-	private WarehouseRobotStatus status = WarehouseRobotStatus.Fault_E_Stop_pressed;
+	private WarehouseRobotStatus status = WarehouseRobotStatus.Halting;
 	private ObservableList<String> weights = FXCollections.observableArrayList("Aluminum", "Plastic");
 	private ObservableList<String> sides = FXCollections.observableArrayList("25", "45");
 	private ObservableList<String> pos = FXCollections.observableArrayList("1", "2");
@@ -421,8 +421,8 @@ public class InterfaceController {
 							heartBeat.setText(status.name());
 						});
 						Platform.runLater(() -> {
-							if (status == WarehouseRobotStatus.Waiting_for_approval_to_pickup
-									|| status == WarehouseRobotStatus.Waiting_for_approval_to_dropoff)
+							if (status == WarehouseRobotStatus.Initial_State//This will no longer work since we changed the statuses in Warehouse robot. Changed status so this compiles
+									|| status == WarehouseRobotStatus.HomingLift)
 								approveButton.setDisable(false);
 							else
 								approveButton.setDisable(true);

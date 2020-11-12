@@ -55,6 +55,9 @@ public class RobotManagerScreenController implements Initializable {
     private TextField heightEntry;
 
     @FXML
+    private TextField HeightMMEntry;
+
+    @FXML
     private Button NavigateBTN;
 
     @FXML
@@ -65,6 +68,12 @@ public class RobotManagerScreenController implements Initializable {
 
     @FXML
     private Button ReturnBTN;
+
+    @FXML
+    private Button HomeLiftBTN;
+
+    @FXML
+    private Button MoveLiftBTN;
 
     public void initialize(URL location, ResourceBundle resources) {
 
@@ -153,5 +162,25 @@ public class RobotManagerScreenController implements Initializable {
             Main.BackendRobotController.setReturnIsTest(true);
             Main.BackendRobotController.sendReturnBin(row, col, height);
         }
+    }
+    @FXML
+    public void MoveLiftBTNPressed(){
+        double height= 0;
+        boolean formatCorrect = true;
+        try{
+
+            height = Double.parseDouble(HeightMMEntry.getText());
+        }
+        catch(Exception ex){
+            formatCorrect = false;
+        }
+        if(formatCorrect){
+            System.out.println("Sent Height");
+            Main.BackendRobotController.sendMoveLift(height);
+        }
+    }
+    @FXML
+    public void HomeLiftPressed(){
+        Main.BackendRobotController.sendHomeLift();
     }
 }

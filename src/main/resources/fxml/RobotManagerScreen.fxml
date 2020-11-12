@@ -17,6 +17,8 @@
             <Button fx:id="ParkBTN" mnemonicParsing="false" onMouseClicked="#ParkBTNPressed" prefHeight="25.0" prefWidth="99.0" text="Park" />
             <Button fx:id="DeliverBTN" mnemonicParsing="false" onMouseClicked="#DeliverBTNPressed" prefHeight="25.0" prefWidth="99.0" text="Deliver" />
             <Button fx:id="ReturnBTN" mnemonicParsing="false" onMouseClicked="#ReturnBTNPressed" prefHeight="25.0" prefWidth="99.0" text="Return" />
+            <Button fx:id="HomeLiftBTN" mnemonicParsing="false" onMouseClicked="#HomeLiftPressed" prefHeight="25.0" prefWidth="99.0" text="Home Lift" />
+            <Button fx:id="MoveLiftBTN" mnemonicParsing="false" onMouseClicked="#MoveLiftBTNPressed" prefHeight="25.0" prefWidth="99.0" text="Move Lift" />
          </children>
       </VBox>
       <Label fx:id="robotName" layoutX="161.0" layoutY="72.0" prefHeight="17.0" prefWidth="131.0" text="Name of Robot here" />
@@ -30,5 +32,7 @@
       <Label layoutX="273.0" layoutY="160.0" text="Row" />
       <Label layoutX="271.0" layoutY="195.0" text="Column" />
       <Label layoutX="271.0" layoutY="230.0" text="Height" />
+      <TextField fx:id="HeightMMEntry" layoutX="174.0" layoutY="282.0" prefHeight="25.0" prefWidth="79.0" />
+      <Label layoutX="274.0" layoutY="286.0" text="Height MM" />
    </children>
 </AnchorPane>
