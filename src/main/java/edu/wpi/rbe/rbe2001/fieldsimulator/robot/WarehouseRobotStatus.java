@@ -30,8 +30,10 @@ public enum WarehouseRobotStatus {
 	ParkingRobot ( (byte) 9),
 	HomingLift( (byte)10),
 	MovingLift( (byte)11),
-	Delivery_Done( (byte)13),
-	Returning_Done( (byte)14),
+	Delivering((byte) 12),
+	Returning((byte) 13),
+	Delivery_Done( (byte)14),
+	Returning_Done( (byte)15),
 	Initial_State( (byte)20);// For use with Gui
 
 	private static final Map<Byte, WarehouseRobotStatus> lookup = new HashMap<>();
