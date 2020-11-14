@@ -80,7 +80,7 @@ public class RobotInterface {
                             Main.SetMaintenanceScreenRobotStatus("Testing");
                             break;
                         case Navigating:
-                            Main.SetMaintenanceScreenRobotStatus("Testing");
+                            Main.SetMaintenanceScreenRobotStatus("Navigating");
                             break;
                         case ParkingRobot:
                             Main.SetMaintenanceScreenRobotStatus("Parking Robot");
@@ -91,6 +91,12 @@ public class RobotInterface {
                         case MovingLift:
                             Main.SetMaintenanceScreenRobotStatus("Moving Lift");
                             break;
+                        case Delivering:
+                            Main.SetMaintenanceScreenRobotStatus("Delivering Bin");
+                            break;
+                        case Returning:
+                            Main.SetMaintenanceScreenRobotStatus("Returning Bin");
+                            break;
                         case Delivery_Done:
                             Main.SetMaintenanceScreenRobotStatus("Delivery Done");
                             if(!DeliverIsTest){
@@ -99,7 +105,7 @@ public class RobotInterface {
                             }
                             break;
                         case Returning_Done:
-                            Main.SetMaintenanceScreenRobotStatus("Delivery Done");
+                            Main.SetMaintenanceScreenRobotStatus("Returning Done");
                             if(!ReturnIsTest){
                                 Main.setItemSelectScene();
                             }
