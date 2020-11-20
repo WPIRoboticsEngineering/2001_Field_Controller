@@ -8,7 +8,7 @@ public class RobotInterface {
     private final int numPIDControllersOnDevice = 3;
     private boolean DeliverIsTest = false;
     private boolean ReturnIsTest = false;
-    private double defaultParkLocation[] = {0,0};
+    public double defaultParkLocation[] = {1,0};
     public RobotInterface(){
         connectToDevice();
     }
@@ -55,14 +55,14 @@ public class RobotInterface {
                 robot.readBytes(robot.getStatus.idOfCommand, robot.status);
                 if(robot.getStatus()!= oldStatus){
                     switch(robot.getStatus()){
-                        case StartupRobot:
+                        case StartingUp:
                             Main.SetMaintenanceScreenRobotStatus("Starting Robot");
                             break;
                         case StartRunning:
                             Main.SetMaintenanceScreenRobotStatus("Start Running");
                             break;
-                        case Running:
-                            Main.SetMaintenanceScreenRobotStatus("Running");
+                        case Idle:
+                            Main.SetMaintenanceScreenRobotStatus("Idle");
                             break;
                         case Halting:
                             Main.SetMaintenanceScreenRobotStatus("Halting");
@@ -70,7 +70,7 @@ public class RobotInterface {
                         case Halt:
                             Main.SetMaintenanceScreenRobotStatus("Halted");
                             break;
-                        case WAIT_FOR_MOTORS_TO_FINNISH:
+                        case WAIT_FOR_MOTORS_TO_FINISH:
                             Main.SetMaintenanceScreenRobotStatus("Waiting For Motors to Finish");
                             break;
                         case WAIT_FOR_TIME:
@@ -96,19 +96,29 @@ public class RobotInterface {
                             break;
                         case Returning:
                             Main.SetMaintenanceScreenRobotStatus("Returning Bin");
+                            Main.setRobotActionScene(2);
                             break;
                         case Delivery_Done:
                             Main.SetMaintenanceScreenRobotStatus("Delivery Done");
-                            if(!DeliverIsTest){
-                                sendPark(defaultParkLocation[0], defaultParkLocation[1]);
-                                Main.setRobotActionScene(1);
-                            }
+                            Main.setRobotActionScene(1);
                             break;
                         case Returning_Done:
                             Main.SetMaintenanceScreenRobotStatus("Returning Done");
                             if(!ReturnIsTest){
                                 Main.setItemSelectScene();
                             }
+                            break;
+                        case Bin_Not_On_Cleat:
+                            Main.SetMaintenanceScreenRobotStatus("Bin Not On Cleat");
+                            break;
+                        case Bin_Not_On_Shelf:
+                            Main.SetMaintenanceScreenRobotStatus("Bin Not On Shelf");
+                            break;
+                        case Delivery_Failure:
+                            Main.SetMaintenanceScreenRobotStatus("Delivery Done");
+                            break;
+                        case Timed_Out:
+                            Main.SetMaintenanceScreenRobotStatus("Timed Out");
                             break;
                         default:
                             Main.SetMaintenanceScreenRobotStatus("No Status");

@@ -60,6 +60,7 @@ public interface IWarehouseRobot {
 		desiredLocation[2] = height;
 		writeFloats(deliverBin.idOfCommand, desiredLocation);
 		deliverBin.oneShotMode();
+		System.out.println(Arrays.toString(desiredLocation));
 	}
 	default public void sendReturnBin(double row, double col, double height){
 		desiredLocation[0] = row;
@@ -67,6 +68,7 @@ public interface IWarehouseRobot {
 		desiredLocation[2] = height;
 		writeFloats(returnBin.idOfCommand, desiredLocation);
 		returnBin.oneShotMode();
+		System.out.println(Arrays.toString(desiredLocation));
 	}
 
 	default public void sendHomeLift(){

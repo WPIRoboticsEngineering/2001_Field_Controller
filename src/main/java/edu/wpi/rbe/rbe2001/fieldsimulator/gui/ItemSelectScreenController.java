@@ -42,7 +42,10 @@ public class ItemSelectScreenController implements Initializable {
         partsList.setItems(Main.partList);
         partsList.setCellFactory(partListView->new ListViewPartCell());
     }
-    public void finishedCallback(){ Main.setWelcomeScene();}
+    public void finishedCallback(){
+
+        Main.BackendRobotController.sendPark(Main.BackendRobotController.defaultParkLocation[0], Main.BackendRobotController.defaultParkLocation[1]);
+        Main.setWelcomeScene();}
 
     public void itemSelectedCallback(){
         ListViewPart sP = partsList.getSelectionModel().getSelectedItem();

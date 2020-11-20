@@ -47,19 +47,6 @@ public class RobotActionScreenController implements Initializable{
     public void setRetrieve(){
         actionLabel.setText("Please Wait As The Part Bin Is Retrieved");
         done.setVisible(false);
-        /*
-        Timer timer = new Timer();
-        TimerTask task = new TimerTask()
-        {
-            public void run()
-            {
-                Platform.runLater(() ->{
-                    Main.setRobotActionScene(1);
-                });
-            }
-
-        };
-        timer.schedule(task,3000);*/
     }
 
     public void setWaitForDone(int numParts){
@@ -71,24 +58,11 @@ public class RobotActionScreenController implements Initializable{
         //Call some method to command robot here
         actionLabel.setText("Please Wait As The Part Bin Is Placed Back On The Shelf");
         done.setVisible(false);
-        /*
-        Timer timer2 = new Timer();
-        TimerTask task2 = new TimerTask()
-        {
-            public void run()
-            {
-                Platform.runLater(Main::setItemSelectScene);
-            }
-
-        };
-        timer2.schedule(task2,3000);
-         */
     }
 
     public void donePressed(){
         Main.BackendRobotController.setReturnIsTest(false);
         Main.BackendRobotController.sendReturnBin(Main.currentPart.getRow(), Main.currentPart.getCol(), Main.currentPart.getHeight());
-        Main.setRobotActionScene(2);
     }
 
 }
