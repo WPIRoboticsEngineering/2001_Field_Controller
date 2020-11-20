@@ -87,7 +87,10 @@ public class Main extends Application {
     else{
       controller.setPutBack();
     }
-
+  }
+  public static void setRobotActionSceneWarning(){
+    RobotActionScreenController controller = RobotActionController.getController();
+    controller.setErrorWarningVisible();
   }
   public static void setRobotManagerScene(){theStage.setScene(RobotManagerScene);}
   public static void updateInventory(ListViewPart part, int numBorrowed, long ID, String forClass){

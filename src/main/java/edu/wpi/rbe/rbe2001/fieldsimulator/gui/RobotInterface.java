@@ -110,6 +110,7 @@ public class RobotInterface {
                             break;
                         case Bin_Not_On_Cleat:
                             Main.SetMaintenanceScreenRobotStatus("Bin Not On Cleat");
+                            Main.setRobotActionSceneWarning();
                             break;
                         case Bin_Not_On_Shelf:
                             Main.SetMaintenanceScreenRobotStatus("Bin Not On Shelf");

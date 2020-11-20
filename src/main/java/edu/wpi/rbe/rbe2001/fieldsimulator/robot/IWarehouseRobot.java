@@ -45,6 +45,8 @@ public interface IWarehouseRobot {
 		desiredLocation[2] = 0;
 		writeFloats(park.idOfCommand, desiredLocation);
 		park.oneShotMode();
+		System.out.println("Send Park");
+		System.out.println(Arrays.toString(desiredLocation));
 	}
 
 	default public void sendNavGoal(double row, double col){
@@ -53,6 +55,8 @@ public interface IWarehouseRobot {
 		desiredLocation[2] = 0;
 		writeFloats(navigate.idOfCommand, desiredLocation);
 		navigate.oneShotMode();
+		System.out.println(Arrays.toString(desiredLocation));
+		System.out.println("Send Nav");
 	}
 	default public void sendDeliverBin(double row, double col, double height){
 		desiredLocation[0] = row;
@@ -61,6 +65,7 @@ public interface IWarehouseRobot {
 		writeFloats(deliverBin.idOfCommand, desiredLocation);
 		deliverBin.oneShotMode();
 		System.out.println(Arrays.toString(desiredLocation));
+		System.out.println("Send DLV");
 	}
 	default public void sendReturnBin(double row, double col, double height){
 		desiredLocation[0] = row;
@@ -69,6 +74,7 @@ public interface IWarehouseRobot {
 		writeFloats(returnBin.idOfCommand, desiredLocation);
 		returnBin.oneShotMode();
 		System.out.println(Arrays.toString(desiredLocation));
+		System.out.println("Send Return");
 	}
 
 	default public void sendHomeLift(){

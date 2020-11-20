@@ -39,6 +39,9 @@ public class RobotActionScreenController implements Initializable{
     @FXML
     Button done;
 
+    @FXML
+    Label ErrorWarning;
+
     public void initialize(URL location, ResourceBundle resources) {
         actionLabel.setText("Please Wait As The Part Bin Is Retrieved");
         done.setVisible(false);
@@ -53,6 +56,7 @@ public class RobotActionScreenController implements Initializable{
         String num = Integer.toString(numParts);
         actionLabel.setText("Please Take "+num+" Parts From The Bin And Press Done When Finished");
         done.setVisible(true);
+        ErrorWarning.setVisible(false);
     }
     public void setPutBack(){
         //Call some method to command robot here
@@ -63,6 +67,10 @@ public class RobotActionScreenController implements Initializable{
     public void donePressed(){
         Main.BackendRobotController.setReturnIsTest(false);
         Main.BackendRobotController.sendReturnBin(Main.currentPart.getRow(), Main.currentPart.getCol(), Main.currentPart.getHeight());
+    }
+
+    public void setErrorWarningVisible(){
+        Platform.runLater(()->ErrorWarning.setVisible(true));
     }
 
 }
