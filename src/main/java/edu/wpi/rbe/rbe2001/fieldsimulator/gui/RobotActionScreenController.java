@@ -45,11 +45,13 @@ public class RobotActionScreenController implements Initializable{
     public void initialize(URL location, ResourceBundle resources) {
         actionLabel.setText("Please Wait As The Part Bin Is Retrieved");
         done.setVisible(false);
+        ErrorWarning.setVisible(false);
     }
 
     public void setRetrieve(){
         actionLabel.setText("Please Wait As The Part Bin Is Retrieved");
         done.setVisible(false);
+        ErrorWarning.setVisible(false);
     }
 
     public void setWaitForDone(int numParts){
@@ -62,6 +64,7 @@ public class RobotActionScreenController implements Initializable{
         //Call some method to command robot here
         actionLabel.setText("Please Wait As The Part Bin Is Placed Back On The Shelf");
         done.setVisible(false);
+        ErrorWarning.setVisible(false);
     }
 
     public void donePressed(){
