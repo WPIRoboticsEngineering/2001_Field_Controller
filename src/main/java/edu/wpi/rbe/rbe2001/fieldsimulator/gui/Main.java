@@ -84,8 +84,14 @@ public class Main extends Application {
     else if(phase == 1){
       controller.setWaitForDone(numberRequested);
     }
-    else{
+    else if(phase == 2){
       controller.setPutBack();
+    }
+    else if(phase == 3){
+      controller.setNoBinOnShelf();
+    }
+    else if(phase == 4){
+      controller.setFailedProcurement();
     }
   }
   public static void setRobotActionSceneWarning(){

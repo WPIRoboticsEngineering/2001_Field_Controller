@@ -42,16 +42,21 @@ public class RobotActionScreenController implements Initializable{
     @FXML
     Label ErrorWarning;
 
+    @FXML
+    Button returnBTN;
+
     public void initialize(URL location, ResourceBundle resources) {
         actionLabel.setText("Please Wait As The Part Bin Is Retrieved");
         done.setVisible(false);
         ErrorWarning.setVisible(false);
+        returnBTN.setVisible(false);
     }
 
     public void setRetrieve(){
         actionLabel.setText("Please Wait As The Part Bin Is Retrieved");
         done.setVisible(false);
         ErrorWarning.setVisible(false);
+        returnBTN.setVisible(false);
     }
 
     public void setWaitForDone(int numParts){
@@ -59,17 +64,39 @@ public class RobotActionScreenController implements Initializable{
         actionLabel.setText("Please Take "+num+" Parts From The Bin And Press Done When Finished");
         done.setVisible(true);
         ErrorWarning.setVisible(false);
+        returnBTN.setVisible(false);
     }
     public void setPutBack(){
         //Call some method to command robot here
         actionLabel.setText("Please Wait As The Part Bin Is Placed Back On The Shelf");
         done.setVisible(false);
         ErrorWarning.setVisible(false);
+        returnBTN.setVisible(false);
+    }
+    public void setNoBinOnShelf(){
+        //Call some method to command robot here
+        actionLabel.setText("Error: No Bin On Shelf. Please Contact a System Maintainer");
+        done.setVisible(false);
+        ErrorWarning.setVisible(false);
+        returnBTN.setVisible(true);
+    }
+
+    public void setFailedProcurement(){
+        //Call some method to command robot here
+        actionLabel.setText("Error: Unable To Grab Bin. Please Contact a System Maintainer");
+        done.setVisible(false);
+        ErrorWarning.setVisible(false);
+        returnBTN.setVisible(true);
     }
 
     public void donePressed(){
         Main.BackendRobotController.setReturnIsTest(false);
         Main.BackendRobotController.sendReturnBin(Main.currentPart.getRow(), Main.currentPart.getCol(), Main.currentPart.getHeight());
+    }
+
+    @FXML
+    public void returnPressed(){
+        Main.setItemSelectScene();
     }
 
     public void setErrorWarningVisible(){

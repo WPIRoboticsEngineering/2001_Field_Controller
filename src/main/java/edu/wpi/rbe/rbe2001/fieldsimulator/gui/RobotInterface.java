@@ -115,9 +115,11 @@ public class RobotInterface {
                             break;
                         case Bin_Not_On_Shelf:
                             Main.SetMaintenanceScreenRobotStatus("Bin Not On Shelf");
+                            Platform.runLater(()->Main.setRobotActionScene(3));
                             break;
                         case Delivery_Failure:
-                            Main.SetMaintenanceScreenRobotStatus("Delivery Done");
+                            Main.SetMaintenanceScreenRobotStatus("Delivery Failed");
+                            Platform.runLater(()->Main.setRobotActionScene(4));
                             break;
                         case Timed_Out:
                             Main.SetMaintenanceScreenRobotStatus("Timed Out");

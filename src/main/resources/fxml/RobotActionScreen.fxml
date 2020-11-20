@@ -12,7 +12,7 @@
             <Font size="48.0" />
          </font>
       </Label>
-      <Button fx:id="done" layoutX="488.0" layoutY="590.0" mnemonicParsing="false" onMouseClicked="#donePressed" prefHeight="95.0" prefWidth="223.0" text="Done" textAlignment="CENTER">
+      <Button fx:id="done" layoutX="488.0" layoutY="590.0" mnemonicParsing="false" onMouseClicked="#donePressed" prefHeight="95.0" prefWidth="220.0" text="Done" textAlignment="CENTER">
          <font>
             <Font size="48.0" />
          </font>
@@ -22,5 +22,10 @@
             <Font size="36.0" />
          </font>
       </Label>
+      <Button fx:id="returnBTN" layoutX="486.0" layoutY="492.0" mnemonicParsing="false" onMouseClicked="#returnPressed" prefHeight="95.0" prefWidth="220.0" text="Return">
+         <font>
+            <Font size="36.0" />
+         </font>
+      </Button>
    </children>
 </AnchorPane>
