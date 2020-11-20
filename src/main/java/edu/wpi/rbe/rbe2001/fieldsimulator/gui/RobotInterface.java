@@ -1,6 +1,7 @@
 package edu.wpi.rbe.rbe2001.fieldsimulator.gui;
 
 import edu.wpi.rbe.rbe2001.fieldsimulator.robot.*;
+import javafx.application.Platform;
 
 public class RobotInterface {
     private IWarehouseRobot robot;
@@ -96,21 +97,21 @@ public class RobotInterface {
                             break;
                         case Returning:
                             Main.SetMaintenanceScreenRobotStatus("Returning Bin");
-                            Main.setRobotActionScene(2);
+                            Platform.runLater(()->Main.setRobotActionScene(2));
                             break;
                         case Delivery_Done:
                             Main.SetMaintenanceScreenRobotStatus("Delivery Done");
-                            Main.setRobotActionScene(1);
+                            Platform.runLater(()->Main.setRobotActionScene(1));
                             break;
                         case Returning_Done:
                             Main.SetMaintenanceScreenRobotStatus("Returning Done");
                             if(!ReturnIsTest){
-                                Main.setItemSelectScene();
+                                Platform.runLater(Main::setItemSelectScene);
                             }
                             break;
                         case Bin_Not_On_Cleat:
                             Main.SetMaintenanceScreenRobotStatus("Bin Not On Cleat");
-                            Main.setRobotActionSceneWarning();
+                            Platform.runLater(Main::setRobotActionSceneWarning);
                             break;
                         case Bin_Not_On_Shelf:
                             Main.SetMaintenanceScreenRobotStatus("Bin Not On Shelf");
