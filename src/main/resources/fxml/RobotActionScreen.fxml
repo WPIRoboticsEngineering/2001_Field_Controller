@@ -17,7 +17,7 @@
             <Font size="48.0" />
          </font>
       </Button>
-      <Label fx:id="ErrorWarning" layoutX="332.0" layoutY="760.0" prefHeight="66.0" prefWidth="587.0" text="Please Place The Bin On The Cleat" textFill="#f50606">
+      <Label fx:id="ErrorWarning" layoutX="182.0" layoutY="752.0" prefHeight="66.0" prefWidth="828.0" text="Please Place The Bin On The Cleat And Press Done" textFill="#f50606">
          <font>
             <Font size="36.0" />
          </font>
