@@ -4,8 +4,6 @@ import edu.wpi.SimplePacketComs.device.UdpDevice;
 
 public class WarehouseRobot extends UdpDevice  implements IWarehouseRobot{
 
-
-
 	public WarehouseRobot(String add) throws Exception {
 		super(add);
 		connect();

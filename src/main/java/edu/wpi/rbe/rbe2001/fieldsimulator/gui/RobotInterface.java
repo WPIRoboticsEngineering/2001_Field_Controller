@@ -45,7 +45,6 @@ public class RobotInterface {
         try {
             Thread.sleep(1000);//I think this must wait to let the UDP device respond
         } catch (InterruptedException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
         robot = r;
@@ -101,7 +100,9 @@ public class RobotInterface {
                             break;
                         case Delivery_Done:
                             Main.SetMaintenanceScreenRobotStatus("Delivery Done");
-                            Platform.runLater(()->Main.setRobotActionScene(1));
+                            if(!DeliverIsTest) {
+                                Platform.runLater(()->Main.setRobotActionScene(1));
+                            }
                             break;
                         case Returning_Done:
                             Main.SetMaintenanceScreenRobotStatus("Returning Done");

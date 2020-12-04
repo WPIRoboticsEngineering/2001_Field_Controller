@@ -34,7 +34,6 @@ public class ListViewPartCell extends ListCell<ListViewPart>{
                 mLLoader = new FXMLLoader(getClass().getResource("/fxml/partListCell.fxml"));
                 mLLoader.setController(this);
 
-
                 try {
                     mLLoader.load();
                 } catch (IOException e) {
