@@ -629,11 +629,11 @@ public class InterfaceController {
 	@FXML
 	void onSetVelocity() {
 		clearGraph();
-		double vel = Double.parseDouble(setpointVelocity.getText());
-		if (vel != 0)
+//		double vel = Double.parseDouble(setpointVelocity.getText());
+//		if (vel != 0)
 			robot.setVelocity(currentIndex, Double.parseDouble(setpointVelocity.getText()));
-		else
-			robot.stop(currentIndex);
+//		else
+//			robot.stop(currentIndex);
 
 	}
 
