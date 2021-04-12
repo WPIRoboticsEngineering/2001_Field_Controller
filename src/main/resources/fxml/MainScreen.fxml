@@ -145,7 +145,7 @@
                                                 <Insets left="9.0" />
                                              </padding>
                                           </Label>
-                                          <Label text="Hardware Value" GridPane.rowIndex="7" />
+                                          <Label text="Effort" GridPane.rowIndex="7" />
                                           <Label fx:id="hardwareOut" text="0.0" GridPane.columnIndex="2" GridPane.halignment="LEFT" GridPane.rowIndex="7">
                                              <padding>
                                                 <Insets left="9.0" />
@@ -230,7 +230,7 @@
                                           <Label text="Duration" GridPane.halignment="RIGHT" GridPane.rowIndex="6" GridPane.valignment="CENTER" />
                                           <TextField fx:id="setDuration" promptText="MS duration" text="0" GridPane.columnIndex="2" GridPane.rowIndex="6" />
                                           <ChoiceBox fx:id="setType" prefWidth="150.0" GridPane.columnIndex="2" GridPane.rowIndex="5" />
-                                          <Label text="Hardware value" GridPane.rowIndex="9" />
+                                          <Label text="effort" GridPane.rowIndex="9" />
                                           <Label fx:id="posHwValue" text="0.0" GridPane.columnIndex="2" GridPane.halignment="LEFT" GridPane.rowIndex="9">
                                              <padding>
                                                 <Insets left="9.0" />
