@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Spinner?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="900.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.rbe.rbe2001.fieldsimulator.gui.ItemCheckOutScreenController">
+   <children>
+      <GridPane layoutX="300.0" layoutY="215.0" prefHeight="234.0" prefWidth="600.0" style="-fx-background-color: gray;">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <Label prefHeight="53.0" prefWidth="177.0" text="Part Name:">
+               <font>
+                  <Font size="36.0" />
+               </font>
+            </Label>
+            <Label fx:id="name" text="name" textFill="#2f06fd" GridPane.columnIndex="1">
+               <font>
+                  <Font size="36.0" />
+               </font>
+            </Label>
+            <Label text="Number In Stock" GridPane.rowIndex="1">
+               <font>
+                  <Font size="36.0" />
+               </font>
+            </Label>
+            <Label text="Part Return" GridPane.rowIndex="2">
+               <font>
+                  <Font size="36.0" />
+               </font>
+            </Label>
+            <Label fx:id="numStock" text="number" textFill="#4207f1" GridPane.columnIndex="1" GridPane.rowIndex="1">
+               <font>
+                  <Font size="36.0" />
+               </font>
+            </Label>
+            <Label fx:id="PartReturn" text="description" textFill="#2a05f9" GridPane.columnIndex="1" GridPane.rowIndex="2">
+               <font>
+                  <Font size="36.0" />
+               </font>
+            </Label>
+         </children>
+      </GridPane>
+      <GridPane layoutX="300.0" layoutY="462.0" prefHeight="202.0" prefWidth="600.0" style="-fx-background-color: lightgray;">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <Label text="Number Requested">
+               <font>
+                  <Font size="24.0" />
+               </font>
+            </Label>
+            <Spinner fx:id="quantityDesired" prefHeight="50.0" prefWidth="300.0" GridPane.columnIndex="1" />
+            <Label text="RBE Class Part(s) Are For" GridPane.rowIndex="1">
+               <font>
+                  <Font size="24.0" />
+               </font>
+            </Label>
+            <TextField fx:id="rbeclassEntry" prefHeight="50.0" prefWidth="300.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+               <font>
+                  <Font size="24.0" />
+               </font>
+            </TextField>
+            <Button fx:id="confirm" mnemonicParsing="false" onMouseClicked="#confirm" prefHeight="50.0" prefWidth="300.0" text="Confirm" GridPane.rowIndex="2" />
+            <Button fx:id="cancel" mnemonicParsing="false" onMouseClicked="#cancelCallback" prefHeight="50.0" prefWidth="300.0" text="Cancel" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+         </children>
+      </GridPane>
+   </children>
+</AnchorPane>

@@ -1,0 +1,7 @@
+{"inventory":[
+  {"col":-1,"numberAvailable":100,"name":"Miscellaneous Screws and Nuts","row":2,"returnRequired":false, "height": 2},
+  {"col":-3,"numberAvailable":20,"name":"Bathroom Tile","row":2,"returnRequired":true,"height": 2},
+  {"col":-2,"numberAvailable":20,"name":"Capacitors","row":2,"returnRequired":true,"height": 1},
+  {"col":-1,"numberAvailable":0,"name":"M5 Bearing","row":2,"returnRequired":true,"height": 1},
+  {"col":-2,"numberAvailable":1,"name":"Servo","row":2,"returnRequired":true,"height": 2},
+  {"col":-3,"numberAvailable":0,"name":"12V Pololu Motor","row":2,"returnRequired":true,"height": 1}]}
